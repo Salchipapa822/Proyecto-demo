@@ -1,37 +1,11 @@
 from django import forms
-from .models import Reembolso, CartaAval
+from .models import Ticket, Personal
 
-class ReembolsoImagenForman(forms.ModelForm):
+class TicketForm(forms.ModelForm):
     class Meta:
-        model = Reembolso
-        fields = [
-            'id',
-            'diagnostico',
-            'fecha_siniestro',
-            'fecha_factura',
-            'concepto',
-            'paciente',
-            'monto',
-            'informe_ampliado',
-            'informe_resultado',
-            'aseguradora',
-            'username'
-        ]
+        model = Ticket
+        fields = ['titulo', 'fecha_cierre', 'presentado_por', 'resuelto_por', 'presentado_en', 'etiqueta']
 
-class CartaAvalImagenForman(forms.ModelForm):
-    class Meta:
-        model = CartaAval
-        fields = [
-            'id',
-            'fecha_siniestro',
-            'fecha_registro',
-            'diagnostico',
-            'procedimiento',
-            'clinica',
-            'monto',
-            'paciente',
-            'informe_resultado',
-            'informe_ampliado'
-            'aseguradora',
-            'username'
-        ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['resuelto_por'].queryset = Personal.objects.all()  # Asegúrate de que el queryset sea correcto
