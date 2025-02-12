@@ -4,18 +4,20 @@ from .models import Ticket
 
 # Create your views here.
 
+
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect('ticket_list')  # Reemplaza 'pagina_principal' con la URL de tu página principal
+            return redirect('ticket_list')  # Redirige a la vista de ticket_list
         else:
-            error_message = "Credenciales inválidas"
-            return render(request, 'login.html', {'error_message': error_message})
+            # Manejar el error de inicio de sesión
+            return render(request, 'login.html', {'error': 'Credenciales inválidas.'})
     return render(request, 'login.html')
+
 
 
 
