@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from .forms import TicketForm
 from .models import Ticket
 from django.views import View
+from django.contrib import messages
 
 # Create your views here.
 
@@ -21,7 +23,10 @@ def login_view(request):
     return render(request, 'login.html')
 
 
-
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Has cerrado sesión correctamente.")
+    return redirect('login_view')
 
 
 def ticket_list(request):

@@ -5,37 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Tickets</title>
     <style>
-        .centrar {
-            text-align: center;
-        }
         .mensaje {
-            margin-top: 20px; /* Espacio superior para separar del listado */
-            font-size: 18px; /* Tamaño de fuente para el mensaje */
-            color: #203bd8d3; /* Color del texto */
-            
+            margin-top: 20px; 
+            font-size: 18px; 
+            color: #203bd8d3; 
+        }
+        .ticket {
+            border: 1px solid #3105f5; 
+            border-radius: 5px; 
+            padding: 15px; 
+            margin: 10px 0; 
+            background-color: #ffffff; 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+        }
+        .ticket div {
+            flex: 1; 
+            margin: 1px; 
+        }
+        .login-button, .logout-button {
+            float: right; /* Alinea el botón a la derecha */
+            padding: 10px 15px; 
+            background-color: #3105f5; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            margin-top: 20px; /* Espacio superior para separar del h1 */
+        }
+        .login-button:hover, .logout-button:hover {
+            background-color: #203bd8; /* Color al pasar el mouse */
         }
     </style>
 </head>
 <body>
     <h1>Listado de Tickets</h1>
-    <div class="centrar">
-        <ul>
-            {% for ticket in tickets %}
-                <li>
-                    <strong>Título:</strong> {{ ticket.titulo }}<br>
-                    <strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion }}<br>
-                    <strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}<br>
-                    <strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}<br>
-                    <strong>Resuelto por:</strong> {{ ticket.resuelto_por.username }}<br>
-                    <strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}<br>
-                    <strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}<br>
-                </li>
-            {% empty %}
-                <div class="mensaje">
-                    <br>No hay tickets disponibles.
-                </div>
-            {% endfor %}
-        </ul>
-    </div>
+    
+    {% if not user.is_authenticated %}
+        <div class="mensaje">
+            Necesitas iniciar sesión para continuar.
+            <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% else %}
+        <div class="centrar">
+            <a class="logout-button" href="{% url 'logout' %}">Cerrar Sesión</a>
+            <ul>
+                {% for ticket in tickets %}
+                    <li class="ticket">
+                        <div><strong>Título:</strong> {{ ticket.titulo }}</div>
+                        <div><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion }}</div>
+                        <div><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</div>
+                        <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
+                        <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
+                        <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
+                        <div><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</div>
+                        <div>
+                            <a href="{% url 'ticket_list' %}">Ver Detalles</a> 
+                        </div>
+                    </li>
+                {% empty %}
+                    <div class="mensaje">
+                        <br>No hay tickets disponibles.
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 </body>
 </html>
