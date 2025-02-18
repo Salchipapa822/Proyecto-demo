@@ -1,4 +1,3 @@
-<!-- ticket_form.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,10 +6,18 @@
 </head>
 <body>
     <h1>Crear Ticket</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Enviar</button>
-    </form>
+    
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enviar</button>
+        </form>
+    {% else %}
+        <div>
+            <p>Necesitas iniciar sesión para crear un ticket.</p>
+            <a href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% endif %}
 </body>
 </html>
