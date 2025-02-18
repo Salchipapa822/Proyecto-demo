@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import TicketForm
 from .models import Ticket
+from django.views import View
 
 # Create your views here.
 
@@ -28,12 +29,16 @@ def ticket_list(request):
     return render(request, 'ticket_list.html', {'tickets': tickets})
 
 
-def ticket_form(request):
-    if request.method == 'POST':
+class TicketCreateView (View):
+    def get(self, request):
+        form = TicketForm()
+        return render(request, 'ticket_form.html', {'form': form})
+    
+    def post(self, request):
         form = TicketForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('ticket_list')  # Cambia esto por la vista a la que deseas redirigir
-    else:
-        form = TicketForm()
-    return render(request, 'ticket_form.html', {'form': form})
+            return redirect('ticket_success')  # Redirige a una página de éxito o lista de tickets
+        return render(request, 'ticket_form.html', {'form': form})
+
+    

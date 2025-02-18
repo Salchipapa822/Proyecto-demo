@@ -3,8 +3,6 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.db import models
-from .choices import tipo_parientes,roles,estatus
 import re
 from django.conf import settings
 # Create your models here.
@@ -43,12 +41,7 @@ class Administrador(models.Model):
         Usuario,
         on_delete = models.CASCADE
     ) 
-    rol = models.CharField(
-        'Cargo',
-		max_length=1,
-        choices=roles,
-        default='G'
-	)
+   
 
     def __str__(self):
         return f'{self.username}'
@@ -117,13 +110,12 @@ class Personal(models.Model):
         verbose_name = 'personal'
         verbose_name_plural = 'personal'
 
-
 class Ticket(models.Model):
     titulo = models.CharField(max_length=255)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_cierre = models.DateTimeField(null=True, blank=True)
+    fecha_cierre = models.DateTimeField(null=True, blank=True)  # Permitir que fecha_cierre sea opcional
     presentado_por = models.ForeignKey('Personal', on_delete=models.CASCADE)
-    resuelto_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    resuelto_por = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)  # Hacer resuelto_por opcional
     presentado_en = models.ForeignKey('Direccion', on_delete=models.CASCADE)
     etiqueta = models.ForeignKey('Etiqueta', on_delete=models.CASCADE)
 
@@ -138,6 +130,7 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = 'ticket'
         verbose_name_plural = 'tickets'
+
 
 
 class Comentario(models.Model):
