@@ -3,6 +3,7 @@ from Apps.Aplicacion.views import login_view, ticket_list, TicketCreateView, log
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    path('', login_view, name='login_view'),
     path('login_view/', login_view, name='login_view'),
     path('logout/', logout_view, name='logout'), 
     path('tickets/', ticket_list, name='ticket_list'),

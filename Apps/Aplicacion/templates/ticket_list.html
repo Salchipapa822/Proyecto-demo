@@ -62,6 +62,7 @@
                         <div>
                             <a href="{% url 'ticket_list' %}">Ver Detalles</a> 
                         </div>
+                        <a href="{% url 'ticket_create' %}">Crear Ticket</a> 
                     </li>
                 {% empty %}
                     <div class="mensaje">
@@ -71,6 +72,5 @@
             </ul>
         </div>
     {% endif %}
-    <a href="{% url 'ticket_create' %}">Crear Ticket</a> 
 </body>
 </html>
