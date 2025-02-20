@@ -50,14 +50,14 @@
 .perfil-button:hover {
     background-color: #203bd8; /* Color al pasar el mouse */
 }
-.ticket {
-    border: 1px solid transparent; /* Borde por defecto */
-    padding: 10px;
-    margin: 10px 0;
-}
-.ticket.resuelto {
-    border-color: green; /* Borde verde para tickets resueltos */
-}
-.ticket.no-resuelto {
-    border-color: red; /* Borde rojo para tickets no resueltos */
-}
+        .ticket {
+            border: 1px solid transparent; /* Borde por defecto */
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .ticket.resuelto {
+            border-color: green; /* Borde verde para tickets resueltos */
+        }
+        .ticket.no-resuelto {
+            border-color: red; /* Borde rojo para tickets no resueltos */
+        }

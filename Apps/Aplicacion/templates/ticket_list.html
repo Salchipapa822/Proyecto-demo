@@ -6,6 +6,26 @@
     <title>Listado de Tickets</title>
     {% load static %} 
     <link rel="stylesheet" href="{% static 'css/index.css' %}"> 
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .resuelto {
+            border: 2px solid green; /* Borde verde para tickets resueltos */
+        }
+        .no-resuelto {
+            border: 2px solid red; /* Borde rojo para tickets no resueltos */
+        }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -22,28 +42,43 @@
         <div class="centrar">
             <a class="logout-button" href="{% url 'logout' %}">Cerrar Sesión</a>
             <a class="logout-button" href="{% url 'ticket_create' %}">Crear Ticket</a> 
-            <ul>
-                {% for ticket in tickets %}
-                    <li class="ticket {% if ticket.fecha_cierre %}resuelto{% else %}no-resuelto{% endif %}">
-                        <div><strong>Título:</strong> {{ ticket.titulo }}</div>
-                        <div><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion }}</div>
-                        <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
-                        <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
-                        <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
-                        <div><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</div>
-                        <div><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</div>
-                        <div>
-                            <a href="{% url 'ticket_list' %}">Ver Detalles</a> 
-                        </div>
-                    </li>
-                {% empty %}
-                    <div class="mensaje">
-                        <br>No hay tickets disponibles.
-                    </div>
-                {% endfor %}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Fecha de Creación</th>
+                        <th>Empleado</th>
+                        <th>Oficina</th>
+                        <th>Tecnico</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Etiqueta</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                        <tr class="{% if ticket.fecha_cierre %}resuelto{% else %}no-resuelto{% endif %}">
+                            <td>{{ ticket.titulo }}</td>
+                            <td>{{ ticket.fecha_creacion }}</td>
+                            <td>{{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</td>
+                            <td>{{ ticket.presentado_en.nombre }}</td>
+                            <td>{{ ticket.resuelto_por.username|default:"No resuelto" }}</td>
+                            <td>{{ ticket.fecha_cierre|default:"No cerrado" }}</td>
+                            <td>{{ ticket.etiqueta.nombre }}</td>
+                            <td>
+                                <a href="{% url 'ticket_list' %}">Ver Detalles</a> 
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="8" class="mensaje">
+                                No hay tickets disponibles.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     {% endif %}
 </body>
 </html>
-
