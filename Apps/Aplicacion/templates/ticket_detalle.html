@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Ticket</title>
+    <style>
+        .centrar {
+            text-align: center;
+        }
+        .mensaje {
+            margin-top: 20px; /* Espacio superior para separar del listado */
+            font-size: 18px; /* Tamaño de fuente para el mensaje */
+            color: #203bd8d3; /* Color del texto */
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalles del Ticket</h1>
+    <div class="centrar">
+        <h2>{{ ticket.titulo }}</h2>
+        <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion }}</p>
+        <p><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</p>
+        <p><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</p>
+        <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username }}</p>
+        <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
+        <p><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</p>
+        <p><strong>Descripción:</strong> {{ ticket.descripcion|default:"No disponible" }}</p> <!-- Si tienes un campo de descripción -->
+        <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a> <!-- Cambia 'listado_tickets' por el nombre de tu URL de listado -->
+    </div>
+</body>
+</html>

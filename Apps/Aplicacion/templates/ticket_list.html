@@ -29,6 +29,7 @@
                     <strong>Resuelto por:</strong> {{ ticket.resuelto_por.username }}<br>
                     <strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}<br>
                     <strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}<br>
+                    <a href="{% url 'ticket_detalle' ticket.id %}">Ver detalles</a>
                 </li>
             {% empty %}
                 <div class="mensaje">
