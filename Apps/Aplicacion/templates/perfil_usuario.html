@@ -1,0 +1,26 @@
+<!-- perfil_usuario.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>Perfil de Usuario</h1>
+    </div>
+    
+    <div class="perfil">
+        <h2>Información del Usuario</h2>
+        <p><strong>Cédula:</strong> {{ usuario.username }}</p>
+        <p><strong>Nombres:</strong> {{ usuario.first_name }}</p>
+        <p><strong>Apellidos:</strong> {{ usuario.last_name }}</p>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+    </div>
+    <a class="logout-button" href="{% url 'logout' %}">Cerrar Sesión</a>
+    <a href="{% url 'ticket_list' %}">Regresar</a>
+</body>
+</html>

@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from .forms import TicketForm
-from .models import Ticket
+from .models import Ticket, Usuario
 from django.views import View
 from django.contrib import messages
 
@@ -45,5 +46,12 @@ class TicketCreateView (View):
             form.save()
             return redirect('ticket_success')  
         return render(request, 'ticket_form.html', {'form': form})
+    
+
+@login_required
+def perfil_usuario(request):
+    usuario = request.user  
+    return render(request, 'perfil_usuario.html', {'usuario': usuario})
+
 
     
