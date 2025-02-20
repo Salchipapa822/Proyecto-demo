@@ -25,8 +25,8 @@
         <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username }}</p>
         <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
         <p><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</p>
-        <p><strong>Descripción:</strong> {{ ticket.descripcion|default:"No disponible" }}</p> <!-- Si tienes un campo de descripción -->
-        <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a> <!-- Cambia 'listado_tickets' por el nombre de tu URL de listado -->
+        <p><strong>Descripción:</strong> {{ ticket.descripcion|default:"No disponible" }}</p> 
+        <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a> 
     </div>
 </body>
 </html>
