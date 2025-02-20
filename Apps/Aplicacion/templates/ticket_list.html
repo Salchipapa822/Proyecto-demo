@@ -10,7 +10,7 @@
 <body>
     <div class="header">
         <h1>Listado de Tickets</h1>   
-        <a class="perfil-button" href="{% url 'ticket_list' %}">P</a> 
+        <a class="perfil-button" href="{% url 'perfil_usuario' %}">P</a> 
     </div>    
     
     {% if not user.is_authenticated %}
@@ -24,13 +24,13 @@
             <a class="logout-button" href="{% url 'ticket_create' %}">Crear Ticket</a> 
             <ul>
                 {% for ticket in tickets %}
-                    <li class="ticket">
+                    <li class="ticket {% if ticket.fecha_cierre %}resuelto{% else %}no-resuelto{% endif %}">
                         <div><strong>Título:</strong> {{ ticket.titulo }}</div>
                         <div><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion }}</div>
-                        <div><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</div>
                         <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
-                        <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
                         <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
+                        <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
+                        <div><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</div>
                         <div><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</div>
                         <div>
                             <a href="{% url 'ticket_detalle' ticket.id %}">Ver Detalles</a> 
@@ -45,4 +45,9 @@
         </div>
     {% endif %}
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+
+>>>>>>> bfcc9e03e6873e065742296fd5d2d33f54c48331

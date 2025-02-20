@@ -1,5 +1,5 @@
 from django.urls import path
-from Apps.Aplicacion.views import login_view, ticket_list, TicketCreateView, logout_view
+from Apps.Aplicacion.views import login_view, ticket_list, TicketCreateView, logout_view, perfil_usuario
 from django.views.generic import TemplateView
 from .views import ticket_detalle
 from . import views
@@ -13,6 +13,7 @@ urlpatterns = [
     path('crear/', TicketCreateView.as_view(), name='ticket_create'),  
     path('tickets/exito/', TemplateView.as_view(template_name='ticket_success.html'), name='ticket_success'),
     path('ticket/<int:ticket_id>/', views.ticket_detalle, name='ticket_detalle'),  # URL para los detalles
+    path('perfil/', perfil_usuario, name='perfil_usuario')
 ]
 
 
