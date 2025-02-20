@@ -30,7 +30,7 @@
 <body>
     <div class="header">
         <h1>Listado de Tickets</h1>   
-        <a class="perfil-button" href="{% url 'perfil_usuario' %}">P</a> 
+        <a class="perfil-button" href="{% url 'ticket_list' %}">P</a> 
     </div>    
     
     {% if not user.is_authenticated %}

@@ -1,5 +1,5 @@
 from django.urls import path
-from Apps.Aplicacion.views import login_view, ticket_list, TicketCreateView, logout_view, perfil_usuario
+from Apps.Aplicacion.views import login_view, ticket_list, TicketCreateView, logout_view
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -9,7 +9,6 @@ urlpatterns = [
     path('tickets/', ticket_list, name='ticket_list'),
     path('crear/', TicketCreateView.as_view(), name='ticket_create'),  
     path('tickets/exito/', TemplateView.as_view(template_name='ticket_success.html'), name='ticket_success'),
-    path('perfil/', perfil_usuario, name='perfil_usuario')
 ]
 
 
