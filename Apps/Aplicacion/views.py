@@ -43,7 +43,7 @@ class TicketCreateView (View):
         form = TicketForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('ticket_success')  # Redirige a una página de éxito o lista de tickets
+            return redirect('ticket_success')  
         return render(request, 'ticket_form.html', {'form': form})
 
     

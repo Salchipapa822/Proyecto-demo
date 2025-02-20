@@ -113,11 +113,11 @@ class Personal(models.Model):
 class Ticket(models.Model):
     titulo = models.CharField(max_length=255)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_cierre = models.DateTimeField(null=True, blank=True)  # Permitir que fecha_cierre sea opcional
+    fecha_cierre = models.DateTimeField(null=True, blank=True)  
     presentado_por = models.ForeignKey('Personal', on_delete=models.CASCADE)
     resuelto_por = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)  # Hacer resuelto_por opcional
     presentado_en = models.ForeignKey('Direccion', on_delete=models.CASCADE)
-    etiqueta = models.ForeignKey('Etiqueta', on_delete=models.CASCADE)
+    etiqueta = models.ForeignKey('Etiqueta',null=True, blank=True, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         if not self.fecha_cierre:

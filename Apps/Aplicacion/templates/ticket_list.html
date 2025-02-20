@@ -49,6 +49,7 @@
     {% else %}
         <div class="centrar">
             <a class="logout-button" href="{% url 'logout' %}">Cerrar Sesión</a>
+            <a class="logout-button" href="{% url 'ticket_create' %}">Crear Ticket</a> 
             <ul>
                 {% for ticket in tickets %}
                     <li class="ticket">
@@ -62,14 +63,14 @@
                         <div>
                             <a href="{% url 'ticket_list' %}">Ver Detalles</a> 
                         </div>
-                        <a href="{% url 'ticket_create' %}">Crear Ticket</a> 
                     </li>
-                {% empty %}
+                    {% empty %}
                     <div class="mensaje">
                         <br>No hay tickets disponibles.
                     </div>
-                {% endfor %}
-            </ul>
+                    {% endfor %}
+                </ul>
+                
         </div>
     {% endif %}
 </body>
