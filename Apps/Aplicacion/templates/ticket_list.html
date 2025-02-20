@@ -33,7 +33,7 @@
                         <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
                         <div><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</div>
                         <div>
-                            <a href="{% url 'ticket_list' %}">Ver Detalles</a> 
+                            <a href="{% url 'ticket_detalle' ticket.id %}">Ver Detalles</a> 
                         </div>
                     </li>
                 {% empty %}
