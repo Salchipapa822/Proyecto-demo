@@ -1,0 +1,52 @@
+.mensaje {
+    margin-top: 20px; 
+    font-size: 18px; 
+    color: #203bd8d3; 
+}
+.ticket {
+    border: 1px solid #3105f5; 
+    border-radius: 5px; 
+    padding: 15px; 
+    margin: 10px 0; 
+    background-color: #ffffff; 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+}
+.ticket div {
+    flex: 1; 
+    margin: 1px; 
+}
+.login-button, .logout-button {
+    float: right; /* Alinea el botón a la derecha */
+    padding: 10px 15px; 
+    background-color: #3105f5; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    margin-top: 20px; /* Espacio superior para separar del h1 */
+}
+.login-button:hover, .logout-button:hover {
+    background-color: #203bd8; /* Color al pasar el mouse */
+}
+.header {
+    display: flex; /* Usar flexbox para alinear elementos */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center; /* Centrar verticalmente */
+}
+.perfil-button {
+    display: flex; /* Para centrar el contenido */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    width: 40px; /* Ancho del círculo */
+    height: 40px; /* Alto del círculo */
+    background-color: #3105f5; /* Color de fondo */
+    color: white; /* Color del texto */
+    border-radius: 50%; /* Hacerlo circular */
+    text-decoration: none; /* Sin subrayado */
+    margin-right: 20px; /* Separación del lado derecho */
+    font-size: 16px; /* Tamaño de la fuente */
+}
+.perfil-button:hover {
+    background-color: #203bd8; /* Color al pasar el mouse */
+}
