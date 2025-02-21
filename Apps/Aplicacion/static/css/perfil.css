@@ -1,0 +1,21 @@
+.container perfil {
+    max-width: 900px; 
+    margin: 0 auto;   
+    padding: 20px;    
+    border: 1px solid #eaeaea; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+}
+
+.header {
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.perfil {
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.actions {
+    display: flex; /* Usar flexbox para alinear los botones */
+    justify-content: space-between; /* Espacio entre los botones */
+}

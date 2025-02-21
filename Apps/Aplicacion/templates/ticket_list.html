@@ -1,27 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Tickets</title>
-    {% load static %} 
-    <link rel="stylesheet" href="{% static 'css/index.css' %}"> 
-    <link rel="stylesheet" href="pico.main.css">
+{% extends 'base.html' %} 
+{% block title %}Listado de Tickets{% endblock title %} 
+{% block body %}
 
-    <style>
-        .fixed-button {
-            position: fixed;
-            bottom: 20px; 
-            right: 20px; 
-            z-index: 1000; 
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Listado de Tickets</h1>   
-        <a class="perfil-button" href="{% url 'perfil_usuario' %}">P</a> 
-    </div>    
+<div class="header">
+    <nav class="container">
+        <h1>Fundabit</h1>
+        <ul>
+            <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
+            <li><a href="{% url 'perfil_usuario' %}">Perfil</a></li>
+        </ul>
+    </nav>
+</div>
+  
     
     {% if not user.is_authenticated %}
         <div class="mensaje">
@@ -43,8 +33,7 @@
                         <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
                         <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
                         <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
-                        <div><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</div>
-                        <div><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</div>
+
                     </li>
                 {% empty %}
                     <div class="mensaje">
@@ -56,8 +45,7 @@
     {% endif %}
     
     <div class="fixed-button">
-        <a class="logout-button" href="{% url 'ticket_create' %}">Crear Ticket</a>
+        <a class="button" href="{% url 'ticket_create' %}">Crear Ticket</a>
     </div>
-</body>
-</html>
-
+    
+{% endblock body %} 

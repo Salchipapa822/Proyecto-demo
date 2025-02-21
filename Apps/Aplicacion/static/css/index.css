@@ -17,6 +17,9 @@
     flex: 1; 
     margin: 1px; 
 }
+
+/* botones del login y logout */
+
 .login-button, .logout-button {
     float: right; /* Alinea el botón a la derecha */
     padding: 10px 15px; 
@@ -29,35 +32,37 @@
 .login-button:hover, .logout-button:hover {
     background-color: #203bd8; /* Color al pasar el mouse */
 }
+
+/* No me acuerdo quien usa el header pero por si las dudas se queda */
+
 .header {
     display: flex; /* Usar flexbox para alinear elementos */
     justify-content: space-between; /* Espacio entre los elementos */
     align-items: center; /* Centrar verticalmente */
 }
-.perfil-button {
-    display: flex; /* Para centrar el contenido */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    width: 40px; /* Ancho del círculo */
-    height: 40px; /* Alto del círculo */
-    background-color: #3105f5; /* Color de fondo */
-    color: white; /* Color del texto */
-    border-radius: 50%; /* Hacerlo circular */
-    text-decoration: none; /* Sin subrayado */
-    margin-right: 20px; /* Separación del lado derecho */
-    font-size: 16px; /* Tamaño de la fuente */
-}
-.perfil-button:hover {
-    background-color: #203bd8; /* Color al pasar el mouse */
-}
-.ticket {
-    border: 1px solid transparent; /* Borde por defecto */
-    padding: 10px;
-    margin: 10px 0;
-}
-.ticket.resuelto {
-    border-color: green; /* Borde verde para tickets resueltos */
-}
-.ticket.no-resuelto {
-    border-color: red; /* Borde rojo para tickets no resueltos */
-}
+
+
+/* Barra de navegacion */
+
+    nav {
+        background-color: #f0f0f0; /* Color del fondo */
+        padding: 10px; /* Espaciado del color del fondo */
+    }
+    nav ul {
+        list-style-type: none; /* Sin viñetas */
+        padding: 0; /* Sin padding */
+    }
+    nav li {
+        display: inline; /* Elementos en una sola línea */
+        margin-right: 15px; /* Espaciado entre elementos */
+    }
+    nav a {
+        text-decoration: none; /* Sin subrayado */
+        color: #333; /* Color del texto */
+    }
+    nav a:hover {
+        color: #007bff; /* Color al pasar el mouse */
+    }
+
+
+

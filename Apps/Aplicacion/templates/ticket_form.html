@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Ticket</title>
-</head>
-<body>
-    <h1>Crear Ticket</h1>
+{% extends 'base.html' %} 
+{% block title %}Creacion de Ticket{% endblock title %} 
+{% block body %}
+
+<div class="ticket-form-container">
+    <h1 class="ticket-form-title">Crear Ticket</h1>
     
     {% if user.is_authenticated %}
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Enviar</button>
+            <button class="ticket-form-button" type="submit">Enviar</button>
         </form>
     {% else %}
-        <div>
+        <div class="ticket-form-message">
             <p>Necesitas iniciar sesión para crear un ticket.</p>
             <a href="{% url 'login_view' %}">Iniciar Sesión</a>
         </div>
     {% endif %}
-</body>
-</html>
+</div>
+
+{% endblock body %} 

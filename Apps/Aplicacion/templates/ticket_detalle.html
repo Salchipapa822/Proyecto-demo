@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Ticket</title>
-    <style>
-        .centrar {
-            text-align: center;
-        }
-        .mensaje {
-            margin-top: 20px; /* Espacio superior para separar del listado */
-            font-size: 18px; /* Tamaño de fuente para el mensaje */
-            color: #203bd8d3; /* Color del texto */
-        }
-    </style>
-</head>
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Detalles de los tickets {% endblock %}
+
+{% block body %}
 <body>
     <h1>Detalles del Ticket</h1>
     <div class="centrar">
@@ -28,5 +16,5 @@
         <p><strong>Descripción:</strong> {{ ticket.descripcion|default:"No disponible" }}</p> 
         <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a> 
     </div>
-</body>
-</html>
+
+{% endblock body %} 

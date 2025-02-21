@@ -5,7 +5,38 @@
         <meta charset="UTC-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %} {% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/pico.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
+        <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+        <link rel="stylesheet" href="{% static 'css/form_crear.css' %}">
+    <style>
+        .fixed-button {
+    position: fixed; 
+    bottom: 20px;  
+    right: 20px;   
+    z-index: 1000; 
+}
+
+.button {
+    display: inline-block; 
+    padding: 10px 20px;   
+    background-color: #007bff; 
+    color: white;        
+    text-decoration: none; 
+    border-radius: 5px;   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s; 
+}
+
+.button:hover {
+    background-color: #0056b3; 
+}
+
+
+    </style>
     </head>
-         {% block content %} {% endblock %}
+    <body>
+    {% block body %}{% endblock %}
+    </body>
 </html>
