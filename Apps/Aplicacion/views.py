@@ -2,10 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
-from .forms import TicketForm
+from .forms import TicketForm, TicketCloseForm, ComentarioForm
 from .models import Ticket, Usuario
 from django.views import View
 from django.contrib import messages
+from django.utils import timezone
 
 # Create your views here.
 
@@ -31,15 +32,43 @@ def logout_view(request):
 
 
 def ticket_detalle(request, ticket_id):
-    ticket = get_object_or_404(Ticket, pk=ticket_id)  # Obtén el ticket o muestra un 404 si no existe
-    return render(request, 'ticket_detalle.html', {'ticket': ticket})
+    ticket = get_object_or_404(Ticket, id=ticket_id)
 
+    if request.method == 'POST':
+        # Manejar el cierre del ticket
+        close_form = TicketCloseForm(request.POST, instance=ticket)
+        comment_form = ComentarioForm(request.POST)
+
+        if close_form.is_valid() and comment_form.is_valid():
+            # Cerrar el ticket
+            ticket.fecha_cierre = timezone.now()  # Establecer la fecha de cierre
+            ticket.resuelto_por = close_form.cleaned_data['resuelto_por']  # Asignar el usuario que resolvió
+            ticket.etiqueta = close_form.cleaned_data['etiqueta']  # Asignar la etiqueta
+            ticket.save()  # Guardar los cambios en el ticket
+
+            # Crear el nuevo comentario
+            comentario = comment_form.save(commit=False)
+            comentario.ticket = ticket  # Asociar el comentario con el ticket
+            comentario.autor = request.user  # Asumiendo que el usuario está autenticado
+            comentario.save()  # Guardar el comentario
+
+            # Redirigir al ticket específico
+            return redirect('ticket_detalle', ticket_id=ticket.id)  # Cambia esto para redirigir al ticket específico
+    else:
+        close_form = TicketCloseForm(instance=ticket)
+        comment_form = ComentarioForm()
+
+    return render(request, 'ticket_detalle.html', {
+        'ticket': ticket,
+        'close_form': close_form,
+        'comment_form': comment_form
+    })
 
 def ticket_list(request):
     tickets = Ticket.objects.all()  # Obtiene todos los tickets
     return render(request, 'ticket_list.html', {'tickets': tickets})
 
-class TicketCreateView (View):
+class TicketCreateView(View):
     def get(self, request):
         form = TicketForm()
         return render(request, 'ticket_form.html', {'form': form})
@@ -47,8 +76,8 @@ class TicketCreateView (View):
     def post(self, request):
         form = TicketForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('ticket_success')  
+            ticket = form.save()  # Guarda el ticket y lo asigna a la variable ticket
+            return redirect('ticket_detalle', ticket_id=ticket.id)  # Redirige a la vista de detalles del ticket
         return render(request, 'ticket_form.html', {'form': form})
     
 

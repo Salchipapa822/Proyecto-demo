@@ -115,7 +115,8 @@ class Ticket(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_cierre = models.DateTimeField(null=True, blank=True)  
     presentado_por = models.ForeignKey('Personal', on_delete=models.CASCADE)
-    resuelto_por = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)  # Hacer resuelto_por opcional
+    asignado_a = models.ForeignKey('Usuario', null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_asignados')
+    resuelto_por = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_resueltos')  
     presentado_en = models.ForeignKey('Direccion', on_delete=models.CASCADE)
     etiqueta = models.ForeignKey('Etiqueta',null=True, blank=True, on_delete=models.CASCADE)
 

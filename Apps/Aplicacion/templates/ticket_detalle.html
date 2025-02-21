@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Detalles de los tickets {% endblock %}
+{% block title %}Detalles de los tickets{% endblock %}
 
 {% block body %}
 <body>
@@ -10,11 +10,58 @@
         <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion }}</p>
         <p><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|default:"No cerrado" }}</p>
         <p><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</p>
-        <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username }}</p>
         <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
+        <p><strong>Encargado:</strong> {{ ticket.asignado_a.first_name }} {{ ticket.asignado_a.last_name }}</p>
+        <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</p>
         <p><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</p>
-        <p><strong>Descripción:</strong> {{ ticket.descripcion|default:"No disponible" }}</p> 
+
+        <h3>Comentarios:</h3>
+        <ul>
+            {% for comentario in ticket.comentarios.all %}
+                <li>
+                    <strong>{{ comentario.autor.username }}:</strong> {{ comentario.contenido }} <br>
+                    <small>Fecha: {{ comentario.fecha_creacion }}</small>
+                </li>
+            {% empty %}
+                <li>No hay comentarios disponibles.</li>
+            {% endfor %}
+        </ul>
+
+        {% if not ticket.resuelto_por %}
+            <h3>Cerrar Ticket</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ close_form.as_p }}
+                <button type="submit">Cerrar Ticket</button>
+            </form>
+        {% else %}
+            <p>El ticket ya ha sido cerrado por {{ ticket.resuelto_por.username }}.</p>
+        {% endif %}
+
+        <h3>Agregar Comentario</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Agregar Comentario</button>
+        </form>
+        {% if close_form.errors %}
+    <div class="error">
+        <strong>Errores en el formulario:</strong>
+        <ul>
+            {% for field in close_form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in close_form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
         <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a> 
     </div>
-
-{% endblock body %} 
+</body>
+{% endblock %}
