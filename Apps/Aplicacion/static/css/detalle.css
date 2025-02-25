@@ -1,0 +1,39 @@
+.comments-container {
+    display: flex; /* Usar flexbox para alinear los elementos */
+    justify-content: space-between; /* Espacio entre los elementos */
+    max-width: 100%; /* Asegúrate de que no exceda el ancho del contenedor */
+}
+
+
+.block {
+    max-width: 300px; /* Ajusta el ancho máximo del formulario */
+    margin-right: 20px; /* Espacio entre el formulario y la lista de comentarios */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde opcional */
+    background-color: #f9f9f9; /* Color de fondo opcional */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+}
+
+.comments-list {
+    flex-grow: 1; /* Permite que la lista de comentarios ocupe el espacio restante */
+    max-height: 450px; /* Ajusta la altura máxima de la lista de comentarios */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido excede la altura */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde opcional */
+    background-color: #f9f9f9; /* Color de fondo opcional */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+}
+
+.comments-nav {
+    position: sticky; 
+    top: 0; 
+    background-color: #f9f9f9; 
+    z-index: 10; 
+    padding: 10px; 
+    border-bottom: 1px solid #ccc; 
+}
+
+.comment-list-container {
+    max-height: 250px; /* Ajusta la altura máxima del contenedor de comentarios */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+}

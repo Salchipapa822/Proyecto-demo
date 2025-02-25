@@ -110,19 +110,21 @@ class Personal(models.Model):
         verbose_name = 'personal'
         verbose_name_plural = 'personal'
 
+
 class Ticket(models.Model):
     titulo = models.CharField(max_length=255)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_cierre = models.DateTimeField(null=True, blank=True)  
     presentado_por = models.ForeignKey('Personal', on_delete=models.CASCADE)
     asignado_a = models.ForeignKey('Usuario', null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_asignados')
-    resuelto_por = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_resueltos')  
+    resuelto_por = models.ForeignKey('Usuario', null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_resueltos')  
     presentado_en = models.ForeignKey('Direccion', on_delete=models.CASCADE)
-    etiqueta = models.ForeignKey('Etiqueta',null=True, blank=True, on_delete=models.CASCADE)
+    etiqueta = models.ForeignKey('Etiqueta', null=True, blank=True, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        if not self.fecha_cierre:
-            self.resuelto_por = None
+        # Solo establecer resuelto_por si se está cerrando el ticket
+        if self.fecha_cierre and not self.resuelto_por:
+            self.resuelto_por = kwargs.get('user')  # Asigna el usuario que cierra el ticket
         super(Ticket, self).save(*args, **kwargs)
 
     def __str__(self):

@@ -1,12 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import logout
-from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib.auth import logout,authenticate, login
 from .forms import TicketForm, TicketCloseForm, ComentarioForm
 from .models import Ticket, Usuario
 from django.views import View
 from django.contrib import messages
 from django.utils import timezone
+
+from django.http import HttpResponseNotAllowed
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 
@@ -31,21 +35,58 @@ def logout_view(request):
     return redirect('login_view')
 
 
+@login_required
 def ticket_detalle(request, ticket_id):
+    # Obtener el ticket por ID
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    
+    # Obtener el orden de los comentarios desde la solicitud (GET)
+    order = request.GET.get('order', 'oldest')  # 'oldest' o 'newest'
+    
+    # Ordenar los comentarios según el parámetro de orden
+    if order == 'newest':
+        comentarios = ticket.comentarios.all().order_by('-fecha_creacion')  # Más nuevos primero
+    else:
+        comentarios = ticket.comentarios.all().order_by('fecha_creacion')  # Más viejos primero
+
+    # Crear formularios
+    close_form = TicketCloseForm(instance=ticket)
+    comment_form = ComentarioForm()
+
+    # Renderizar la plantilla con el contexto
+    return render(request, 'ticket_detalle.html', {
+        'ticket': ticket,
+        'close_form': close_form,
+        'comment_form': comment_form,
+        'comentarios': comentarios,  # Pasar los comentarios ordenados a la plantilla
+        'order': order,  # Pasar el orden actual a la plantilla
+    })
+
+
+
+
+
+class TicketCerrar(LoginRequiredMixin, View):
+    def post(self, request, ticket_id):
+
+        instance = get_object_or_404(Ticket, pk=ticket_id)
+        instance.resuelto_por = request.user
+        instance.save()
+
+        return redirect('ticket_detalle', ticket_id=instance.pk)
+
+    def get(self, request, *args, **kwargs):
+
+        return HttpResponseNotAllowed(['POST'])
+    
+
+
+def agregar_comentario(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
     if request.method == 'POST':
-        # Manejar el cierre del ticket
-        close_form = TicketCloseForm(request.POST, instance=ticket)
         comment_form = ComentarioForm(request.POST)
-
-        if close_form.is_valid() and comment_form.is_valid():
-            # Cerrar el ticket
-            ticket.fecha_cierre = timezone.now()  # Establecer la fecha de cierre
-            ticket.resuelto_por = close_form.cleaned_data['resuelto_por']  # Asignar el usuario que resolvió
-            ticket.etiqueta = close_form.cleaned_data['etiqueta']  # Asignar la etiqueta
-            ticket.save()  # Guardar los cambios en el ticket
-
+        if comment_form.is_valid():
             # Crear el nuevo comentario
             comentario = comment_form.save(commit=False)
             comentario.ticket = ticket  # Asociar el comentario con el ticket
@@ -53,20 +94,20 @@ def ticket_detalle(request, ticket_id):
             comentario.save()  # Guardar el comentario
 
             # Redirigir al ticket específico
-            return redirect('ticket_detalle', ticket_id=ticket.id)  # Cambia esto para redirigir al ticket específico
+            return redirect('ticket_detalle', ticket_id=ticket.id)
     else:
-        close_form = TicketCloseForm(instance=ticket)
         comment_form = ComentarioForm()
 
-    return render(request, 'ticket_detalle.html', {
+    return render(request, 'agregar_comentario.html', {
         'ticket': ticket,
-        'close_form': close_form,
         'comment_form': comment_form
     })
+
 
 def ticket_list(request):
     tickets = Ticket.objects.all()  # Obtiene todos los tickets
     return render(request, 'ticket_list.html', {'tickets': tickets})
+
 
 class TicketCreateView(View):
     def get(self, request):
