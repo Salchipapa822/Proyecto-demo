@@ -9,8 +9,13 @@ class TicketForm(forms.ModelForm):
 class TicketCloseForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['resuelto_por', 'etiqueta']
+        fields = ['resuelto_por','etiqueta']  # Solo incluir el campo que deseas mostrar
 
+    def __init__(self, *args, **kwargs):
+        super(TicketCloseForm, self).__init__(*args, **kwargs)
+        # Si el ticket ya está resuelto, no mostrar el campo resuelto_por
+        if kwargs.get('instance') and kwargs['instance'].resuelto_por:
+            self.fields.pop('resuelto_por', None)  # Eliminar el campo si ya está lleno
 
 
 class ComentarioForm(forms.ModelForm):

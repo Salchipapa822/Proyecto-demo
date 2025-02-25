@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Agregar Comentario{% endblock %}
+
+{% block body %}
+<body>
+    <h1>Agregar Comentario al Ticket: {{ ticket.titulo }}</h1>
+    <div class="centrar">
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Agregar Comentario</button>
+        </form>
+
+        {% if comment_form.errors %}
+            <div class="error">

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cerrar Ticket{% endblock %}
+
+{% block body %}
+<body>
+    <h1>Cerrar Ticket: {{ ticket.titulo }}</h1>
+    <div class="centrar">
+        {% if not ticket.resuelto_por %}
+            <form method="post">
+                {% csrf_token %}
+                {{ close_form.as_p }}
+                <button type="submit">Cerrar Ticket</button>
+            </form>
+
+            {% if close_form.errors %}
+                <div class="error">
+                    <strong>Errores en el formulario:</strong>
+                    <ul>
+                        {% for field in close_form %}
+                            {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in close_form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>El ticket ya ha sido cerrado por {{ ticket.resuelto_por.username }}.</p>
+        {% endif %}
+
+        <a href="{% url 'ticket_detalle' ticket.id %}">Volver a los detalles del ticket</a>
+    </div>
+</body>
+{% endblock %}
