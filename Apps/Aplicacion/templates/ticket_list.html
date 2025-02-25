@@ -1,18 +1,23 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Listado de Tickets{% endblock title %} 
 {% block body %}
 
-<div class="header">
-    <nav class="container">
-        <h1>Fundabit</h1>
-        <ul>
-            <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
-            <li><a href="{% url 'perfil_usuario' %}">Perfil</a></li>
-        </ul>
-    </nav>
-</div>
-  
-    
+<div class="background-shape-1"></div>
+<div class="background-shape-2"></div>
+<div class="background-shape-3"></div>
+
+<div class="page-container">
+    <div class="header">
+        <div class="logo">
+            <img src="{% static 'imagen/fundabit_logo_g428.svg' %}" alt="Logo Fundabit">
+        </div>
+        <div class="nav">
+            <a href="{% url 'ticket_list' %}">Tickets</a>
+            <a href="{% url 'perfil_usuario' %}">Perfil</a>
+        </div>
+    </div>
+
     {% if not user.is_authenticated %}
         <div class="mensaje">
             Necesitas iniciar sesión para continuar.
@@ -47,5 +52,5 @@
     <div class="fixed-button">
         <a class="button" href="{% url 'ticket_create' %}">Crear Ticket</a>
     </div>
-    
-{% endblock body %} 
+</div>
+{% endblock body %}

@@ -1,68 +1,98 @@
-.mensaje {
-    margin-top: 20px; 
-    font-size: 18px; 
-    color: #203bd8d3; 
-}
-.ticket {
-    border: 1px solid #3105f5; 
-    border-radius: 5px; 
-    padding: 15px; 
-    margin: 10px 0; 
-    background-color: #ffffff; 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-}
-.ticket div {
-    flex: 1; 
-    margin: 1px; 
-}
+body:has(> .page-container) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    background-color: #f4f4f4;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .background-shape-1 {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: #000;
+    border-radius: 50%;
+    top: -100px;
+    left: -100px;
+    opacity: 0.3;
+  }
+  
+  .background-shape-2 {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: #29ABE2;
+    border-radius: 50%;
+    bottom: -150px;
+    right: -150px;
+    opacity: 0.3;
+  }
+  
+  .background-shape-3 {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: #000;
+    border-radius: 20px;
+    top: 50px;
+    right: 50px;
+    transform: rotate(45deg);
+    opacity: 0.2;
+  }
+  
+  .page-container {
+    width: 80%;
+    max-width: 800px;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    margin-top: 20px;
+  }
+  
+  .page-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .page-container .header .logo img { /* Estilos para el logo */
+    max-height: 50px; /* Ajusta el tamaño máximo del logo */
+  }
+  
+  .page-container .header .nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+    transition: opacity 0.3s ease; 
+  }
+  
+  .page-container .header .nav a:hover {
+    opacity: 0.7; /* Aclaramos el enlace al pasar el ratón */
+  }
 
-/* botones del login y logout */
-
-.login-button, .logout-button {
-    float: right; /* Alinea el botón a la derecha */
-    padding: 10px 15px; 
-    background-color: #3105f5; 
-    color: white; 
-    text-decoration: none; 
-    border-radius: 5px; 
-    margin-top: 20px; /* Espacio superior para separar del h1 */
-}
-.login-button:hover, .logout-button:hover {
-    background-color: #203bd8; /* Color al pasar el mouse */
-}
-
-/* No me acuerdo quien usa el header pero por si las dudas se queda */
-
-.header {
-    display: flex; /* Usar flexbox para alinear elementos */
-    justify-content: space-between; /* Espacio entre los elementos */
-    align-items: center; /* Centrar verticalmente */
-}
-
-
-/* Barra de navegacion */
-
-    nav {
-        background-color: #f0f0f0; /* Color del fondo */
-        padding: 10px; /* Espaciado del color del fondo */
-    }
-    nav ul {
-        list-style-type: none; /* Sin viñetas */
-        padding: 0; /* Sin padding */
-    }
-    nav li {
-        display: inline; /* Elementos en una sola línea */
-        margin-right: 15px; /* Espaciado entre elementos */
-    }
-    nav a {
-        text-decoration: none; /* Sin subrayado */
-        color: #333; /* Color del texto */
-    }
-    nav a:hover {
-        color: #007bff; /* Color al pasar el mouse */
-    }
-
-
-
+  .page-container .content {
+    text-align: center;
+  }
+  
+  .page-container .content .create-ticket {
+    padding: 12px 20px;
+    background-color: #29ABE2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  
+  .page-container .content .create-ticket:hover {
+    background-color: #2499cd;
+  }
