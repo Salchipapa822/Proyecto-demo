@@ -1,0 +1,83 @@
+
+.fixed-button {
+    position: fixed; 
+    bottom: 20px;  
+    right: 20px;   
+    z-index: 1000; 
+}
+
+.button {
+    display: inline-block; 
+    padding: 10px 20px;   
+    background-color: #007bff; 
+    color: white;        
+    text-decoration: none; 
+    border-radius: 5px;   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s; 
+    cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+}
+
+.button:hover {
+    background-color: #0056b3; 
+}
+
+.button#menu-button {
+    width: 50px; 
+    height: 50px; 
+    background-color: #007bff; 
+    color: white;        
+    border-radius: 50%;   /* Hacer el botón circular */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    position: relative; /* Para posicionar el menú desplegable */
+}
+
+.plus-sign {
+    font-size: 24px; /* Tamaño del símbolo de más */
+}
+
+.dropdown-content {
+    display: none; /* Ocultar el menú por defecto */
+    position: absolute; 
+    bottom: 70px; /* Ajustar la posición del menú */
+    right: 0; 
+    background-color: white; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px; 
+    z-index: 1001; 
+}
+
+#menu-toggle:checked + label + .dropdown-content {
+    display: block; /* Muestra el menú cuando el checkbox está marcado */
+}
+
+.dropdown-content a {
+    display: block; 
+    padding: 10px; 
+    color: #007bff; 
+    text-decoration: none; 
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* Color de fondo al pasar el mouse */
+}
+
+.circle-button {
+    display: inline-block; /* Permite aplicar dimensiones */
+    width: 50px; /* Ancho del círculo */
+    height: 50px; /* Alto del círculo */
+    border-radius: 100%; /* Hace que el botón sea circular */
+    background-color: #007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-align: center; /* Centra el texto horizontalmente */
+    line-height: 50px; /* Centra el texto verticalmente */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    font-weight: bold; /* Hace el texto más grueso */
+    font-size: 16px; /* Tamaño de la fuente */
+}
+
+.circle-button:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el ratón */
+}

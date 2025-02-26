@@ -1,10 +1,11 @@
 from django import forms
-from .models import Ticket, Comentario
+from .models import Ticket, Comentario, Personal, Usuario, Direccion
 
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['titulo', 'presentado_por','asignado_a','presentado_en']
+        fields = ['titulo', 'presentado_por', 'asignado_a', 'presentado_en']
+
 
 class TicketCloseForm(forms.ModelForm):
     class Meta:
@@ -18,7 +19,23 @@ class TicketCloseForm(forms.ModelForm):
             self.fields.pop('resuelto_por', None)  # Eliminar el campo si ya está lleno
 
 
+
 class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
-        fields = ['contenido']  # Solo necesitas el contenido del comentario
+        fields = ['contenido']  
+
+class PersonalForm(forms.ModelForm):
+    class Meta:
+        model = Personal
+        fields = ['cedula', 'nombre', 'apellido']
+
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser', 'is_staff']
+
+class DireccionForm(forms.ModelForm):
+    class Meta:
+        model = Direccion
+        fields = ['nombre']

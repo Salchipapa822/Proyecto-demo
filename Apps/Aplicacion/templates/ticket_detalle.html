@@ -3,8 +3,25 @@
 {% block title %}Detalles del Ticket{% endblock %}
 
 {% block body %}
-<body>
-    <h1>Detalles del Ticket</h1>
+    <div class="header">
+        <nav class="container">
+            <h1>Fundabit</h1>
+            <ul>
+                {% if request.user.is_superuser %}
+                <li>
+                    <a href="{% url 'Administracion' %}">Administrar</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'ticket_list' %}">Tickets</a>
+                </li>
+                <li>
+                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+ <h1>Detalles del Ticket</h1>
     <div>
         <h2>{{ ticket.titulo }}</h2>
         <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"D d M Y" }}</p>
@@ -63,5 +80,5 @@
         
         <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
     </div>
-</body>
+
 {% endblock %}

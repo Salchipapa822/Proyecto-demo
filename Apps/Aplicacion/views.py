@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm
-from .models import Ticket, Usuario
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm
+from .models import Ticket, Usuario, Personal, Direccion
 from django.views import View
 from django.contrib import messages
 from django.utils import timezone
@@ -103,11 +103,16 @@ def agregar_comentario(request, ticket_id):
         'comment_form': comment_form
     })
 
+@login_required
+def perfil_usuario(request):
+    usuario = request.user  
+    return render(request, 'perfil_usuario.html', {'usuario': usuario})
 
 def ticket_list(request):
     tickets = Ticket.objects.all()  # Obtiene todos los tickets
     return render(request, 'ticket_list.html', {'tickets': tickets})
 
+ # CRUD del Sistema
 
 class TicketCreateView(View):
     def get(self, request):
@@ -122,10 +127,50 @@ class TicketCreateView(View):
         return render(request, 'ticket_form.html', {'form': form})
     
 
-@login_required
-def perfil_usuario(request):
-    usuario = request.user  
-    return render(request, 'perfil_usuario.html', {'usuario': usuario})
+def personal_list(request):
+    personal_list = Personal.objects.all()
+    return render(request, 'personal_list.html', {'personal_list': personal_list})
+
+def personal_create(request):
+    if request.method == 'POST':
+        form = PersonalForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('personal_list')  
+    else:
+        form = PersonalForm()
+    return render(request, 'personal_form.html', {'form': form})
 
 
+def usuario_list(request):
+    usuario_list = Usuario.objects.all()
+    return render(request, 'usuario_list.html', {'usuario_list': usuario_list})
+
+def usuario_create(request):
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('usuario_list')  
+    else:
+        form = UsuarioForm()
+    return render(request, 'usuario_form.html', {'form': form})
+
+
+def direccion_list(request):
+    direcciones = Direccion.objects.all()
+    return render(request, 'direccion_list.html', {'direccion_list': direcciones})
+
+def direccion_form(request):
+    if request.method == 'POST':
+        form = DireccionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('direccion_list')  
+    else:
+        form = DireccionForm()
     
+    return render(request, 'direccion_form.html', {'form': form})
+
+def administracion(request):
+    return render(request, 'Administracion.html')

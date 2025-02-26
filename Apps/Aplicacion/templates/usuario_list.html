@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Usuarios{% endblock title %}
+
+{% block body %}
+{% if not user.is_authenticated %}
+    <div>
+        <nav class="container">
+            <h1>Listado de Usuarios</h1>
+            <ul>
+                <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
+                <li>
+                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+        <div>
+            Necesitas iniciar sesión para continuar.
+            <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% elif not user.is_superuser %}
+        <div class="listado-usuarios-mensaje" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 0, 0, 0.8); color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
+            Permiso restringido
+        </div>
+    {% else %}
+        <div>
+            <h2>Lista de Usuarios</h2>
+            <ul>
+                {% for usuario in usuario_list %}
+                <li>
+                    <strong>Username:</strong> {{ usuario.username }}<br>
+                    <strong>Nombre:</strong> {{ usuario.first_name }} {{ usuario.last_name }}<br>
+                    <strong>Correo:</strong> {{ usuario.email }}<br>
+                    <strong>Superusuario:</strong> {{ usuario.is_superuser|yesno:"Sí,No" }}<br>
+                    <strong>Staff:</strong> {{ usuario.is_staff|yesno:"Sí,No" }}
+                </li>
+                {% empty %}
+                <div>
+                    <br>No hay usuarios disponibles.
+                </div>
+                {% endfor %}
+            </ul>
+            <div class="fixed-button">
+                <a class="button" href="{% url 'usuario_create' %}">Crear Usuario</a> 
+            </div>
+        </div>
+    {% endif %}
+{% endblock body %}

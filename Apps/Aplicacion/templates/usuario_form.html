@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Usuario{% endblock title %}
+
+{% block body %}
+    {% if user.is_superuser %}
+        <div class="header">
+            <nav class="container">
+                <h1>Crear Usuario</h1>
+                <ul>
+                    <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
+                    <li>
+                        <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="centrar">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="button">Crear Usuario</button>
+            </form>
+        </div>
+        <a href="{% url 'usuario_list' %}" class="button">Volver a la Lista de Usuarios</a>
+    {% else %}
+        <div class="mensaje" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 0, 0, 0.8); color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
+            Permiso restringido
+        </div>
+    {% endif %}
+{% endblock body %}

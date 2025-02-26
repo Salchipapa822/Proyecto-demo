@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Direcciones{% endblock title %}
+
+{% block body %}
+
+{% if user.is_superuser %}
+    <div class="header">
+        <nav class="container">
+            <h1>Listado de Direcciones</h1>
+            <ul>
+                <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
+                <li>
+                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    {% if not user.is_authenticated %}
+        <div class="mensaje">
+            Necesitas iniciar sesión para continuar.
+            <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% else %}
+        <div class="centrar">
+            <h2>Lista de Direcciones</h2>
+            <ul>
+                {% for direccion in direccion_list %}
+                <li>
+                    <strong>Nombre:</strong> {{ direccion.nombre }}
+                </li>
+                {% empty %}
+                <div class="mensaje">
+                    <br>No hay direcciones disponibles.
+                </div>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'direccion_form' %}" class="button">Crear Dirección</a> 
+        </div>
+    {% endif %}
+{% else %}
+    <div class="mensaje" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 0, 0, 0.8); color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
+        Permiso restringido
+    </div>
+{% endif %}
+
+{% endblock body %}

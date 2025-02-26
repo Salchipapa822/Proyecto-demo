@@ -11,52 +11,11 @@
         <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
         <link rel="stylesheet" href="{% static 'css/form_crear.css' %}">
         <link rel="stylesheet" href="{% static 'css/detalle.css' %}">
+        <link rel="stylesheet" href="{% static 'css/listado.css' %}">
 
-    <style>
-        .fixed-button {
-    position: fixed; 
-    bottom: 20px;  
-    right: 20px;   
-    z-index: 1000; 
-}
-
-    .button {
-    display: inline-block; 
-    padding: 10px 20px;   
-    background-color: #007bff; 
-    color: white;        
-    text-decoration: none; 
-    border-radius: 5px;   
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s; 
-}
-
-    .button:hover {
-    background-color: #0056b3; 
-}
-
-    .circle-button {
-    display: inline-block; /* Permite aplicar dimensiones */
-    width: 50px; /* Ancho del círculo */
-    height: 50px; /* Alto del círculo */
-    border-radius: 100%; /* Hace que el botón sea circular */
-    background-color: #007bff; /* Color de fondo */
-    color: white; /* Color del texto */
-    text-align: center; /* Centra el texto horizontalmente */
-    line-height: 30px; /* Centra el texto verticalmente */
-    text-decoration: none; /* Quita el subrayado del enlace */
-    font-weight: bold; /* Hace el texto más grueso */
-    font-size: 16px; /* Tamaño de la fuente */
-}
-
-    .circle-button:hover {
-    background-color: #0056b3; /* Color de fondo al pasar el ratón */
-}
-
-
-    </style>
     </head>
     <body>
+
     {% block body %}{% endblock %}
     </body>
 </html>

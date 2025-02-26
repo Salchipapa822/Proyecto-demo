@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cerrar Ticket{% endblock %}
+
+{% block body %}
+
+<h2>Administración</h2>
+<div class="botones">
+    <a href="{% url 'usuario_list' %}" class="button">Usuarios</a>
+    <a href="{% url 'direccion_list' %}" class="button">Direcciones</a>
+    <a href="{% url 'personal_list' %}" class="button">Personal</a>
+</div>
+{% endblock%}
