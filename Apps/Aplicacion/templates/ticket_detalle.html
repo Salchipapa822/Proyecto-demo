@@ -65,10 +65,7 @@
             </select>
             <button type="submit">Asignar Etiquetas</button>
         </form>
-        <a class="botton" href="{% url 'crear_etiqueta' %}">Crear Etiqueta</a>
-        
-
-        
+        <a href="{% url 'crear_etiqueta' %}">Crear Etiqueta</a>
         
         
         {% if not ticket.resuelto_por %}
@@ -98,14 +95,14 @@
                     <h3>Comentarios</h3>
                     <label for="order">Ordenar comentarios:</label>
                     <select name="order" id="order" onchange="ordenarComentarios(this.value)">
-                        <option value="oldest" {% if order == 'oldest' %}selected{% endif %}>Más Viejos</option>
-                        <option value="newest" {% if order == 'newest' %}selected{% endif %}>Más Nuevos</option>
-                    </select>
+                        <option value="oldest">Más Viejos</option>
+                        <option value="newest">Más Nuevos</option>
+                    </select>                    
                 </nav>
                 <div class="comment-list-container" id="comment-list">
                     <ul>
                         {% for comentario in comentarios %}
-                            <li data-fecha="{{ comentario.fecha_creacion|date:"U" }}">
+                            <li data-fecha="{{ comentario.fecha_creacion|date:'U' }}">
                                 <strong>{{ comentario.autor.first_name }}:</strong> {{ comentario.contenido }} <br>
                                 <small>Fecha: {{ comentario.fecha_creacion|date:"D d M Y" }}</small>
                             </li>
@@ -115,9 +112,9 @@
                     </ul>
                 </div>
             </div>
-        </div>
+            <script src="{% static 'js/orden_comentarios.js' %}"></script>
 
         <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
     </div>
-    <script src="{% static 'js/ordenar_comentarios.js' %}"></script>
+
 {% endblock %}

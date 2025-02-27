@@ -182,15 +182,20 @@ def usuario_list(request):
     usuario_list = Usuario.objects.all()
     return render(request, 'usuario_list.html', {'usuario_list': usuario_list})
 
+
 def usuario_create(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
+            # Guarda el usuario y la contraseña
             form.save()
-            return redirect('usuario_list')  
+            return redirect('usuario_list')  # Redirige a la lista de usuarios después de crear
     else:
-        form = UsuarioForm()
+        form = UsuarioForm()  # Crea un nuevo formulario vacío
+
+    # Renderiza la plantilla con el formulario
     return render(request, 'usuario_form.html', {'form': form})
+
 
 
 def direccion_list(request):

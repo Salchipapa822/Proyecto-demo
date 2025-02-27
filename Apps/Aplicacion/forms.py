@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import Ticket, Comentario, Personal, Usuario, Direccion, Etiqueta
 
 class TicketForm(forms.ModelForm):
@@ -30,7 +31,7 @@ class PersonalForm(forms.ModelForm):
         model = Personal
         fields = ['cedula', 'nombre', 'apellido']
 
-class UsuarioForm(forms.ModelForm):
+class UsuarioForm(UserCreationForm):  # Cambia a UserCreationForm
     class Meta:
         model = Usuario
         fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser', 'is_staff']

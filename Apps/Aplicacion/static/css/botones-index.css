@@ -1,4 +1,5 @@
 
+    /* Boton para agregar los tickets */
 .fixed-button {
     position: fixed; 
     bottom: 20px;  
@@ -22,47 +23,8 @@
     background-color: #0056b3; 
 }
 
-.button#menu-button {
-    width: 50px; 
-    height: 50px; 
-    background-color: #007bff; 
-    color: white;        
-    border-radius: 50%;   /* Hacer el botón circular */
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    position: relative; /* Para posicionar el menú desplegable */
-}
 
-.plus-sign {
-    font-size: 24px; /* Tamaño del símbolo de más */
-}
-
-.dropdown-content {
-    display: none; /* Ocultar el menú por defecto */
-    position: absolute; 
-    bottom: 70px; /* Ajustar la posición del menú */
-    right: 0; 
-    background-color: white; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px; 
-    z-index: 1001; 
-}
-
-#menu-toggle:checked + label + .dropdown-content {
-    display: block; /* Muestra el menú cuando el checkbox está marcado */
-}
-
-.dropdown-content a {
-    display: block; 
-    padding: 10px; 
-    color: #007bff; 
-    text-decoration: none; 
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1; /* Color de fondo al pasar el mouse */
-}
+    /* Boton del perfil */
 
 .circle-button {
     display: inline-block; /* Permite aplicar dimensiones */
