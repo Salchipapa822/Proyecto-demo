@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ticket, Comentario, Personal, Usuario, Direccion
+from .models import Ticket, Comentario, Personal, Usuario, Direccion, Etiqueta
 
 class TicketForm(forms.ModelForm):
     class Meta:
@@ -39,3 +39,10 @@ class DireccionForm(forms.ModelForm):
     class Meta:
         model = Direccion
         fields = ['nombre']
+
+
+class EtiquetaForm(forms.ModelForm):
+    class Meta:
+        model = Etiqueta
+        fields = ['nombre']
+

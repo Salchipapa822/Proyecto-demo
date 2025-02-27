@@ -6,11 +6,19 @@
         <div class="container .perfil">
             <div class="header">
                 <nav class="container">
-                    <h1>Perfil de Usuario</h1>
+                    <h1>Fundabit</h1>
                     <ul>
-                        <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
-                        <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
-                        <li><a href="{% url 'perfil_usuario' %}">Perfil</a></li>
+                        {% if request.user.is_superuser %}
+                        <li>
+                            <a href="{% url 'Administracion' %}">Administrar</a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url 'ticket_list' %}">Tickets</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

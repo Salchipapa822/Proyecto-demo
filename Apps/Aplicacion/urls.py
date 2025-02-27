@@ -14,7 +14,12 @@ from Apps.Aplicacion.views import (
     usuario_list,
     direccion_list,
     direccion_form,
-    administracion, 
+    administracion,
+    ticket_reabrir,
+    ticket_asignar_etiquetas ,
+    crear_etiqueta,
+    etiqueta_list
+    
 )
 from django.views.generic import TemplateView
 
@@ -35,6 +40,10 @@ urlpatterns = [
     path('usuarios/crear/', usuario_create, name='usuario_create'),     
     path('direccion/', direccion_list, name='direccion_list'),          
     path('direccion/crear/', direccion_form, name='direccion_form'),   
-    path('administracion/', administracion, name='Administracion') 
+    path('administracion/', administracion, name='Administracion'),
+    path('ticket/<int:ticket_id>/reabrir/', ticket_reabrir, name='ticket_reabrir'), 
+    path('tickets/<int:ticket_id>/asignar-etiquetas/', ticket_asignar_etiquetas, name='ticket_asignar_etiquetas'),
+    path('crear_etiqueta/', crear_etiqueta, name='crear_etiqueta'),
+    path('etiquetas/', etiqueta_list, name='etiqueta_list'), 
 ]
 

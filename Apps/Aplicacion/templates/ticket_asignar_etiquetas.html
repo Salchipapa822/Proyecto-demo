@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Asignar Etiquetas al Ticket{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <nav class="container">
+            <h1>Fundabit</h1>
+            <ul>
+                {% if request.user.is_superuser %}
+                <li>
+                    <a href="{% url 'Administracion' %}">Administrar</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'ticket_list' %}">Tickets</a>
+                </li>
+                <li>
+                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <h1>Asignar Etiquetas al Ticket: {{ ticket.titulo }}</h1>
+    <form method="post" action="{% url 'ticket_asignar_etiquetas' ticket.id %}">
+        {% csrf_token %}
+        <label for="etiquetas">Selecciona las etiquetas:</label>
+        <select name="etiquetas" id="etiquetas" multiple>
+            {% for etiqueta in todas_etiquetas %}
+                <option value="{{ etiqueta.id }}" {% if etiqueta in ticket.etiqueta.all %}selected{% endif %}>{{ etiqueta.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Asignar Etiquetas</button>
+    </form>
+
+    <a href="{% url 'ticket_detalle' ticket.id %}">Volver a los detalles del ticket</a>
+{% endblock %}

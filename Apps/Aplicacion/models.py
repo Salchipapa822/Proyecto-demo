@@ -107,7 +107,7 @@ class Ticket(models.Model):
     asignado_a = models.ForeignKey('Usuario', null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_asignados')
     resuelto_por = models.ForeignKey('Usuario', null=True, blank=True, on_delete=models.CASCADE, related_name='tickets_resueltos')  
     presentado_en = models.ForeignKey('Direccion', on_delete=models.CASCADE)
-    etiqueta = models.ForeignKey('Etiqueta', null=True, blank=True, on_delete=models.CASCADE)
+    etiqueta = models.ManyToManyField('Etiqueta', null=True, blank=True,)
 
     def save(self, *args, **kwargs):
         # Solo establecer resuelto_por si se está cerrando el ticket

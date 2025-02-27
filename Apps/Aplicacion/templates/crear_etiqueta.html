@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Crear Etiqueta{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Crear Nueva Etiqueta</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear Etiqueta</button>
+    </form>
+    <a href="{% url 'ticket_list' %}">Volver a la lista de tickets</a>
+</div>
+{% endblock %}

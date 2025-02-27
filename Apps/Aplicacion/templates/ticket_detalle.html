@@ -3,6 +3,7 @@
 {% block title %}Detalles del Ticket{% endblock %}
 
 {% block body %}
+<div class="container .perfil">
     <div class="header">
         <nav class="container">
             <h1>Fundabit</h1>
@@ -21,17 +22,55 @@
             </ul>
         </nav>
     </div>
- <h1>Detalles del Ticket</h1>
+    <h1>Detalles del Ticket</h1>
     <div>
-        <h2>{{ ticket.titulo }}</h2>
+        <h2>
+            {{ ticket.titulo }} 
+            {% if ticket.resuelto_por %}
+                (resuelto)
+            {% else %}
+                (no resuelto)
+            {% endif %}
+        </h2>
+        
+
         <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"D d M Y" }}</p>
         <p><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|date:"D d M Y"|default:"No cerrado" }}</p>
         <p><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre|default:"Desconocido" }} {{ ticket.presentado_por.apellido|default:"" }}</p>
         <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
         <p><strong>Encargado:</strong> {{ ticket.asignado_a.first_name|default:"Desconocido" }} {{ ticket.asignado_a.last_name|default:"" }}</p>
-        <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</p>
-        <p><strong>Etiqueta:</strong> {{ ticket.etiqueta.nombre }}</p>
+        <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.first_name|default:"No resuelto" }} {{ ticket.resuelto_por.last_name|default:"" }}</p>
+<!-- 
+        <p><strong>Etiquetas:</strong>
+            {% if ticket.etiquetas.all %}
+                <ul>
+                    {% for etiqueta in ticket.etiquetas.all %}
+                        <li>{{ etiqueta.nombre }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <span>No hay etiquetas asignadas.</span>
+            {% endif %}
+        </p> -->
 
+
+
+        <h3>Asignar Etiquetas</h3>
+        <form method="post" action="{% url 'ticket_asignar_etiquetas' ticket.id %}">
+            {% csrf_token %}
+            <select name="etiquetas" multiple>
+                {% for etiqueta in todas_etiquetas %}
+                    <option value="{{ etiqueta.id }}" {% if etiqueta in ticket.etiqueta.all %}selected{% endif %}>{{ etiqueta.nombre }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Asignar Etiquetas</button>
+        </form>
+        <a class="botton" href="{% url 'crear_etiqueta' %}">Crear Etiqueta</a>
+        
+
+        
+        
+        
         {% if not ticket.resuelto_por %}
         <h3>Cerrar Ticket</h3>
         <form method="post" action="{% url 'ticket_cerrar' ticket.id %}">
@@ -39,9 +78,12 @@
             <button type="submit">Cerrar Ticket</button>
         </form>
         {% else %}
-        <p>El ticket ya ha sido cerrado por {{ ticket.resuelto_por.username }}.</p>
+        <form method="post" action="{% url 'ticket_reabrir' ticket.id %}">
+            {% csrf_token %}
+            <button type="submit">Reabrir Ticket</button>
+        </form>
         {% endif %}
-        
+
         <div class="comments-container">
             <div class="block">
                 <h3>Agregar Comentario</h3>
@@ -54,20 +96,17 @@
             <div class="comments-list">
                 <nav class="comments-nav">
                     <h3>Comentarios</h3>
-                    <form method="get" action="{% url 'ticket_detalle' ticket.id %}" class="order-form">
-                        <label for="order">Ordenar comentarios:</label>
-                        <select name="order" id="order" onchange="this.form.submit()">
-                            <option value="oldest" {% if request.GET.order == 'oldest' %}selected{% endif %}>Más Viejos</option>
-                            <option value="newest" {% if request.GET.order == 'newest' %}selected{% endif %}>Más Nuevos</option>
-                        </select>
-                        {% csrf_token %}
-                    </form>
+                    <label for="order">Ordenar comentarios:</label>
+                    <select name="order" id="order" onchange="ordenarComentarios(this.value)">
+                        <option value="oldest" {% if order == 'oldest' %}selected{% endif %}>Más Viejos</option>
+                        <option value="newest" {% if order == 'newest' %}selected{% endif %}>Más Nuevos</option>
+                    </select>
                 </nav>
-                <div class="comment-list-container">
+                <div class="comment-list-container" id="comment-list">
                     <ul>
                         {% for comentario in comentarios %}
-                            <li>
-                                <strong>{{ comentario.autor.username }}:</strong> {{ comentario.contenido }} <br>
+                            <li data-fecha="{{ comentario.fecha_creacion|date:"U" }}">
+                                <strong>{{ comentario.autor.first_name }}:</strong> {{ comentario.contenido }} <br>
                                 <small>Fecha: {{ comentario.fecha_creacion|date:"D d M Y" }}</small>
                             </li>
                         {% empty %}
@@ -77,8 +116,8 @@
                 </div>
             </div>
         </div>
-        
+
         <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
     </div>
-
+    <script src="{% static 'js/ordenar_comentarios.js' %}"></script>
 {% endblock %}

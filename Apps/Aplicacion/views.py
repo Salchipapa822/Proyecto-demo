@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm
-from .models import Ticket, Usuario, Personal, Direccion
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, EtiquetaForm
+from .models import Ticket, Usuario, Personal, Direccion, Etiqueta
 from django.views import View
 from django.contrib import messages
 from django.utils import timezone
@@ -36,30 +36,37 @@ def logout_view(request):
 
 
 @login_required
+
 def ticket_detalle(request, ticket_id):
-    # Obtener el ticket por ID
     ticket = get_object_or_404(Ticket, id=ticket_id)
     
-    # Obtener el orden de los comentarios desde la solicitud (GET)
-    order = request.GET.get('order', 'oldest')  # 'oldest' o 'newest'
+    # Obtener el orden de los comentarios
+    order = request.GET.get('order', 'oldest')  
     
-    # Ordenar los comentarios según el parámetro de orden
     if order == 'newest':
-        comentarios = ticket.comentarios.all().order_by('-fecha_creacion')  # Más nuevos primero
+        comentarios = ticket.comentarios.all().order_by('-fecha_creacion')  
     else:
-        comentarios = ticket.comentarios.all().order_by('fecha_creacion')  # Más viejos primero
+        comentarios = ticket.comentarios.all().order_by('fecha_creacion')  
 
-    # Crear formularios
     close_form = TicketCloseForm(instance=ticket)
     comment_form = ComentarioForm()
+    todas_etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
 
-    # Renderizar la plantilla con el contexto
+    if request.method == 'POST':
+        # Manejar la asignación de etiquetas
+        if 'etiquetas' in request.POST:
+            etiquetas_ids = request.POST.getlist('etiquetas')
+            ticket.etiquetas.set(etiquetas_ids)  # Asignar las etiquetas seleccionadas
+            ticket.save()
+            return redirect('ticket_detalle', ticket_id=ticket.id)  # Redirigir a la misma vista
+
     return render(request, 'ticket_detalle.html', {
         'ticket': ticket,
         'close_form': close_form,
         'comment_form': comment_form,
         'comentarios': comentarios,  # Pasar los comentarios ordenados a la plantilla
         'order': order,  # Pasar el orden actual a la plantilla
+        'todas_etiquetas': todas_etiquetas,  # Pasar todas las etiquetas a la plantilla
     })
 
 
@@ -71,6 +78,7 @@ class TicketCerrar(LoginRequiredMixin, View):
 
         instance = get_object_or_404(Ticket, pk=ticket_id)
         instance.resuelto_por = request.user
+        instance.fecha_cierre = timezone.now()
         instance.save()
 
         return redirect('ticket_detalle', ticket_id=instance.pk)
@@ -78,7 +86,35 @@ class TicketCerrar(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
 
         return HttpResponseNotAllowed(['POST'])
+
+
+def ticket_reabrir(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
     
+    if request.method == 'POST':
+        ticket.resuelto_por = None  
+        ticket.fecha_cierre = None 
+        ticket.save()  
+
+    return redirect('ticket_detalle', ticket_id=ticket.id)  
+
+
+
+def ticket_asignar_etiquetas(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    todas_etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
+
+    if request.method == 'POST':
+        etiquetas_ids = request.POST.getlist('etiquetas')  
+        ticket.etiqueta.set(etiquetas_ids)  # Asignar las etiquetas seleccionadas
+        ticket.save()
+        return redirect('ticket_detalle', ticket_id=ticket.id)  # Redirigir a la vista de detalles del ticket
+
+    return render(request, 'ticket_asignar_etiquetas.html', {
+        'ticket': ticket,
+        'todas_etiquetas': todas_etiquetas,
+    })
+
 
 
 def agregar_comentario(request, ticket_id):
@@ -171,6 +207,24 @@ def direccion_form(request):
         form = DireccionForm()
     
     return render(request, 'direccion_form.html', {'form': form})
+
+
+def crear_etiqueta(request):
+    if request.method == 'POST':
+        form = EtiquetaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ticket_list')  # Redirige a la lista de tickets o donde desees
+    else:
+        form = EtiquetaForm()
+    return render(request, 'crear_etiqueta.html', {'form': form})
+
+def etiqueta_list(request):
+    if request.user.is_superuser:
+        etiqueta_list = Etiqueta.objects.all()
+        return render(request, 'etiqueta_list.html', {'etiqueta_list': etiqueta_list})
+    else:
+        return render(request, 'etiqueta_list.html') 
 
 def administracion(request):
     return render(request, 'Administracion.html')

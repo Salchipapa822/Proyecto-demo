@@ -3,11 +3,34 @@
 {% block title %}Cerrar Ticket{% endblock %}
 
 {% block body %}
-
-<h2>Administración</h2>
-<div class="botones">
-    <a href="{% url 'usuario_list' %}" class="button">Usuarios</a>
-    <a href="{% url 'direccion_list' %}" class="button">Direcciones</a>
-    <a href="{% url 'personal_list' %}" class="button">Personal</a>
-</div>
-{% endblock%}
+    {% if not user.is_authenticated %}
+        <div>
+            Necesitas iniciar sesión para continuar.
+            <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% elif not user.is_superuser %}
+        <div class="listado-usuarios-mensaje" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 0, 0, 0.8); color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
+            Permiso restringido
+        </div>
+    {% else %}
+    <div class="header">
+        <nav class="container">
+            <h1>Listado de Personal</h1>
+            <ul>
+                <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
+                <li>
+                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container .perfil">
+        <h2>Administración</h2>
+        <div class="botones">
+            <a href="{% url 'etiqueta_list' %}" class="button">Etiquetas</a>
+            <a href="{% url 'usuario_list' %}" class="button">Usuarios</a>
+            <a href="{% url 'direccion_list' %}" class="button">Direcciones</a>
+            <a href="{% url 'personal_list' %}" class="button">Personal</a>
+        </div>
+    {% endif %}
+{% endblock %}
