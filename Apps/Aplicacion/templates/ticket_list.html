@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Listado de Tickets{% endblock title %} 
-{% block body %}
 
+{% block body %}
 <div class="background-shape-1"></div>
 <div class="background-shape-2"></div>
 <div class="background-shape-3"></div>
@@ -15,9 +15,12 @@
         <div class="nav">
             <a href="{% url 'ticket_list' %}">Tickets</a>
             {% if user.is_authenticated %}
-                <div class="profile-initial">
-                    <span>{{ user.username|first|upper }}</span>
-                </div>
+            <div class="profile-initial">
+                <a href="{% url 'perfil_usuario' %}" class="profile-button">
+                    <span>{{ user.first_name|upper|slice:":1" }}</span>
+                </a>
+            </div>
+            
             {% else %}
                 <a href="{% url 'perfil_usuario' %}">Perfil</a>
             {% endif %}
@@ -44,12 +47,11 @@
                         <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
                         <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
                         <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
-
                     </li>
                 {% empty %}
-                    <div class="mensaje">
-                        <br>No hay tickets disponibles.
-                    </div>
+                    <li class="mensaje">
+                        No hay tickets disponibles.
+                    </li>
                 {% endfor %}
             </ul>
         </div>

@@ -26,14 +26,13 @@ class Usuario(AbstractUser):
 
 
 class Administrador(models.Model):
-    username = models.OneToOneField(
+    usuario = models.OneToOneField(
         Usuario,
-        on_delete = models.CASCADE
-    ) 
-   
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
-        return f'{self.username}'
+        return f'{self.usuario}'
 
 def validate_only_letters(value):
     if not re.match("^[A-Za-z ]*$", value):
