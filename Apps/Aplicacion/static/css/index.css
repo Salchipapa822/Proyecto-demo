@@ -1,98 +1,120 @@
 body:has(> .page-container) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    background-color: #f4f4f4;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .background-shape-1 {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background-color: #000;
-    border-radius: 50%;
-    top: -100px;
-    left: -100px;
-    opacity: 0.3;
-  }
-  
-  .background-shape-2 {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background-color: #29ABE2;
-    border-radius: 50%;
-    bottom: -150px;
-    right: -150px;
-    opacity: 0.3;
-  }
-  
-  .background-shape-3 {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    background-color: #000;
-    border-radius: 20px;
-    top: 50px;
-    right: 50px;
-    transform: rotate(45deg);
-    opacity: 0.2;
-  }
-  
-  .page-container {
-    width: 80%;
-    max-width: 800px;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    margin-top: 20px;
-  }
-  
-  .page-container .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .page-container .header .logo img { /* Estilos para el logo */
-    max-height: 50px; /* Ajusta el tamaño máximo del logo */
-  }
-  
-  .page-container .header .nav a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #333;
-    transition: opacity 0.3s ease; 
-  }
-  
-  .page-container .header .nav a:hover {
-    opacity: 0.7; /* Aclaramos el enlace al pasar el ratón */
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: #f4f4f4;
+  position: relative;
+  overflow: hidden;
+}
 
-  .page-container .content {
-    text-align: center;
-  }
-  
-  .page-container .content .create-ticket {
-    padding: 12px 20px;
-    background-color: #29ABE2;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: 600;
-    margin-top: 20px;
-  }
-  
-  .page-container .content .create-ticket:hover {
-    background-color: #2499cd;
-  }
+.background-shape-1 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: #000;
+  border-radius: 50%;
+  top: -100px;
+  left: -100px;
+  opacity: 0.3;
+}
+
+.background-shape-2 {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background-color: #29ABE2;
+  border-radius: 50%;
+  bottom: -150px;
+  right: -150px;
+  opacity: 0.3;
+}
+
+.background-shape-3 {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-color: #000;
+  border-radius: 20px;
+  top: 50px;
+  right: 50px;
+  transform: rotate(45deg);
+  opacity: 0.2;
+}
+
+.page-container {
+  width: 80%;
+  max-width: 800px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  margin-top: 20px;
+}
+
+.page-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-container .header .logo img { /* Estilos para el logo */
+  max-height: 50px; /* Ajusta el tamaño máximo del logo */
+}
+
+.page-container .header .nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  transition: opacity 0.3s ease; 
+}
+
+.page-container .header .nav a:hover {
+  opacity: 0.7; /* Aclaramos el enlace al pasar el ratón */
+}
+
+.page-container .header .nav {
+display: flex;
+align-items: center;
+}
+
+.page-container .header .nav .profile-initial {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+background-color: #ddd; /* Color de fondo gris claro */
+display: flex;
+justify-content: center;
+align-items: center;
+margin-left: 20px;
+}
+
+.page-container .header .nav .profile-initial span {
+font-size: 1.5em;
+font-weight: bold;
+color: #333; /* Color del texto gris oscuro */
+}
+
+.page-container .content {
+  text-align: center;
+}
+
+.page-container .content .create-ticket {
+  padding: 12px 20px;
+  background-color: #29ABE2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.page-container .content .create-ticket:hover {
+  background-color: #2499cd;
+}

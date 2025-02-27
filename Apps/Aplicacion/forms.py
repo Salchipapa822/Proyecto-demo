@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ticket, Comentario
+from .models import Ticket, Comentario, Usuario
 
 class TicketForm(forms.ModelForm):
     class Meta:
@@ -17,3 +17,8 @@ class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
         fields = ['contenido']  # Solo necesitas el contenido del comentario
+
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['first_name', 'last_name', 'email', 'imagen_perfil']  # Agrega los campos que necesites

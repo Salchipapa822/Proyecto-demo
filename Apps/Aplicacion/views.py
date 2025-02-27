@@ -2,11 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, UsuarioForm
 from .models import Ticket, Usuario
 from django.views import View
 from django.contrib import messages
 from django.utils import timezone
+from PIL import Image, ImageDraw, ImageFont
+import io
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your views here.
 
@@ -67,6 +70,46 @@ def ticket_detalle(request, ticket_id):
 def ticket_list(request):
     tickets = Ticket.objects.all()  # Obtiene todos los tickets
     return render(request, 'ticket_list.html', {'tickets': tickets})
+
+def crear_o_actualizar_perfil(request):
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            usuario = form.save()
+            if not usuario.imagen_perfil:
+                imagen_inicial = generar_imagen_inicial(usuario.username)
+                usuario.imagen_perfil.save(f"{usuario.username}_inicial.png", imagen_inicial)
+            return redirect('perfil_usuario.html')  # Reemplaza con la URL de éxito
+    else:
+        form = UsuarioForm(instance=request.user)
+    return render(request, 'perfil_usuario.html', {'form': form})
+
+def generar_imagen_inicial(nombre_usuario):
+    """Genera una imagen circular con la inicial del nombre de usuario."""
+    inicial = nombre_usuario[0].upper()
+    ancho, alto = 100, 100
+    imagen = Image.new('RGB', (ancho, alto), color=(240, 240, 240))  # Fondo gris claro
+    dibujo = ImageDraw.Draw(imagen)
+    fuente = ImageFont.truetype("arial.ttf", 60)  # Reemplaza "arial.ttf" con la ruta a una fuente TTF
+    ancho_texto, alto_texto = dibujo.textsize(inicial, font=fuente)
+    x = (ancho - ancho_texto) / 2
+    y = (alto - alto_texto) / 2
+    dibujo.text((x, y), inicial, font=fuente, fill=(0, 0, 0))  # Texto negro
+    mascara = Image.new('L', (ancho, alto), 0)
+    dibujo_mascara = ImageDraw.Draw(mascara)
+    dibujo_mascara.ellipse((0, 0, ancho, alto), fill=255)
+    imagen.putalpha(mascara)
+    buffer = io.BytesIO()
+    imagen.save(buffer, format="PNG")
+    archivo_imagen = InMemoryUploadedFile(
+        buffer,
+        None,
+        f"{nombre_usuario}_inicial.png",
+        'image/png',
+        buffer.getbuffer().nbytes,
+        None
+    )
+    return archivo_imagen
 
 class TicketCreateView(View):
     def get(self, request):

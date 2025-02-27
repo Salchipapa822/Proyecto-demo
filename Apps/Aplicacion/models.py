@@ -14,19 +14,8 @@ class Usuario(AbstractUser):
         validators=[MinValueValidator(1)],
 		primary_key=True
 	)
-    # first_name = models.CharField(
-    #     'Nombres',
-	# 	max_length=255,
-	# 	blank=True,
-	# 	null=True
-	# )
-    # last_name = models.CharField(
-    #     'Apellidos',
-	# 	max_length=255,
-	# 	blank=True,
-	# 	null=True
-	# )
-
+    imagen_perfil = models.ImageField(upload_to='perfiles/', blank=True, null=True)
+ 
     REQUIRED_FIELDS = [
         "first_name",
         "last_name",

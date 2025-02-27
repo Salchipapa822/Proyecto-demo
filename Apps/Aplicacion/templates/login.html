@@ -16,7 +16,7 @@
             <a href="{% url 'ticket_list' %}">Tickets</a>
             {% if user.is_authenticated %}
                 <div class="profile-image">
-                    <img src="{{ user.profile.image.url }}" alt="Perfil de Usuario">
+                    <img src="{{ user.profile.image.url }}" alt="Perfil">
                 </div>
             {% else %}
                 <a href="{% url 'perfil_usuario' %}">Perfil</a>
