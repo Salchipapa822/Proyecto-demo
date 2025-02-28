@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Usuario{% endblock title %}
+
+{% block body %}
+    <h2>Editar Usuario: {{ usuario.username }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="first_name">Nombre:</label>
+            {{ form.first_name }}
+        </div>
+        <div>
+            <label for="last_name">Apellido:</label>
+            {{ form.last_name }}
+        </div>
+        <div>
+            <label for="email">Correo:</label>
+            {{ form.email }}
+        </div>
+        <div>
+            <label for="is_superuser">Superusuario:</label>
+            {{ form.is_superuser }}
+        </div>
+        <div>
+            <label for="is_staff">Staff:</label>
+            {{ form.is_staff }}
+        </div>
+        <div>
+            ¿Desea cambiar la contraseña?
+            <label for="new_password">Nueva Contraseña:</label>
+            {{ form.new_password }}
+            <small>(Dejar en blanco si no deseas cambiar la contraseña)</small>
+        </div>
+        <button type="submit">Guardar cambios</button>
+    </form>
+    <form method="post" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="delete" value="true">
+        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar Usuario</button>
+    </form>
+{% endblock body %}

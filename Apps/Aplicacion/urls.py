@@ -18,7 +18,9 @@ from Apps.Aplicacion.views import (
     ticket_reabrir,
     ticket_asignar_etiquetas ,
     crear_etiqueta,
-    etiqueta_list
+    etiqueta_list,
+    usuario_delete,
+    usuario_edit
     
 )
 from django.views.generic import TemplateView
@@ -35,7 +37,9 @@ urlpatterns = [
     path('tickets/<int:ticket_id>/comentar/', agregar_comentario, name='ticket_comentar'),  
     path('perfil/', perfil_usuario, name='perfil_usuario'),
     path('personal/', personal_list, name='personal_list'),            
-    path('personal/crear/', personal_create, name='personal_create'),  
+    path('personal/crear/', personal_create, name='personal_create'),
+    path('usuarios/<int:username>/editar/', usuario_edit, name='usuario_edit'),  # Cambia <int:id> a <int:username>
+    path('usuarios/<int:username>/eliminar/', usuario_delete, name='usuario_delete'), 
     path('usuarios/', usuario_list, name='usuario_list'),                
     path('usuarios/crear/', usuario_create, name='usuario_create'),     
     path('direccion/', direccion_list, name='direccion_list'),          

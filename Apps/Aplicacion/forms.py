@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Ticket, Comentario, Personal, Usuario, Direccion, Etiqueta
 
 class TicketForm(forms.ModelForm):
@@ -35,6 +35,29 @@ class UsuarioForm(UserCreationForm):  # Cambia a UserCreationForm
     class Meta:
         model = Usuario
         fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser', 'is_staff']
+
+class UsuarioEditForm(UserChangeForm):
+    new_password = forms.CharField(
+        label='Nueva Contraseña',
+        required=False,
+        widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = Usuario
+        fields = ['first_name', 'last_name', 'email', 'is_superuser', 'is_staff']  
+
+    def save(self, commit=True):
+        user = super(UsuarioEditForm, self).save(commit=False)
+        new_password = self.cleaned_data.get('new_password')
+        if new_password:  
+            user.set_password(new_password)
+        if commit:
+            user.save()
+        return user
+    
+class UsuarioDeleteForm(forms.Form):
+    pass  
 
 class DireccionForm(forms.ModelForm):
     class Meta:

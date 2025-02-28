@@ -1,8 +1,9 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, EtiquetaForm
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, EtiquetaForm, UsuarioEditForm, UsuarioDeleteForm
 from .models import Ticket, Usuario, Personal, Direccion, Etiqueta
 from django.views import View
 from django.contrib import messages
@@ -13,8 +14,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
-
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -36,7 +35,14 @@ def logout_view(request):
 
 
 @login_required
+def perfil_usuario(request):
+    usuario = request.user  
+    return render(request, 'perfil_usuario.html', {'usuario': usuario})
 
+
+# CRUD Tickets #
+
+@login_required
 def ticket_detalle(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     
@@ -70,9 +76,6 @@ def ticket_detalle(request, ticket_id):
     })
 
 
-
-
-
 class TicketCerrar(LoginRequiredMixin, View):
     def post(self, request, ticket_id):
 
@@ -98,8 +101,6 @@ def ticket_reabrir(request, ticket_id):
 
     return redirect('ticket_detalle', ticket_id=ticket.id)  
 
-
-
 def ticket_asignar_etiquetas(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     todas_etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
@@ -114,7 +115,6 @@ def ticket_asignar_etiquetas(request, ticket_id):
         'ticket': ticket,
         'todas_etiquetas': todas_etiquetas,
     })
-
 
 
 def agregar_comentario(request, ticket_id):
@@ -139,16 +139,11 @@ def agregar_comentario(request, ticket_id):
         'comment_form': comment_form
     })
 
-@login_required
-def perfil_usuario(request):
-    usuario = request.user  
-    return render(request, 'perfil_usuario.html', {'usuario': usuario})
 
 def ticket_list(request):
     tickets = Ticket.objects.all()  # Obtiene todos los tickets
     return render(request, 'ticket_list.html', {'tickets': tickets})
 
- # CRUD del Sistema
 
 class TicketCreateView(View):
     def get(self, request):
@@ -162,11 +157,24 @@ class TicketCreateView(View):
             return redirect('ticket_detalle', ticket_id=ticket.id)  # Redirige a la vista de detalles del ticket
         return render(request, 'ticket_form.html', {'form': form})
     
+# Decorador personalizado para verificar si el usuario es superusuario
+def superuser_required(view_func):
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.is_superuser:
+            return view_func(request, *args, **kwargs)
+        else:
+            raise Http404("No tienes permiso para acceder a esta página.")
+    return _wrapped_view
 
+# CRUD personal #
+@login_required
+@superuser_required
 def personal_list(request):
     personal_list = Personal.objects.all()
-    return render(request, 'personal_list.html', {'personal_list': personal_list})
+    return render(request, 'personal/personal_list.html', {'personal_list': personal_list})
 
+@login_required
+@superuser_required
 def personal_create(request):
     if request.method == 'POST':
         form = PersonalForm(request.POST)
@@ -175,33 +183,75 @@ def personal_create(request):
             return redirect('personal_list')  
     else:
         form = PersonalForm()
-    return render(request, 'personal_form.html', {'form': form})
+    return render(request, 'personal/personal_form.html', {'form': form})
 
-
+# CRUD Usuarios #
+@login_required
+@superuser_required
 def usuario_list(request):
     usuario_list = Usuario.objects.all()
-    return render(request, 'usuario_list.html', {'usuario_list': usuario_list})
+    return render(request, 'usuarios/usuario_list.html', {'usuario_list': usuario_list})
 
-
+@login_required
+@superuser_required
 def usuario_create(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
-            # Guarda el usuario y la contraseña
             form.save()
-            return redirect('usuario_list')  # Redirige a la lista de usuarios después de crear
+            messages.success(request, 'Usuario creado con éxito.')
+            return redirect('usuario_list')
     else:
-        form = UsuarioForm()  # Crea un nuevo formulario vacío
+        form = UsuarioForm()
 
-    # Renderiza la plantilla con el formulario
-    return render(request, 'usuario_form.html', {'form': form})
+    return render(request, 'usuarios/usuario_form.html', {'form': form})
 
+@login_required
+@superuser_required
+def usuario_edit(request, username):
+    usuario = get_object_or_404(Usuario, username=username)
 
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            usuario.delete()
+            messages.success(request, 'Usuario eliminado con éxito.')
+            return redirect('usuario_list')
+        else:
+            form = UsuarioEditForm(request.POST, instance=usuario)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Usuario actualizado con éxito.')
+                return redirect('usuario_list')
+    else:
+        form = UsuarioEditForm(instance=usuario)
 
+    return render(request, 'usuarios/usuario_edit.html', {'form': form, 'usuario': usuario})
+
+@login_required
+@superuser_required
+def usuario_delete(request, username):
+    usuario = get_object_or_404(Usuario, username=username)
+    
+    if request.method == 'POST':
+        form = UsuarioDeleteForm(request.POST)
+        if form.is_valid():
+            usuario.delete()
+            messages.success(request, 'Usuario eliminado con éxito.')
+            return redirect('usuario_list')
+    else:
+        form = UsuarioDeleteForm()
+
+    return render(request, 'usuarios/usuario_delete_confirm.html', {'form': form, 'usuario': usuario})
+
+# CRUD Direcciones #
+@login_required
+@superuser_required
 def direccion_list(request):
     direcciones = Direccion.objects.all()
     return render(request, 'direccion_list.html', {'direccion_list': direcciones})
 
+@login_required
+@superuser_required
 def direccion_form(request):
     if request.method == 'POST':
         form = DireccionForm(request.POST)
@@ -213,23 +263,27 @@ def direccion_form(request):
     
     return render(request, 'direccion_form.html', {'form': form})
 
+# CRUD Etiquetas #
+@login_required
+@superuser_required
+def etiqueta_list(request):
+    etiqueta_list = Etiqueta.objects.all()
+    return render(request, 'etiqueta_list.html', {'etiqueta_list': etiqueta_list})
 
+@login_required
+@superuser_required
 def crear_etiqueta(request):
     if request.method == 'POST':
         form = EtiquetaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('ticket_list')  # Redirige a la lista de tickets o donde desees
+            return redirect('ticket_list')
     else:
         form = EtiquetaForm()
     return render(request, 'crear_etiqueta.html', {'form': form})
 
-def etiqueta_list(request):
-    if request.user.is_superuser:
-        etiqueta_list = Etiqueta.objects.all()
-        return render(request, 'etiqueta_list.html', {'etiqueta_list': etiqueta_list})
-    else:
-        return render(request, 'etiqueta_list.html') 
 
+@login_required
+@superuser_required
 def administracion(request):
     return render(request, 'Administracion.html')

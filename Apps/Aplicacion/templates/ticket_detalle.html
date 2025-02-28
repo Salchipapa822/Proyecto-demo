@@ -40,18 +40,6 @@
         <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
         <p><strong>Encargado:</strong> {{ ticket.asignado_a.first_name|default:"Desconocido" }} {{ ticket.asignado_a.last_name|default:"" }}</p>
         <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.first_name|default:"No resuelto" }} {{ ticket.resuelto_por.last_name|default:"" }}</p>
-<!-- 
-        <p><strong>Etiquetas:</strong>
-            {% if ticket.etiquetas.all %}
-                <ul>
-                    {% for etiqueta in ticket.etiquetas.all %}
-                        <li>{{ etiqueta.nombre }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <span>No hay etiquetas asignadas.</span>
-            {% endif %}
-        </p> -->
 
 
 
@@ -104,7 +92,7 @@
                         {% for comentario in comentarios %}
                             <li data-fecha="{{ comentario.fecha_creacion|date:'U' }}">
                                 <strong>{{ comentario.autor.first_name }}:</strong> {{ comentario.contenido }} <br>
-                                <small>Fecha: {{ comentario.fecha_creacion|date:"D d M Y" }}</small>
+                                <small>{{ comentario.fecha_creacion|date:"D d M Y" }}</small>
                             </li>
                         {% empty %}
                             <li>No hay comentarios disponibles.</li>

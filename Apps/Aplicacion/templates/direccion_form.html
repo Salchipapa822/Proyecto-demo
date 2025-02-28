@@ -27,7 +27,7 @@
             <h2>Formulario para Crear Dirección</h2>
             <form method="post" action="{% url 'direccion_form' %}">
                 {% csrf_token %}
-                {{ form.as_p }}  <!-- Renderiza el formulario -->
+                {{ form.as_p }} 
                 <button type="submit" class="button">Crear Dirección</button>
             </form>
             <a href="{% url 'direccion_list' %}" class="button">Volver a la Lista de Direcciones</a>
