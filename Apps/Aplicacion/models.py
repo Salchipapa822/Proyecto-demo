@@ -14,6 +14,9 @@ class Usuario(AbstractUser):
         validators=[MinValueValidator(1)],
 		primary_key=True
 	)
+    imagen_perfil = models.ImageField(upload_to='perfiles/', blank=True, null=True)
+
+
 
     REQUIRED_FIELDS = [
         "first_name",
@@ -25,14 +28,13 @@ class Usuario(AbstractUser):
 
 
 class Administrador(models.Model):
-    username = models.OneToOneField(
+    usuario = models.OneToOneField(
         Usuario,
-        on_delete = models.CASCADE
-    ) 
-   
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
-        return f'{self.username}'
+        return f'{self.usuario}'
 
 def validate_only_letters(value):
     if not re.match("^[A-Za-z ]*$", value):

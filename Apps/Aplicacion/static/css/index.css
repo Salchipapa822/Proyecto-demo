@@ -1,38 +1,12 @@
-.mensaje {
-    margin-top: 20px; 
-    font-size: 18px; 
-    color: #203bd8d3; 
-}
-.ticket {
-    border: 1px solid #3105f5; 
-    border-radius: 5px; 
-    padding: 15px; 
-    margin: 10px 0; 
-    background-color: #ffffff; 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-}
-.ticket div {
-    flex: 1; 
-    margin: 1px; 
+header {
+    background: lightgray;
 }
 
-/* botones del login y logout */
-
-.login-button, .logout-button {
-    float: right; /* Alinea el botón a la derecha */
-    padding: 10px 15px; 
-    background-color: #3105f5; 
-    color: white; 
-    text-decoration: none; 
-    border-radius: 5px; 
-    margin-top: 20px; /* Espacio superior para separar del h1 */
-}
-.login-button:hover, .logout-button:hover {
-    background-color: #203bd8; /* Color al pasar el mouse */
+nav img.logo {
+    height: 1.5rem;
 }
 
+<<<<<<< HEAD
 /* No me acuerdo quien usa el header pero por si las dudas se queda */
 
 .header {
@@ -67,3 +41,17 @@
 
     
 
+=======
+nav .profile-button {
+    background: blue;
+    color: white;
+    aspect-ratio: 1/1;
+    height: 2rem;
+    overflow: hidden;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+>>>>>>> styles

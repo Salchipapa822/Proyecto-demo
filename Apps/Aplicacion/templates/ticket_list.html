@@ -1,31 +1,38 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Listado de Tickets{% endblock title %} 
 
 {% block body %}
-    <div class="header">
-        <nav class="container">
-            <h1>Fundabit</h1>
-            <ul>
-                {% if request.user.is_superuser %}
-                <li>
-                    <a href="{% url 'Administracion' %}">Administrar</a>
-                </li>
-                {% endif %}
-                <li>
-                    <a href="{% url 'ticket_list' %}">Tickets</a>
-                </li>
-                <li>
-                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+<<<<<<< HEAD
+<header>
+    <nav class="container">
+        <ul>
+            <li><img class="logo" src="{% static 'imagen/fundabit_logo_g428.svg' %}" alt="Logo Fundabit"></li>
+        </ul>
+        <ul>
+            {% if request.user.is_superuser %}
+             <li>
+                <a href="{% url 'Administracion' %}">Administrar</a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'ticket_list' %}">Tickets</a></li>
+            {% if user.is_authenticated %}
+            <li class="profile-li">
+                <a href="{% url 'perfil_usuario' %}" class="profile-button">
+                    {{ user.first_name|upper|slice:":1" }}
+                </a>
+            </li>
+            {% else %}
+            <li><a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+<main class="container"></main>
 
 {% if not user.is_authenticated %}
-    <div class="mensaje">
-        Necesitas iniciar sesión para continuar.
-        <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
-    </div>
+<p>Inicia sesión para continuar</p>
 {% else %}
     <div class="centrar">
         <ul>
@@ -40,20 +47,21 @@
                     <div><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"d-m-Y" }}</div>
                     <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
                     <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
-                    <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.first_name }} {{ ticket.resuelto_por.last_name|default:"No resuelto" }}</div>
-                    <div><strong>Comentarios:</strong> {{ ticket.comentarios.count }}</div>  
+                    <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
+                    <div><strong>Comentarios:</strong> {{ ticket.comentarios.count }}</div> 
                 </li>
-            {% empty %}
-                <div class="mensaje">
-                    <br>No hay tickets disponibles.
-                </div>
+                <li class="mensaje">
+                    No hay tickets disponibles.
+                </li>
             {% endfor %}
         </ul>
     </div>
+    {% endif %}
 
-    <div class="fixed-button">
-        <a class="button" href="{% url 'ticket_create' %}">+</a>
-    </div>
-{% endif %}
+</main>
+
+<div class="fixed-button">
+    <a class="button" href="{% url 'ticket_create' %}">Crear Ticket</a>
+</div>
 
 {% endblock body %}

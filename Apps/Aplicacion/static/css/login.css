@@ -2,5 +2,105 @@ body:has(> .login-container) {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100px;
-}
+    min-height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    background-color: #f4f4f4;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .background-shape-1 {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: #000;
+    border-radius: 50%;
+    top: -100px;
+    left: -100px;
+    opacity: 0.3;
+  }
+  
+  .background-shape-2 {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: #29ABE2;
+    border-radius: 50%;
+    bottom: -150px;
+    right: -150px;
+    opacity: 0.3;
+  }
+  
+  .background-shape-3 {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: #000;
+    border-radius: 20px;
+    top: 50px;
+    right: 50px;
+    transform: rotate(45deg);
+    opacity: 0.2;
+  }
+  
+  .login-container {
+    width: 300px;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+  
+  .login-container .logo img {
+    display: block;
+    margin: 0 auto 30px;
+    max-width: 180px;
+  }
+  
+  .login-container .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .login-container .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  
+  .login-container .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  .login-container button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #29ABE2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+  }
+  
+  .login-container button:hover {
+    background-color: #2499cd;
+  }
+  
+  .login-container .messages {
+    margin-top: 20px;
+  }
+  
+  .login-container .messages .alert {
+    padding: 12px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+  }
