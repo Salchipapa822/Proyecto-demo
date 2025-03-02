@@ -24,9 +24,9 @@ vendor/
 *.egg
 
 # Ignorar archivos de entorno
-.venv/
-.venv.local
-.venv.*.local
+venv/
+venv.local
+venv.*.local
 
 # Ignorar archivos de logs
 *.log
