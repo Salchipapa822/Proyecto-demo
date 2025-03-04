@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Direcciones{% endblock title %}
+
+{% block body %}
+
+{% if user.is_superuser %}
+
+    {% if not user.is_authenticated %}
+        <div class="mensaje">
+            Necesitas iniciar sesión para continuar.
+            <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% else %}
+        <div class="centrar">
+            <h2>Lista de Direcciones</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for direccion in direccion_list %}
+                    <tr>
+                        <td>{{ direccion.nombre }}</td>
+                        <td>
+                            <a href="{% url 'editar_direccion' direccion.id %}" class="button">Editar</a>
+                            <a href="{% url 'borrar_direccion' direccion.id %}" class="button" onclick="return confirm('¿Estás seguro de que deseas borrar esta dirección?');">Borrar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="mensaje">No hay direcciones disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'crear_direccion' %}" class="button">Crear Nueva Dirección</a>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+{% endblock body %}

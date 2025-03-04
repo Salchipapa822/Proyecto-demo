@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if direccion_id %}Editar Dirección{% else %}Crear Dirección{% endif %}{% endblock title %}
+
+{% block body %}
+<h2>
+    {% if direccion_id %}Editar
+    {% else %}Crear
+    {% endif %} Dirección
+</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+<a href="{% url 'direccion_list' %}">Cancelar</a>
+{% endblock %}

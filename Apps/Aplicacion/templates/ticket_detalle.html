@@ -3,57 +3,19 @@
 {% block title %}Detalles del Ticket{% endblock %}
 
 {% block body %}
-<div class="container .perfil">
-    <div class="header">
-        <nav class="container">
-            <h1>Fundabit</h1>
-            <ul>
-                {% if request.user.is_superuser %}
-                <li>
-                    <a href="{% url 'Administracion' %}">Administrar</a>
-                </li>
-                {% endif %}
-                <li>
-                    <a href="{% url 'ticket_list' %}">Tickets</a>
-                </li>
-                <li>
-                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
     <h1>Detalles del Ticket</h1>
     <div>
         <h2>
             {{ ticket.titulo }} 
-            {% if ticket.resuelto_por %}
-                (resuelto)
-            {% else %}
-                (no resuelto)
-            {% endif %}
+            {% if ticket.resuelto_por %}(resuelto){% else %}(no resuelto){% endif %}
         </h2>
         
-
         <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"D d M Y" }}</p>
-        <p><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|date:"D d M Y"|default:"No cerrado" }}</p>
         <p><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre|default:"Desconocido" }} {{ ticket.presentado_por.apellido|default:"" }}</p>
         <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
         <p><strong>Encargado:</strong> {{ ticket.asignado_a.first_name|default:"Desconocido" }} {{ ticket.asignado_a.last_name|default:"" }}</p>
         <p><strong>Resuelto por:</strong> {{ ticket.resuelto_por.first_name|default:"No resuelto" }} {{ ticket.resuelto_por.last_name|default:"" }}</p>
-<!-- 
-        <p><strong>Etiquetas:</strong>
-            {% if ticket.etiquetas.all %}
-                <ul>
-                    {% for etiqueta in ticket.etiquetas.all %}
-                        <li>{{ etiqueta.nombre }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <span>No hay etiquetas asignadas.</span>
-            {% endif %}
-        </p> -->
-
-
+        <p><strong>Fecha de Cierre:</strong> {{ ticket.fecha_cierre|date:"D d M Y"|default:"No cerrado" }}</p>
 
         <h3>Asignar Etiquetas</h3>
         <form method="post" action="{% url 'ticket_asignar_etiquetas' ticket.id %}">
@@ -63,22 +25,21 @@
                     <option value="{{ etiqueta.id }}" {% if etiqueta in ticket.etiqueta.all %}selected{% endif %}>{{ etiqueta.nombre }}</option>
                 {% endfor %}
             </select>
-            <button type="submit">Asignar Etiquetas</button>
+            <button type="submit" class="button">Asignar Etiquetas</button>
         </form>
-        <a href="{% url 'crear_etiqueta' %}">Crear Etiqueta</a>
-        
-        
+        <a class="button" href="{% url 'crear_etiqueta' %}">Crear Etiqueta</a>
+
         {% if not ticket.resuelto_por %}
-        <h3>Cerrar Ticket</h3>
-        <form method="post" action="{% url 'ticket_cerrar' ticket.id %}">
-            {% csrf_token %}
-            <button type="submit">Cerrar Ticket</button>
-        </form>
+            <h3>Cerrar Ticket</h3>
+            <form method="post" action="{% url 'ticket_cerrar' ticket.id %}">
+                {% csrf_token %}
+                <button type="submit" class="button">Cerrar Ticket</button>
+            </form>
         {% else %}
-        <form method="post" action="{% url 'ticket_reabrir' ticket.id %}">
-            {% csrf_token %}
-            <button type="submit">Reabrir Ticket</button>
-        </form>
+            <form method="post" action="{% url 'ticket_reabrir' ticket.id %}">
+                {% csrf_token %}
+                <button type="submit" class="button">Reabrir Ticket</button>
+            </form>
         {% endif %}
 
         <div class="comments-container">
@@ -87,7 +48,7 @@
                 <form method="post" action="{% url 'ticket_comentar' ticket.id %}">
                     {% csrf_token %}
                     {{ comment_form.as_p }}
-                    <button type="submit">Agregar Comentario</button>
+                    <button type="submit" class="button">Agregar Comentario</button>
                 </form>
             </div>
             <div class="comments-list">
@@ -97,7 +58,7 @@
                     <select name="order" id="order" onchange="ordenarComentarios(this.value)">
                         <option value="oldest">Más Viejos</option>
                         <option value="newest">Más Nuevos</option>
-                    </select>                    
+                    </select>
                 </nav>
                 <div class="comment-list-container" id="comment-list">
                     <ul>
@@ -113,8 +74,8 @@
                 </div>
             </div>
             <script src="{% static 'js/orden_comentarios.js' %}"></script>
-
-        <a href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
+        </div>        
+        <a class="button" href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
     </div>
-
 {% endblock %}
+

@@ -10,7 +10,6 @@
     margin-right: 20px; /* Espacio entre el formulario y la lista de comentarios */
     padding: 10px; /* Espaciado interno */
     border: 1px solid #ccc; /* Borde opcional */
-    background-color: #f9f9f9; /* Color de fondo opcional */
     border-radius: 5px; /* Bordes redondeados opcionales */
 }
 
@@ -20,14 +19,12 @@
     overflow-y: auto; /* Permite el desplazamiento vertical si el contenido excede la altura */
     padding: 10px; /* Espaciado interno */
     border: 1px solid #ccc; /* Borde opcional */
-    background-color: #f9f9f9; /* Color de fondo opcional */
     border-radius: 5px; /* Bordes redondeados opcionales */
 }
 
 .comments-nav {
     position: sticky; 
     top: 0; 
-    background-color: #f9f9f9; 
     z-index: 10; 
     padding: 10px; 
     border-bottom: 1px solid #ccc; 
@@ -36,4 +33,26 @@
 .comment-list-container {
     max-height: 250px; /* Ajusta la altura máxima del contenedor de comentarios */
     overflow-y: auto; /* Permite el desplazamiento vertical */
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --mensaje-color: #ffffff;
+        --ticket-border-color: #5c6bc0;
+        --ticket-bg-color: #424242;
+        --button-bg-color: #5c6bc0;
+        --button-hover-bg-color: #3f51b5;
+    }
+}
+
+/* Estilos para el modo claro */
+@media (prefers-color-scheme: light) {
+    :root {
+        --mensaje-color: #203bd8d3;
+        --ticket-border-color: #3105f5;
+        --ticket-bg-color: #ffffff;
+        --button-bg-color: #3105f5;
+        --button-hover-bg-color: #203bd8;
+    }
 }

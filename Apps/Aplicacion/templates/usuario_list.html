@@ -3,18 +3,7 @@
 {% block title %}Listado de Usuarios{% endblock title %}
 
 {% block body %}
-    <div>
-        <nav class="container">
-            <h1>Listado de Usuarios</h1>
-            <ul>
-                <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
-                <li>
-                    <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
+    
     {% if not user.is_authenticated %}
         <div>
             Necesitas iniciar sesión para continuar.
