@@ -2,6 +2,10 @@
 {% load static %}
 {% block title %} Fundabit {% endblock %}
 
+{% block nav %}
+<!-- Dejar este bloque vacío para no mostrar el nav en la página de login -->
+{% endblock %}
+
 {% block body %}
     <div class="login-container">
         <div class="logo">
@@ -18,7 +22,7 @@
                 <input type="password" id="password" name="password" required aria-required="true">
             </div>
             <div class="forgot-password">
-
+                <!-- Aquí puedes agregar un enlace para recuperar la contraseña si lo deseas -->
             </div>
             <br>
             <div>

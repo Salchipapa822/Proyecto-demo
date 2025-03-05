@@ -2,25 +2,6 @@
 {% block title %}Creación de Ticket{% endblock title %} 
 {% block body %}
 
-<div class="header">
-    <nav class="container">
-        <h1>Fundabit</h1>
-        <ul>
-            {% if request.user.is_superuser %}
-            <li>
-                <a href="{% url 'Administracion' %}">Administrar</a>
-            </li>
-            {% endif %}
-            <li>
-                <a href="{% url 'ticket_list' %}">Tickets</a>
-            </li>
-            <li>
-                <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
-            </li>
-        </ul>
-    </nav>
-</div>
-
 <div>
     <h1>Crear Ticket</h1>
     

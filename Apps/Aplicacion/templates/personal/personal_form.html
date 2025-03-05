@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear/Editar Personal{% endblock title %}
+
+{% block body %}
+<div class="centrar">
+    <h2>{% if personal %}Editar{% else %}Crear{% endif %} Personal</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Guardar</button>
+    </form>
+    <a href="{% url 'personal_list' %}" class="button">Cancelar</a>
+</div>
+{% endblock body %}

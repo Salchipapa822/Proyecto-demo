@@ -3,35 +3,15 @@
 {% block title %}Listado de Tickets{% endblock title %} 
 
 {% block body %}
-<header>
-    <nav class="container">
-        <ul>
-            <li><img class="logo" src="{% static 'imagen/fundabit_logo_g428.svg' %}" alt="Logo Fundabit"></li>
-        </ul>
-        <ul>
-            {% if request.user.is_superuser %}
-             <li>
-                <a href="{% url 'Administracion' %}">Administrar</a>
-            </li>
-            {% endif %}
-            <li>
-                <a href="{% url 'ticket_list' %}">Tickets</a></li>
-            {% if user.is_authenticated %}
-            <li class="profile-li">
-                <a href="{% url 'perfil_usuario' %}" class="profile-button">
-                    {{ user.first_name|upper|slice:":1" }}
-                </a>
-            </li>
-            {% else %}
-            <li><a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-</header>
+
+
 <main class="container"></main>
 
 {% if not user.is_authenticated %}
-<p>Inicia sesión para continuar</p>
+    <div class="mensaje">
+        Necesitas iniciar sesión para continuar.
+        <a class="button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+    </div>
 {% else %}
     <div class="centrar">
         <ul>

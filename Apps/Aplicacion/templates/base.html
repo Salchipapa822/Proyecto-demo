@@ -2,7 +2,7 @@
 <html lang="es">
     <head>
         {% load static %}
-        <meta charset="UTC-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %} {% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/pico.min.css' %}">
@@ -12,10 +12,36 @@
         <link rel="stylesheet" href="{% static 'css/form_crear.css' %}">
         <link rel="stylesheet" href="{% static 'css/detalles-tickets.css' %}">
         <link rel="stylesheet" href="{% static 'css/botones-index.css' %}">
-
     </head>
     <body>
+        <div class="header">
+            {% block nav %}
+    <nav class="container">
+        <ul>
+            <li><img class="logo" src="{% static 'imagen/fundabit_logo_g428.svg' %}" alt="Logo Fundabit"></li>
+        </ul>
+        <ul>
+            {% if request.user.is_superuser %}
+             <li>
+                <a href="{% url 'Administracion' %}">Administrar</a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'ticket_list' %}">Tickets</a></li>
+            {% if user.is_authenticated %}
+            <li class="profile-li">
+                <a href="{% url 'perfil_usuario' %}" class="circle-button">
+                    {{ user.first_name|upper|slice:":1" }}
+                </a>
+            </li>
+            {% else %}
+            <li><a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 
-    {% block body %}{% endblock %}
+            {% endblock %}
+        </div>
+        {% block body %}{% endblock %}
     </body>
 </html>

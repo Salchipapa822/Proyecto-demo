@@ -4,17 +4,6 @@
 
 {% block body %}
     {% if user.is_superuser %}
-        <div class="header">
-            <nav class="container">
-                <h1>Crear Usuario</h1>
-                <ul>
-                    <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
-                    <li>
-                        <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
 
         <div class="centrar">
             <form method="post">

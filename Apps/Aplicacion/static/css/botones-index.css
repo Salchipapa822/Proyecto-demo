@@ -26,20 +26,28 @@
 
     /* Boton del perfil */
 
-.circle-button {
-    display: inline-block; /* Permite aplicar dimensiones */
-    width: 50px; /* Ancho del círculo */
-    height: 50px; /* Alto del círculo */
-    border-radius: 100%; /* Hace que el botón sea circular */
-    background-color: #007bff; /* Color de fondo */
-    color: white; /* Color del texto */
-    text-align: center; /* Centra el texto horizontalmente */
-    line-height: 50px; /* Centra el texto verticalmente */
-    text-decoration: none; /* Quita el subrayado del enlace */
-    font-weight: bold; /* Hace el texto más grueso */
-    font-size: 16px; /* Tamaño de la fuente */
-}
-
+    .profile-li {
+        display: flex; /* Utiliza flexbox para centrar el contenido */
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+        list-style: none; /* Elimina los puntos de la lista */
+        height: 100px; /* Ajusta la altura según sea necesario */
+    }
+    
+    .circle-button {
+        display: inline-block; /* Permite aplicar dimensiones */
+        width: 50px; /* Ancho del círculo */
+        height: 50px; /* Alto del círculo */
+        border-radius: 100%; /* Hace que el botón sea circular */
+        background-color: #007bff; /* Color de fondo */
+        color: white; /* Color del texto */
+        text-align: center; /* Centra el texto horizontalmente */
+        line-height: 50px; /* Centra el texto verticalmente */
+        text-decoration: none; /* Quita el subrayado del enlace */
+        font-weight: bold; /* Hace el texto más grueso */
+        font-size: 16px; /* Tamaño de la fuente */
+    }
+    
 .circle-button:hover {
     background-color: #0056b3; /* Color de fondo al pasar el ratón */
 }

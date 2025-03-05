@@ -1,57 +1,98 @@
-header {
-    background: lightgray;
+/* Estilos generales */
+.mensaje {
+    margin-top: 20px; 
+    font-size: 18px; 
+    color: var(--mensaje-color, #203bd8d3); 
+}
+.ticket {
+    border: 1px solid var(--ticket-border-color, #3105f5); 
+    border-radius: 5px; 
+    padding: 15px; 
+    margin: 10px 0; 
+    background-color: var(--ticket-bg-color, #ffffff); 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+}
+.ticket div {
+    flex: 1; 
+    margin: 1px; 
 }
 
-nav img.logo {
-    height: 1.5rem;
+/* botones del login y logout */
+.login-button, .logout-button {
+    float: right; 
+    padding: 10px 15px; 
+    background-color: var(--button-bg-color, #3105f5); 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    margin-top: 20px; 
+}
+.login-button:hover, .logout-button:hover {
+    background-color: var(--button-hover-bg-color, #203bd8); 
 }
 
-<<<<<<< HEAD
-/* No me acuerdo quien usa el header pero por si las dudas se queda */
-
+/* Header */
 .header {
-    display: flex; /* Usar flexbox para alinear elementos */
-    justify-content: space-between; /* Espacio entre los elementos */
-    align-items: center; /* Centrar verticalmente */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
 }
 
+/* Barra de navegación */
+nav {
+    background-color: var(--nav-bg-color, #f0f0f0); 
+    padding: 10px; 
+}
+nav ul {
+    list-style-type: none; 
+    padding: 0; 
+}
+nav li {
+    display: inline; 
+    margin-right: 15px; 
+}
+nav a {
+    text-decoration: none; 
+    color: var(--nav-link-color, #333); 
+}
+nav a:hover {
+    color: #007bff; 
+}
 
-/* Barra de navegacion */
+/* Estilo para el logo */
+.logo {
+    width: 150px; /* Ajusta el tamaño según sea necesario */
+    height: auto; /* Mantiene la proporción del logo */
+}
 
-    nav {
-        background-color: #f0f0f0; /* Color del fondo */
-        padding: 10px; /* Espaciado del color del fondo */
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --mensaje-color: #ffffff;
+        --ticket-border-color: #5c6bc0;
+        --ticket-bg-color: #424242;
+        --button-bg-color: #5c6bc0;
+        --button-hover-bg-color: #3f51b5;
+        --nav-bg-color: #333;
+        --nav-link-color: #ffffff;
     }
-    nav ul {
-        list-style-type: none; /* Sin viñetas */
-        padding: 0; /* Sin padding */
+}
+
+/* Estilos para el modo claro */
+@media (prefers-color-scheme: light) {
+    :root {
+        --mensaje-color: #203bd8d3;
+        --ticket-border-color: #3105f5;
+        --ticket-bg-color: #ffffff;
+        --button-bg-color: #3105f5;
+        --button-hover-bg-color: #203bd8;
+        --nav-bg-color: #f0f0f0;
+        --nav-link-color: #333;
     }
-    nav li {
-        display: inline; /* Elementos en una sola línea */
-        margin-right: 15px; /* Espaciado entre elementos */
-    }
-    nav a {
-        text-decoration: none; /* Sin subrayado */
-        color: #333; /* Color del texto */
-    }
-    nav a:hover {
-        color: #007bff; /* Color al pasar el mouse */
-    }
+}
 
 
     
 
-=======
-nav .profile-button {
-    background: blue;
-    color: white;
-    aspect-ratio: 1/1;
-    height: 2rem;
-    overflow: hidden;
-    font-weight: bold;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
->>>>>>> styles

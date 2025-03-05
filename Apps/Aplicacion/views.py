@@ -1,8 +1,7 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
 from django.contrib.auth import logout,authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, EtiquetaForm, UsuarioForm
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, DireccionEditForm, EtiquetaForm
 from .models import Ticket, Usuario, Personal, Direccion, Etiqueta
 from django.views import View
 from django.contrib import messages
@@ -12,8 +11,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from PIL import Image, ImageDraw, ImageFont
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.contrib.auth.decorators import user_passes_test
 
-# Create your views here.
+
+def superuser_required(view_func):
+    decorated_view_func = user_passes_test(lambda u: u.is_superuser)(view_func)
+    return decorated_view_func
 
 
 
@@ -144,6 +147,7 @@ def perfil_usuario(request):
     usuario = request.user  
     return render(request, 'perfil_usuario.html', {'usuario': usuario})
 
+
 def ticket_list(request):
     tickets = Ticket.objects.all()  # Asegúrate de que esto devuelve un queryset
     return render(request, 'ticket_list.html', {'tickets': tickets})
@@ -187,11 +191,17 @@ class TicketCreateView(View):
             ticket = form.save()
             return redirect('ticket_detalle', ticket_id=ticket.id)
         return render(request, 'ticket_form.html', {'form': form})
+    
 
+@login_required
+@superuser_required
 def personal_list(request):
     personal_list = Personal.objects.all()
-    return render(request, 'personal_list.html', {'personal_list': personal_list})
+    return render(request, 'personal/personal_list.html', {'personal_list': personal_list})
 
+
+@login_required
+@superuser_required
 def personal_create(request):
     if request.method == 'POST':
         form = PersonalForm(request.POST)
@@ -200,62 +210,122 @@ def personal_create(request):
             return redirect('personal_list')  
     else:
         form = PersonalForm()
-    return render(request, 'personal_form.html', {'form': form})
+    return render(request, 'personal/personal_form.html', {'form': form})
 
 
+
+@login_required
+@superuser_required
 def usuario_list(request):
     usuario_list = Usuario.objects.all()
     return render(request, 'usuario_list.html', {'usuario_list': usuario_list})
 
-
+@login_required
+@superuser_required
 def usuario_create(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
-            # Guarda el usuario y la contraseña
+     
             form.save()
-            return redirect('usuario_list')  # Redirige a la lista de usuarios después de crear
+            return redirect('usuario_list') 
     else:
-        form = UsuarioForm()  # Crea un nuevo formulario vacío
+        form = UsuarioForm()  
 
-    # Renderiza la plantilla con el formulario
     return render(request, 'usuario_form.html', {'form': form})
 
+# CRUD DIRECCIONES #
 
-
-def direccion_list(request):
-    direcciones = Direccion.objects.all()
-    return render(request, 'direccion_list.html', {'direccion_list': direcciones})
-
-def direccion_form(request):
+@login_required
+@superuser_required
+def crear_direccion(request):
     if request.method == 'POST':
         form = DireccionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('direccion_list')  
+            messages.success(request, 'Dirección creada con éxito.')
+            return redirect('direccion_list')
     else:
         form = DireccionForm()
-    
-    return render(request, 'direccion_form.html', {'form': form})
+    return render(request, 'direcciones/direccion_form.html', {'form': form, 'direccion_id': None})
 
+@login_required
+@superuser_required
+def editar_direccion(request, direccion_id):
+    direccion = get_object_or_404(Direccion, id=direccion_id)
+    if request.method == 'POST':
+        form = DireccionEditForm(request.POST, instance=direccion)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Dirección editada con éxito.')
+            return redirect('direccion_list')
+    else:
+        form = DireccionEditForm(instance=direccion)
+    return render(request, 'direcciones/direccion_form.html', {'form': form, 'direccion_id': direccion_id})
 
+@login_required
+@superuser_required
+def borrar_direccion(request, direccion_id):
+    direccion = get_object_or_404(Direccion, id=direccion_id)
+    if request.method == 'POST':
+        direccion.delete()
+        messages.success(request, 'Dirección eliminada con éxito.')
+        return redirect('direccion_list')
+    return render(request, 'direcciones/borrar_direccion.html', {'direccion': direccion})
+
+@login_required
+@superuser_required
+def direccion_list(request):
+    direcciones = Direccion.objects.all()
+    return render(request, 'direcciones/direccion_list.html', {'direccion_list': direcciones})
+
+# CRUD ETIQUETAS #
+
+@login_required
+@superuser_required
 def crear_etiqueta(request):
     if request.method == 'POST':
         form = EtiquetaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('ticket_list')  # Redirige a la lista de tickets o donde desees
+            messages.success(request, 'Etiqueta creada con éxito.')
+            return redirect('etiqueta_list')
     else:
         form = EtiquetaForm()
-    return render(request, 'crear_etiqueta.html', {'form': form})
+    return render(request, 'etiquetas/crear_etiqueta.html', {'form': form})
 
-def etiqueta_list(request):
-    if request.user.is_superuser:
-        etiqueta_list = Etiqueta.objects.all()
-        return render(request, 'etiqueta_list.html', {'etiqueta_list': etiqueta_list})
+@login_required
+@superuser_required
+def editar_etiqueta(request, etiqueta_id):
+    etiqueta = get_object_or_404(Etiqueta, id=etiqueta_id)
+    if request.method == 'POST':
+        form = EtiquetaForm(request.POST, instance=etiqueta)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Etiqueta editada con éxito.')
+            return redirect('etiqueta_list')
     else:
-        return render(request, 'etiqueta_list.html') 
+        form = EtiquetaForm(instance=etiqueta)
+    return render(request, 'etiquetas/editar_etiqueta.html', {'form': form, 'etiqueta': etiqueta})
 
+@login_required
+@superuser_required
+def borrar_etiqueta(request, etiqueta_id):
+    etiqueta = get_object_or_404(Etiqueta, id=etiqueta_id)
+    if request.method == 'POST':
+        etiqueta.delete()
+        messages.success(request, 'Etiqueta eliminada con éxito.')
+        return redirect('etiqueta_list')
+    return render(request, 'etiquetas/borrar_etiqueta.html', {'etiqueta': etiqueta})
+
+@login_required
+@superuser_required
+def etiqueta_list(request):
+    etiqueta_list = Etiqueta.objects.all()
+    return render(request, 'etiquetas/etiqueta_list.html', {'etiqueta_list': etiqueta_list})
+
+@login_required
+@superuser_required
 def administracion(request):
     return render(request, 'Administracion.html')
 

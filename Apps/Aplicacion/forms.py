@@ -43,6 +43,10 @@ class DireccionForm(forms.ModelForm):
         model = Direccion
         fields = ['nombre']
 
+class DireccionEditForm(forms.ModelForm):
+    class Meta:
+        model = Direccion
+        fields = ['nombre']  
 
 class EtiquetaForm(forms.ModelForm):
     class Meta:
