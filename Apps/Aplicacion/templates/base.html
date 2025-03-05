@@ -18,8 +18,13 @@
             {% block nav %}
     <nav class="container">
         <ul>
-            <li><img class="logo" src="{% static 'imagen/fundabit_logo_g428.svg' %}" alt="Logo Fundabit"></li>
+            <li>
+                <a href="{% url 'ticket_list' %}">
+                    <img class="logo" src="{% static 'imagen/fundabit_logo_g428.svg' %}" alt="Logo Fundabit">
+                </a>
+            </li>
         </ul>
+        
         <ul>
             {% if request.user.is_superuser %}
              <li>
