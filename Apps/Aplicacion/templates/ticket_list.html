@@ -4,41 +4,44 @@
 
 {% block body %}
 
-<main class="container"></main>
-
-{% if not user.is_authenticated %}
-    <div class="mensaje">
-        Necesitas iniciar sesión para continuar.
-        <a class="button" href="{% url 'login_view' %}">Iniciar Sesión</a>
-    </div>
-{% else %}
-    <div class="centrar">
-        <ul>
-            {% if tickets %}
-                {% for ticket in tickets %}
-                    <li class="ticket {% if ticket.fecha_cierre %}resuelto{% else %}no-resuelto{% endif %}">
-                        <div>
-                            <strong>Título:</strong> 
-                            <a href="{% url 'ticket_detalle' ticket.id %}">{{ ticket.titulo }}</a>
-                            <span>(ID: {{ ticket.id }})</span> 
-                        </div>
+<main class="container">
+    {% if not user.is_authenticated %}
+        <div class="alert">
+            Necesitas iniciar sesión para continuar.
+            <a class="button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% else %}
+        <div class="grid">
+            <ul>
+                {% if tickets %}
+                    {% for ticket in tickets %}
                         
-                        <div><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"d-m-Y" }}</div>
-                        <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
-                        <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
-                        <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
-                        <div><strong>Comentarios:</strong> {{ ticket.comentarios.count }}</div> 
-                    </li>
-                {% endfor %}
-            {% else %}
-                <li class="mensaje">
-                    No hay tickets disponibles.
-                </li>
-            {% endif %}
-        </ul>
-    </div>
-{% endif %}
+                            <article class="card">
+                                <header class="card-header">
+                                    <h3>
+                                        <strong>Título:</strong> 
+                                        <a href="{% url 'ticket_detalle' ticket.id %}">{{ ticket.titulo }}</a>
+                                        <span>(ID: {{ ticket.id }})</span>
+                                    </h3>
+                                </header>
+                                <div class="card-body">
+                                    <div><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"d-m-Y" }}</div>
+                                    <div><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</div>
+                                    <div><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</div>
+                                    <div><strong>Resuelto por:</strong> {{ ticket.resuelto_por.username|default:"No resuelto" }}</div>
+                                    <div><strong>Comentarios:</strong> {{ ticket.comentarios.count }}</div>
+                                </div>
+                            </article>
 
+                    {% endfor %}
+                {% else %}
+                    <li class="alert">
+                        No hay tickets disponibles.
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 </main>
 
 <div class="fixed-button">

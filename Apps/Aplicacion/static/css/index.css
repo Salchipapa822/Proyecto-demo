@@ -55,7 +55,7 @@ nav li {
 }
 nav a {
     text-decoration: none; 
-    color: var(--nav-link-color, #333); 
+    color: var(--nav-link-color, #333333); 
 }
 nav a:hover {
     color: #007bff; 
@@ -75,7 +75,7 @@ nav a:hover {
         --ticket-bg-color: #424242;
         --button-bg-color: #5c6bc0;
         --button-hover-bg-color: #3f51b5;
-        --nav-bg-color: #333;
+        --nav-bg-color: #333;  /* color de la barra nav al estar oscuro */
         --nav-link-color: #ffffff;
     }
 }
@@ -84,7 +84,7 @@ nav a:hover {
 @media (prefers-color-scheme: light) {
     :root {
         --mensaje-color: #203bd8d3;
-        --ticket-border-color: #3105f5;
+        --ticket-border-color: #000000;
         --ticket-bg-color: #ffffff;
         --button-bg-color: #3105f5;
         --button-hover-bg-color: #203bd8;

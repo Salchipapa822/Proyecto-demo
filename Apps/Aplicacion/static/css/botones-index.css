@@ -51,3 +51,30 @@
 .circle-button:hover {
     background-color: #0056b3; /* Color de fondo al pasar el ratón */
 }
+
+/* Barra de navegación */
+nav {
+    background-color: var(--nav-bg-color, #f0f0f0); 
+    padding: 10px; 
+}
+nav ul {
+    list-style-type: none; 
+    padding: 0; 
+}
+nav li {
+    display: inline; 
+    margin-right: 15px; 
+}
+nav a {
+    text-decoration: none; 
+    color: var(--nav-link-color, #333); 
+}
+nav a:hover {
+    color: #007bff; 
+}
+
+/* Estilo para el logo */
+.logo {
+    width: 150px; /* Ajusta el tamaño según sea necesario */
+    height: auto; /* Mantiene la proporción del logo */
+}
