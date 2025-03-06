@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout,authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, DireccionEditForm, EtiquetaForm
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, DireccionEditForm, EtiquetaForm, PersonalEditForm
 from .models import Ticket, Usuario, Personal, Direccion, Etiqueta
 from django.views import View
 from django.contrib import messages
@@ -17,7 +17,6 @@ from django.contrib.auth.decorators import user_passes_test
 def superuser_required(view_func):
     decorated_view_func = user_passes_test(lambda u: u.is_superuser)(view_func)
     return decorated_view_func
-
 
 
 def login_view(request):
@@ -193,12 +192,20 @@ class TicketCreateView(View):
         return render(request, 'ticket_form.html', {'form': form})
     
 
+
+# CRUD PERSONAL #
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .models import Personal
+from .forms import PersonalForm, PersonalEditForm
+
 @login_required
 @superuser_required
 def personal_list(request):
     personal_list = Personal.objects.all()
     return render(request, 'personal/personal_list.html', {'personal_list': personal_list})
-
 
 @login_required
 @superuser_required
@@ -207,18 +214,49 @@ def personal_create(request):
         form = PersonalForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Personal creado con éxito.')
             return redirect('personal_list')  
     else:
         form = PersonalForm()
     return render(request, 'personal/personal_form.html', {'form': form})
 
+@login_required
+@superuser_required
+def personal_edit(request, personal_cedula):
+    personal = get_object_or_404(Personal, cedula=personal_cedula)
+    
+    if request.method == 'POST':
+        form = PersonalEditForm(request.POST, instance=personal)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Personal editado con éxito.')
+            return redirect('personal_list')
+    else:
+        form = PersonalEditForm(instance=personal)
+    
+    return render(request, 'personal/personal_form.html', {'form': form, 'personal_cedula': personal_cedula})
 
+@login_required
+@superuser_required
+def personal_delete(request, personal_cedula):
+    personal = get_object_or_404(Personal, cedula=personal_cedula)
+    
+    if request.method == 'POST':
+        personal.delete()
+        messages.success(request, 'Personal eliminado con éxito.')
+        return redirect('personal_list')
+    
+    return render(request, 'personal/personal_confirm_delete.html', {'personal': personal})
+
+
+
+# CRUD Usuarios #
 
 @login_required
 @superuser_required
 def usuario_list(request):
     usuario_list = Usuario.objects.all()
-    return render(request, 'usuario_list.html', {'usuario_list': usuario_list})
+    return render(request, 'usuarios/usuario_list.html', {'usuario_list': usuario_list})
 
 @login_required
 @superuser_required
@@ -232,7 +270,7 @@ def usuario_create(request):
     else:
         form = UsuarioForm()  
 
-    return render(request, 'usuario_form.html', {'form': form})
+    return render(request, 'usuarios/usuario_form.html', {'form': form})
 
 # CRUD DIRECCIONES #
 

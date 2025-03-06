@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Usuarios{% endblock title %}
+
+{% block body %}
+<div>
+    <nav class="container">
+        <h1>Listado de Usuarios</h1>
+        <ul>
+            <li><a href="{% url 'ticket_list' %}">Tickets</a></li>
+            <li>
+                <a href="{% url 'perfil_usuario' %}" class="circle-button">P</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+{% if not user.is_authenticated %}
+    <div>
+        Necesitas iniciar sesión para continuar.
+        <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+    </div>
+{% elif not user.is_superuser %}
+    <div class="listado-usuarios-mensaje" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 0, 0, 0.8); color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
+        Permiso restringido
+    </div>
+{% else %}
+    <div>
+        <h2>Lista de Usuarios</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Superusuario</th>
+                    <th>Staff</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuario_list %}
+                    <tr>
+                        <td>{{ usuario.username }}</td>
+                        <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.is_superuser|yesno:"Sí,No" }}</td>
+                        <td>{{ usuario.is_staff|yesno:"Sí,No" }}</td>
+                        <td>
+                            <a href="{% url 'usuario_edit' usuario.username %}" class="button">Editar</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">No hay usuarios disponibles.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="button" href="{% url 'usuario_create' %}">Crear Usuario</a> 
+    </div>
+{% endif %}
+{% endblock body %}

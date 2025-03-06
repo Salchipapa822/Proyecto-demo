@@ -22,18 +22,41 @@ class TicketCloseForm(forms.ModelForm):
             self.fields.pop('resuelto_por', None)  # Eliminar el campo si ya está lleno
 
 
+class PersonalForm(forms.ModelForm):
+    class Meta:
+        model = Personal
+        fields = ['nombre', 'apellido'] 
+
+class PersonalEditForm(forms.ModelForm):
+    class Meta:
+        model = Personal
+        fields = ['cedula','nombre', 'apellido'] 
+
 
 class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
         fields = ['contenido']  
 
+
 class PersonalForm(forms.ModelForm):
     class Meta:
         model = Personal
         fields = ['cedula', 'nombre', 'apellido']
 
-class UsuarioForm(UserCreationForm):  # Cambia a UserCreationForm
+    def __init__(self, *args, **kwargs):
+        super(PersonalForm, self).__init__(*args, **kwargs)
+        self.fields['cedula'].widget.attrs['readonly'] = True
+
+    def save(self, commit=True):
+        instance = super(PersonalForm, self).save(commit=False)
+        if 'cedula' in self.data:
+            instance.cedula = self.data['cedula']
+        if commit:
+            instance.save()
+        return instance
+
+class UsuarioForm(UserCreationForm): 
     class Meta:
         model = Usuario
         fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser', 'is_staff']

@@ -4,31 +4,52 @@
 
 {% block body %}
 
-<div class="centrar">
-    <h2>Lista de Personal</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Cédula</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for personal in personal_list %}
-            <tr>
-                <td>{{ personal.cedula }}</td>
-                <td>{{ personal.nombre }} {{ personal.apellido }}</td>
-                <td></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3" class="mensaje">No hay personal disponible.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'personal_create' %}" class="button">Crear Personal</a> 
-</div>
+{% if user.is_superuser %}
 
-{% endblock body %}
+    {% if not user.is_authenticated %}
+        <div class="mensaje">
+            Necesitas iniciar sesión para continuar.
+            <a class="login-button" href="{% url 'login_view' %}">Iniciar Sesión</a>
+        </div>
+    {% else %}
+        <div class="centrar">
+            <h2>Lista de Personal</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cedula</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for personal in personal_list %}
+                    <tr>
+                        <td>{{ personal.cedula }}</td>
+                        <td>{{ personal.nombre }}</td>
+                        <td>{{ personal.apellido }}</td>
+                        <td>
+                            <div class="acciones">
+                                <a href="{% url 'personal_edit' personal.cedula %}" class="table-button">Editar</a>
+                                <form method="post" action="{% url 'personal_delete' personal.cedula %}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas borrar a {{ personal.nombre }} {{ personal.apellido }}?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="table-button table-button-delete">Borrar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="mensaje">No hay personal disponible.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'personal_create' %}" class="button">Crear Nuevo Personal</a>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

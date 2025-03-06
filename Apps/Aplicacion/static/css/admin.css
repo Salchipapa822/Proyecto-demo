@@ -1,0 +1,99 @@
+:root {
+    --centrar-bg-color: #f9f9f9; /* Color de fondo del contenedor */
+    --table-border-color: #ddd; /* Color de la línea divisoria de la tabla */
+    --button-bg-color: #007bff; /* Color de fondo del botón */
+    --button-hover-bg-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
+}
+
+/* Contenedor centrado */
+.centrar {
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 20px; /* Espaciado interno */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    background-color: var(--centrar-bg-color); /* Color de fondo */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+/* Estilos de la tabla */
+table {
+    width: 100%; /* Hace que la tabla ocupe todo el ancho del contenedor */
+    border-collapse: collapse; /* Elimina el espacio entre celdas */
+}
+
+th, td {
+    padding: 10px; /* Espaciado interno en celdas */
+    text-align: left; /* Alineación del texto */
+    border-bottom: 1px solid var(--table-border-color); /* Línea divisoria entre filas */
+}
+
+/* Estilos generales para los botones */
+.button, .table-button {
+    padding: 10px 15px; /* Espaciado interno del botón */
+    color: white; /* Color del texto del botón */
+    text-decoration: none; /* Sin subrayado */
+    border-radius: 5px; /* Bordes redondeados del botón */
+    display: inline-block; /* Asegura que el botón se comporte como un bloque en línea */
+    width: 150px; /* Ancho fijo para los botones */
+    text-align: center; /* Centra el texto dentro del botón */
+    margin: 5px 0; /* Margen vertical para separación */
+}
+
+.table-button-delete {
+    width: 280px; /* Ancho fijo para el botón de borrar (más alargado) */
+}
+
+/* Alineación de los botones en la misma línea */
+.acciones, .button-container {
+    display: flex; /* Usar flexbox para alinear los botones */
+    gap: 10px; /* Espacio entre los botones */
+    justify-content: space-between; /* Espacio entre los botones */
+    margin-top: 20px; /* Margen superior para separación */
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --centrar-bg-color: #424242; /* Color de fondo del contenedor en modo oscuro */
+        --table-border-color: #555; /* Color de la línea divisoria de la tabla en modo oscuro */
+        --button-bg-color: #5c6bc0; /* Color de fondo del botón en modo oscuro */
+        --button-hover-bg-color: #3f51b5; /* Color de fondo del botón al pasar el mouse en modo oscuro */
+    }
+}
+
+/* Estilos para el modo claro */
+@media (prefers-color-scheme: light) {
+    :root {
+        --centrar-bg-color: #f9f9f9; /* Color de fondo del contenedor en modo claro */
+        --table-border-color: #ddd; /* Color de la línea divisoria de la tabla en modo claro */
+        --button-bg-color: #007bff; /* Color de fondo del botón en modo claro */
+        --button-hover-bg-color: #0056b3; /* Color de fondo del botón al pasar el mouse en modo claro */
+    }
+}
+
+/* Estilo específico para el botón de guardar */
+.button-save {
+    background-color: #007bff; /* Color de fondo del botón de guardar */
+}
+
+.button-save:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilo específico para el botón de cancelar */
+.button-cancel {
+    background-color: #dc3545; /* Color de fondo del botón de cancelar */
+}
+
+.button-cancel:hover {
+    background-color: #c82333; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilos para los botones */
+.button, .table-button {
+    background-color: var(--button-bg-color); /* Color de fondo del botón */
+}
+
+.button:hover, .table-button:hover {
+    background-color: var(--button-hover-bg-color); /* Color de fondo al pasar el mouse */
+}
