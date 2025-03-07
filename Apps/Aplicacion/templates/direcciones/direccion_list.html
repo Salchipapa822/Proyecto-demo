@@ -26,8 +26,8 @@
                     <tr>
                         <td>{{ direccion.nombre }}</td>
                         <td>
-                            <a href="{% url 'editar_direccion' direccion.id %}" class="button">Editar</a>
-                            <a href="{% url 'borrar_direccion' direccion.id %}" class="button" onclick="return confirm('¿Estás seguro de que deseas borrar esta dirección?');">Borrar</a>
+                            <a href="{% url 'editar_direccion' direccion.id %}" class="table-button">Editar</a>
+                            <a href="{% url 'borrar_direccion' direccion.id %}" class="table-button table-button-delete" onclick="return confirm('¿Estás seguro de que deseas borrar esta dirección?');">Borrar</a>
                         </td>
                     </tr>
                     {% empty %}

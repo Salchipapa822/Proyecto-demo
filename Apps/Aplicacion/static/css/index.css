@@ -19,6 +19,7 @@
     margin: 1px; 
 }
 
+
 .card-body {
     display: flex;
     flex-wrap: nowrap;
@@ -29,6 +30,27 @@
   
 .card-body div {
     color: var(--color-secundario, #9b9b9b)
+}
+
+.grid {
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Alinear los elementos en columna */
+    align-items: stretch; /* Hacer que los elementos ocupen todo el ancho */
+    justify-content: flex-start; /* Alinear al inicio */
+    width: 100%; /* Asegúrate de que ocupe todo el ancho del contenedor */
+}
+
+.grid ul {
+    list-style-type: none; /* Eliminar los puntos de la lista */
+    padding: 0; /* Eliminar el padding */
+    margin: 0; /* Eliminar el margin */
+    width: 100%; /* Asegúrate de que ocupe todo el ancho */
+}
+
+.card {
+
+    width: 100%; /* Asegúrate de que ocupe todo el ancho del contenedor */
+
 }
 
 /* botones del login y logout */
@@ -56,6 +78,8 @@
 nav {
     background-color: var(--nav-bg-color, #f0f0f0); 
     padding: 10px; 
+    border-radius: 10px; /* Ajusta el valor según sea necesario para el redondeo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 nav ul {
     list-style-type: none; 
@@ -87,7 +111,7 @@ nav a:hover {
         --ticket-bg-color: #424242;
         --button-bg-color: #5c6bc0;
         --button-hover-bg-color: #3f51b5;
-        --nav-bg-color: #333;  /* color de la barra nav al estar oscuro */
+        --nav-bg-color: #1a202b;  /* color de la barra nav al estar oscuro */
         --nav-link-color: #ffffff;
     }
 }

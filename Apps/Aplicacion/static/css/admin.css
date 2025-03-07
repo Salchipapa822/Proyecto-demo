@@ -5,12 +5,7 @@
     --button-hover-bg-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
 }
 
-.card-body {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-}
+
 /* Contenedor centrado */
 .centrar {
     max-width: 1200px; /* Ancho máximo del contenedor */
@@ -33,37 +28,38 @@ th, td {
     border-bottom: 1px solid var(--table-border-color); /* Línea divisoria entre filas */
 }
 
-/* Estilos generales para los botones */
-.button, .table-button {
-    padding: 10px 15px; /* Espaciado interno del botón */
-    color: white; /* Color del texto del botón */
-    text-decoration: none; /* Sin subrayado */
-    border-radius: 5px; /* Bordes redondeados del botón */
+.table-button {
     display: inline-block; /* Asegura que el botón se comporte como un bloque en línea */
-    width: 150px; /* Ancho fijo para los botones */
-    text-align: center; /* Centra el texto dentro del botón */
-    margin: 5px 0; /* Margen vertical para separación */
+    padding: 10px 15px; /* Espaciado interno para el botón */
+    margin: 5px; /* Margen entre botones */
+    background-color: #0a55a5; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    text-align: center; /* Centra el texto */
 }
 
 .table-button-delete {
-    width: 280px; /* Ancho fijo para el botón de borrar (más alargado) */
+    background-color: #dc3545; /* Color de fondo para el botón de borrar */
 }
 
-/* Alineación de los botones en la misma línea */
-/* .acciones, .button-container {
-    display: flex; /* Usar flexbox para alinear los botones */
-    /* gap: 10px; Espacio entre los botones */
-    /* justify-content: space-between; Espacio entre los botones */
-    /* margin-top: 20px; Margen superior para separación */
+.table-button:hover {
+    opacity: 0.8; /* Efecto de hover */
+}
+
 
 
 /* Estilos para el modo oscuro */
 @media (prefers-color-scheme: dark) {
     :root {
-        --centrar-bg-color: #424242; /* Color de fondo del contenedor en modo oscuro */
-        --table-border-color: #555; /* Color de la línea divisoria de la tabla en modo oscuro */
+        --centrar-bg-color: #1a202b; /* Color de fondo del contenedor en modo oscuro */
+        --table-border-color: #282c33; /* Color de la línea divisoria de la tabla en modo oscuro */
         --button-bg-color: #5c6bc0; /* Color de fondo del botón en modo oscuro */
         --button-hover-bg-color: #3f51b5; /* Color de fondo del botón al pasar el mouse en modo oscuro */
+        --nav-bg-color: #1a202b; /* Color de fondo de la barra de navegación en modo oscuro */
+        --nav-link-color: #ffffff; /* Color de los enlaces en la barra de navegación en modo oscuro */
     }
 }
 
@@ -74,8 +70,11 @@ th, td {
         --table-border-color: #ddd; /* Color de la línea divisoria de la tabla en modo claro */
         --button-bg-color: #007bff; /* Color de fondo del botón en modo claro */
         --button-hover-bg-color: #0056b3; /* Color de fondo del botón al pasar el mouse en modo claro */
+        --nav-bg-color: #f0f0f0; /* Color de fondo de la barra de navegación en modo claro */
+        --nav-link-color: #333; /* Color de los enlaces en la barra de navegación en modo claro */
     }
 }
+
 
 /* Estilo específico para el botón de guardar */
 .button-save {
@@ -95,10 +94,6 @@ th, td {
     background-color: #c82333; /* Color de fondo al pasar el mouse */
 }
 
-/* Estilos para los botones */
-.button, .table-button {
-    background-color: var(--button-bg-color); /* Color de fondo del botón */
-}
 
 .button:hover, .table-button:hover {
     background-color: var(--button-hover-bg-color); /* Color de fondo al pasar el mouse */

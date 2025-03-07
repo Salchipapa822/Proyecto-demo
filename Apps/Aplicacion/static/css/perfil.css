@@ -1,21 +1,30 @@
-.container perfil {
-    max-width: 900px; 
-    margin: 0 auto;   
-    padding: 20px;    
-    border: 1px solid #eaeaea; 
-    border-radius: 8px; 
-    background-color: #f9f9f9; 
+.perfil-container {
+    max-width: 600px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 20px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde alrededor del contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Color de fondo */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
 }
 
-.header {
-    margin-bottom: 20px; /* Espaciado inferior */
+.perfil-actions {
+    margin-top: 20px; /* Espacio superior para las acciones */
 }
 
-.perfil {
-    margin-bottom: 20px; /* Espaciado inferior */
+.perfil-button {
+    display: inline-block; /* Asegura que los botones se comporten como bloques en línea */
+    padding: 10px 15px; /* Espaciado interno para los botones */
+    margin: 5px; /* Margen entre botones */
+    background-color: #007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    text-align: center; /* Centra el texto */
 }
 
-.actions {
-    display: flex; /* Usar flexbox para alinear los botones */
-    justify-content: space-between; /* Espacio entre los botones */
+.perfil-button:hover {
+    opacity: 0.8; /* Efecto de hover */
 }

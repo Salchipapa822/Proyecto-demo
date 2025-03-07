@@ -27,8 +27,8 @@
                     <tr>
                         <td>{{ etiqueta.nombre }}</td>
                         <td>
-                            <a href="{% url 'editar_etiqueta' etiqueta.id %}" class="button">Editar</a>
-                            <a href="{% url 'borrar_etiqueta' etiqueta.id %}" class="button" onclick="return confirm('¿Estás seguro de que deseas borrar esta etiqueta?');">Borrar</a>
+                            <a href="{% url 'editar_etiqueta' etiqueta.id %}" class="table-button">Editar</a>
+                            <a href="{% url 'borrar_etiqueta' etiqueta.id %}" class="table-button table-button-delete" onclick="return confirm('¿Estás seguro de que deseas borrar esta etiqueta?');">Borrar</a>
                         </td>
                     </tr>
                     {% empty %}
