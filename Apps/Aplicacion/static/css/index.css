@@ -19,6 +19,18 @@
     margin: 1px; 
 }
 
+.card-body {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+  
+.card-body div {
+    color: var(--color-secundario, #9b9b9b)
+}
+
 /* botones del login y logout */
 .login-button, .logout-button {
     float: right; 

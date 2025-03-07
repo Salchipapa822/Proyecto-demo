@@ -5,6 +5,12 @@
     --button-hover-bg-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
 }
 
+.card-body {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
 /* Contenedor centrado */
 .centrar {
     max-width: 1200px; /* Ancho máximo del contenedor */

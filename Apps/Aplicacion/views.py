@@ -195,12 +195,6 @@ class TicketCreateView(View):
 
 # CRUD PERSONAL #
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from .models import Personal
-from .forms import PersonalForm, PersonalEditForm
-
 @login_required
 @superuser_required
 def personal_list(request):
@@ -271,6 +265,44 @@ def usuario_create(request):
         form = UsuarioForm()  
 
     return render(request, 'usuarios/usuario_form.html', {'form': form})
+
+
+@login_required
+@superuser_required
+def usuario_edit(request, id):
+    
+    usuario = get_object_or_404(Usuario, pk=id)  
+
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            usuario.delete()
+            messages.success(request, 'Usuario eliminado con éxito.')
+            return redirect('usuario_list')  
+        else:
+            form = UsuarioForm(request.POST, instance=usuario)
+            new_password = request.POST.get('new_password')
+            if form.is_valid():
+                if new_password:
+                    usuario.set_password(new_password)
+                form.save()
+                messages.success(request, 'Usuario actualizado con éxito.')
+                return redirect('usuario_list')  
+    else:
+        form = UsuarioForm(instance=usuario)
+
+    return render(request, 'usuarios/usuario_edit.html', {'form': form, 'usuario': usuario})
+
+# @login_required
+# @superuser_required
+# def usuario_delete(request, id):
+#     usuario = get_object_or_404(usuario, pk=id)
+
+#     if request.method == 'POST':
+#         usuario.delete()
+#         messages.success(request, 'Usuario eliminado con exito')
+#         return redirect ('usuario_list')
+    
+#     return render(request, 'usuario_confirm_delete.html', {'usuario': usuario})
 
 # CRUD DIRECCIONES #
 

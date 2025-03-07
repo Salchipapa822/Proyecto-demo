@@ -79,5 +79,15 @@ class EtiquetaForm(forms.ModelForm):
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['first_name', 'last_name', 'email', 'imagen_perfil'] 
+        fields = ['first_name', 'last_name', 'email', 'is_staff', 'is_superuser'] 
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     password = cleaned_data.get("password")
+    #     password_confirm = self.data.get("password_confirm")
+
+    #     if password and password_confirm != password_confirm:
+    #         raise forms.ValidationError("Las contraseñas no coindicen.")
+
+
 
