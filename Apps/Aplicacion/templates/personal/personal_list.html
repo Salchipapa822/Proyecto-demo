@@ -30,7 +30,7 @@
                         <td>{{ personal.nombre }}</td>
                         <td>{{ personal.apellido }}</td>
                         <td>
-                            <div class="acciones">
+                            <div>
                                 <a href="{% url 'personal_edit' personal.cedula %}" class="table-button">Editar</a>
                                 <form method="post" action="{% url 'personal_delete' personal.cedula %}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas borrar a {{ personal.nombre }} {{ personal.apellido }}?');">
                                     {% csrf_token %}

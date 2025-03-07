@@ -7,17 +7,7 @@
     <h2>{% if personal %}Editar{% else %}Crear{% endif %} Personal</h2>
     <form method="post">
         {% csrf_token %}
-        <div>
-            <label for="{{ form.cedula.id_for_label }}">Cédula:</label>
-            <input type="text" id="{{ form.cedula.id_for_label }}" value="{{ form.cedula.value }}" readonly>
-            <input type="hidden" name="cedula" value="{{ form.cedula.value }}">  
-        </div>
-        <div>
-            {{ form.nombre.label_tag }} {{ form.nombre }}  
-        </div>
-        <div>
-            {{ form.apellido.label_tag }} {{ form.apellido }}  
-        </div>
+        {{ form.as_p}}
         <div class="button-container">
             <button type="submit" class="button button-save">Guardar</button>
             <a href="{% url 'personal_list' %}" class="button button-cancel">Cancelar</a>

@@ -44,17 +44,17 @@ class PersonalForm(forms.ModelForm):
         model = Personal
         fields = ['cedula', 'nombre', 'apellido']
 
-    def __init__(self, *args, **kwargs):
-        super(PersonalForm, self).__init__(*args, **kwargs)
-        self.fields['cedula'].widget.attrs['readonly'] = True
+    # def __init__(self, *args, **kwargs):
+    #     super(PersonalForm, self).__init__(*args, **kwargs)
+    #     self.fields['cedula'].widget.attrs['readonly'] = True
 
-    def save(self, commit=True):
-        instance = super(PersonalForm, self).save(commit=False)
-        if 'cedula' in self.data:
-            instance.cedula = self.data['cedula']
-        if commit:
-            instance.save()
-        return instance
+    # def save(self, commit=True):
+    #     instance = super(PersonalForm, self).save(commit=False)
+    #     if 'cedula' in self.data:
+    #         instance.cedula = self.data['cedula']
+    #     if commit:
+    #         instance.save()
+    #     return instance
 
 class UsuarioForm(UserCreationForm): 
     class Meta:

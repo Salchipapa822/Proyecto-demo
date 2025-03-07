@@ -50,12 +50,12 @@ th, td {
 }
 
 /* Alineación de los botones en la misma línea */
-.acciones, .button-container {
+/* .acciones, .button-container {
     display: flex; /* Usar flexbox para alinear los botones */
-    gap: 10px; /* Espacio entre los botones */
-    justify-content: space-between; /* Espacio entre los botones */
-    margin-top: 20px; /* Margen superior para separación */
-}
+    /* gap: 10px; Espacio entre los botones */
+    /* justify-content: space-between; Espacio entre los botones */
+    /* margin-top: 20px; Margen superior para separación */
+
 
 /* Estilos para el modo oscuro */
 @media (prefers-color-scheme: dark) {
