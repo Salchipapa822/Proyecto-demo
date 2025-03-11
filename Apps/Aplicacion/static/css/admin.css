@@ -5,6 +5,13 @@
     --button-hover-bg-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
 }
 
+.clickable-row {
+    cursor: pointer; /* Cambia el cursor a mano al pasar el mouse */
+}
+
+.clickable-row:hover {
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el mouse */
+}
 
 /* Contenedor centrado */
 .centrar {
@@ -41,9 +48,28 @@ th, td {
     text-align: center; /* Centra el texto */
 }
 
-.table-button-delete {
+/* Estilo específico para el botón de eliminar */
+.button-danger {
     background-color: #dc3545; /* Color de fondo para el botón de borrar */
+    color: white; /* Color del texto */
+    padding: 10px 15px; /* Espaciado interno para el botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    text-align: center; /* Centra el texto */
+    display: inline-block; /* Asegura que el botón se comporte como un bloque en línea */
 }
+
+.button-danger:hover {
+    background-color: #c82333; /* Color de fondo al pasar el mouse */
+    opacity: 0.9; /* Efecto de hover */
+}
+
+/* Asegúrate de que el botón de eliminar no se mezcle con otros estilos */
+.button-danger:focus {
+    outline: none; /* Elimina el contorno al hacer clic */
+}
+
 
 .table-button:hover {
     opacity: 0.8; /* Efecto de hover */
@@ -54,11 +80,11 @@ th, td {
 /* Estilos para el modo oscuro */
 @media (prefers-color-scheme: dark) {
     :root {
-        --centrar-bg-color: #1a202b; /* Color de fondo del contenedor en modo oscuro */
+        --centrar-bg-color: #13171f; /* Color de fondo del contenedor en modo oscuro */
         --table-border-color: #282c33; /* Color de la línea divisoria de la tabla en modo oscuro */
-        --button-bg-color: #5c6bc0; /* Color de fondo del botón en modo oscuro */
+        --button-bg-color: #0026ff; /* Color de fondo del botón en modo oscuro */
         --button-hover-bg-color: #3f51b5; /* Color de fondo del botón al pasar el mouse en modo oscuro */
-        --nav-bg-color: #1a202b; /* Color de fondo de la barra de navegación en modo oscuro */
+        --nav-bg-color: #13171f; /* Color de fondo de la barra de navegación en modo oscuro */
         --nav-link-color: #ffffff; /* Color de los enlaces en la barra de navegación en modo oscuro */
     }
 }

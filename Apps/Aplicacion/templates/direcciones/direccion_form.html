@@ -3,6 +3,8 @@
 {% block title %}{% if direccion_id %}Editar Dirección{% else %}Crear Dirección{% endif %}{% endblock title %}
 
 {% block body %}
+
+<div class="centrar">
 <h2>
     {% if direccion_id %}Editar
     {% else %}Crear
@@ -12,7 +14,16 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <button type="submit" class="button-save">Guardar</button>
 </form>
-<a href="{% url 'direccion_list' %}">Cancelar</a>
+
+{% if direccion_id %}
+<form method="post"  action="{% url 'borrar_direccion' direccion_id %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="button-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta dirección?');">Borrar</button>
+</form>
+{% endif %}
+
+<a href="{% url 'direccion_list' %}" class="button">Cancelar</a>
+</div>
 {% endblock %}

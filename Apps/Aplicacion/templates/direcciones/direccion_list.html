@@ -18,16 +18,14 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for direccion in direccion_list %}
                     <tr>
-                        <td>{{ direccion.nombre }}</td>
+
                         <td>
-                            <a href="{% url 'editar_direccion' direccion.id %}" class="table-button">Editar</a>
-                            <a href="{% url 'borrar_direccion' direccion.id %}" class="table-button table-button-delete" onclick="return confirm('¿Estás seguro de que deseas borrar esta dirección?');">Borrar</a>
+                            <a href="{% url 'editar_direccion' direccion.id %}">{{ direccion.nombre }}</a>
                         </td>
                     </tr>
                     {% empty %}

@@ -20,24 +20,15 @@
                         <th>Cedula</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for personal in personal_list %}
                     <tr>
-                        <td>{{ personal.cedula }}</td>
+                        <td><a href="{% url 'personal_edit' personal.cedula %}" >{{ personal.cedula }}</a></td>
                         <td>{{ personal.nombre }}</td>
                         <td>{{ personal.apellido }}</td>
-                        <td>
-                            <div>
-                                <a href="{% url 'personal_edit' personal.cedula %}" class="table-button">Editar</a>
-                                <form method="post" action="{% url 'personal_delete' personal.cedula %}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas borrar a {{ personal.nombre }} {{ personal.apellido }}?');">
-                                    {% csrf_token %}
-                                    <button type="submit" class="table-button table-button-delete">Borrar</button>
-                                </form>
-                            </div>
-                        </td>
+    
                     </tr>
                     {% empty %}
                     <tr>

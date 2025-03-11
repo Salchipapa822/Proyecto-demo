@@ -4,33 +4,19 @@
 
 {% block body %}
 <h2>Editar Usuario: {{ usuario.username }}</h2>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 <form method="post">
     {% csrf_token %}
-    <div>
-        <label for="id_first_name">Nombre:</label>
-        {{ form.first_name }}
-    </div>
-    <div>
-        <label for="id_last_name">Apellido:</label>
-        {{ form.last_name }}
-    </div>
-    <div>
-        <label for="id_email">Correo:</label>
-        {{ form.email }}
-    </div>
-    <div>
-        <label for="id_is_superuser">Superusuario:</label>
-        {{ form.is_superuser }}
-    </div>
-    <div>
-        <label for="id_is_staff">Staff:</label>
-        {{ form.is_staff }}
-    </div>
-    <div>
-        <label for="id_new_password">¿Desea cambiar la contraseña?</label>
-        <input type="password" id="id_new_password" name="new_password" placeholder="Nueva Contraseña">
-        <small>(Dejar en blanco si no deseas cambiar la contraseña)</small>
-    </div>
+    
+        {{ form.as_p }}
     <button type="submit">Guardar cambios</button>
 </form>
 

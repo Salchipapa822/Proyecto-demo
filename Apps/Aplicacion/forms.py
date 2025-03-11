@@ -38,23 +38,17 @@ class ComentarioForm(forms.ModelForm):
         model = Comentario
         fields = ['contenido']  
 
-
 class PersonalForm(forms.ModelForm):
     class Meta:
         model = Personal
-        fields = ['cedula', 'nombre', 'apellido']
+        fields = ['cedula', 'nombre', 'apellido']  
 
-    # def __init__(self, *args, **kwargs):
-    #     super(PersonalForm, self).__init__(*args, **kwargs)
-    #     self.fields['cedula'].widget.attrs['readonly'] = True
+    def __init__(self, *args, **kwargs):
 
-    # def save(self, commit=True):
-    #     instance = super(PersonalForm, self).save(commit=False)
-    #     if 'cedula' in self.data:
-    #         instance.cedula = self.data['cedula']
-    #     if commit:
-    #         instance.save()
-    #     return instance
+        instance = kwargs.get('instance', None)
+        super().__init__(*args, **kwargs)
+        if instance:
+            self.fields['cedula'].disabled = True  # Deshabilita el campo si es una edición
 
 class UsuarioForm(UserCreationForm): 
     class Meta:
@@ -76,18 +70,8 @@ class EtiquetaForm(forms.ModelForm):
         model = Etiqueta
         fields = ['nombre']
 
-class UsuarioForm(forms.ModelForm):
-    class Meta:
-        model = Usuario
-        fields = ['first_name', 'last_name', 'email', 'is_staff', 'is_superuser'] 
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     password = cleaned_data.get("password")
-    #     password_confirm = self.data.get("password_confirm")
 
-    #     if password and password_confirm != password_confirm:
-    #         raise forms.ValidationError("Las contraseñas no coindicen.")
 
 
 

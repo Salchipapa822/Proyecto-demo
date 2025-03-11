@@ -216,19 +216,24 @@ def personal_create(request):
 
 @login_required
 @superuser_required
-def personal_edit(request, personal_cedula):
-    personal = get_object_or_404(Personal, cedula=personal_cedula)
-    
+
+def personal_edit(request, cedula):
+    personal = get_object_or_404(Personal, cedula=cedula)
+
     if request.method == 'POST':
-        form = PersonalEditForm(request.POST, instance=personal)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Personal editado con éxito.')
-            return redirect('personal_list')
+        if 'delete' in request.POST:  
+            personal.delete()  
+            return redirect('personal_list')  
+        else:
+            form = PersonalForm(request.POST, instance=personal)
+            if form.is_valid():
+                form.save()  
+                return redirect('personal_list')  
     else:
-        form = PersonalEditForm(instance=personal)
-    
-    return render(request, 'personal/personal_form.html', {'form': form, 'personal_cedula': personal_cedula})
+        form = PersonalForm(instance=personal)  
+
+    return render(request, 'personal/personal_form.html', {'form': form, 'personal': personal})
+
 
 @login_required
 @superuser_required
@@ -270,8 +275,7 @@ def usuario_create(request):
 @login_required
 @superuser_required
 def usuario_edit(request, id):
-    
-    usuario = get_object_or_404(Usuario, pk=id)  
+    usuario = get_object_or_404(Usuario, pk=id)
 
     if request.method == 'POST':
         if 'delete' in request.POST:
@@ -280,17 +284,19 @@ def usuario_edit(request, id):
             return redirect('usuario_list')  
         else:
             form = UsuarioForm(request.POST, instance=usuario)
-            new_password = request.POST.get('new_password')
             if form.is_valid():
+                new_password = request.POST.get('new_password')
                 if new_password:
-                    usuario.set_password(new_password)
-                form.save()
+                    usuario.set_password(new_password)  # Establece la nueva contraseña
+                form.save()  # Guarda el formulario
+                usuario.save()  # Guarda el usuario para aplicar el cambio de contraseña
                 messages.success(request, 'Usuario actualizado con éxito.')
                 return redirect('usuario_list')  
     else:
         form = UsuarioForm(instance=usuario)
 
     return render(request, 'usuarios/usuario_edit.html', {'form': form, 'usuario': usuario})
+
 
 # @login_required
 # @superuser_required
