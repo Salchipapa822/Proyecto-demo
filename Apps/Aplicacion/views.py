@@ -350,7 +350,9 @@ def direccion_list(request):
     direcciones = Direccion.objects.all()
     return render(request, 'direcciones/direccion_list.html', {'direccion_list': direcciones})
 
+
 # CRUD ETIQUETAS #
+
 class EtiquetaListView(LoginRequiredMixin, ListView):
     model = Etiqueta
     template_name = 'etiquetas/etiqueta_list.html'

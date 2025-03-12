@@ -8,12 +8,12 @@
 
 /* Contenedor centrado */
 .centrar {
-    max-width: 1200px; /* Ancho máximo del contenedor */
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-    padding: 20px; /* Espaciado interno */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */
-    background-color: var(--centrar-bg-color); /* Color de fondo */
-    border-radius: 8px; /* Bordes redondeados */
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 20px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    background-color: var(--centrar-bg-color); 
+    border-radius: 8px; 
 }
 
 /* Estilos de la tabla */
