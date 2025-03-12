@@ -26,9 +26,9 @@
                                 <div class="card-body">
                                  <div>
                                      <em>
-                                    <strong>Presentado por</strong> {{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}
-                                    <strong>El</strong> {{ ticket.fecha_creacion|date:"d-m-Y" }}
-                                    <strong>En</strong> {{ ticket.presentado_en.nombre }}
+                                    Presentado por <strong>{{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</strong> 
+                                    el <strong>{{ ticket.fecha_creacion|date:"d-m-Y" }}</strong> 
+                                    en <strong>{{ ticket.presentado_en.nombre }}</strong> 
                                      </em>
                                  </div>
 

@@ -2,7 +2,7 @@
 {% block title %}Creación de Ticket{% endblock title %} 
 {% block body %}
 
-<div>
+<div class="centrar">
     <h1>Crear Ticket</h1>
     
     {% if user.is_authenticated %}
@@ -18,7 +18,7 @@
         </div>
         {% endif %}
         <a href="{% url 'ticket_list' %}" class="button">Volver a la Lista de Tickets</a>
-    </div>
+</div>
 
 
 {% endblock body %}

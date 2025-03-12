@@ -349,6 +349,7 @@ def direccion_list(request):
     direcciones = Direccion.objects.all()
     return render(request, 'direcciones/direccion_list.html', {'direccion_list': direcciones})
 
+
 # CRUD ETIQUETAS #
 
 @login_required
