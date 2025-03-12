@@ -3,14 +3,15 @@
 {% block title %}Personal{% endblock title %}
 
 {% block body %}
-<div class="centrar">
+<div>
     <h2>{% if personal %}Editar{% else %}Crear{% endif %} Personal</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p}}
+        {{ form.as_p }}
         <div class="button-container">
             <button type="submit" class="button button-save">Guardar</button>
-            <a href="{% url 'personal_list' %}" class="button button-cancel">Cancelar</a>
+            <button type="submit" name="delete" class="button-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">Eliminar</button>                                    {% csrf_token %}
+            <a href="{% url 'personal_list' %}" class="button button-save">Regresar</a>
         </div>
     </form>
 </div>

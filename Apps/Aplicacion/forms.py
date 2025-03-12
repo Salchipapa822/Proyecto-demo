@@ -37,11 +37,10 @@ class ComentarioForm(forms.ModelForm):
         model = Comentario
         fields = ['contenido']  
 
-
 class PersonalForm(forms.ModelForm):
     class Meta:
         model = Personal
-        fields = ['cedula', 'nombre', 'apellido']
+        fields = ['cedula', 'nombre', 'apellido']  
 
 
 
