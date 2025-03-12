@@ -12,15 +12,13 @@ from PIL import Image, ImageDraw, ImageFont
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from django.contrib.auth.mixins import LoginRequiredMixin, SuperuserRequiredMixin 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 
 
 
 
-class SuperuserRequiredMixin(LoginRequiredMixin, SuperuserRequiredMixin):
-    pass
 
 
 def superuser_required(view_func):
@@ -352,15 +350,13 @@ def direccion_list(request):
 
 # CRUD ETIQUETAS #
 
-@login_required
-@superuser_required
+
 class EtiquetaListView(LoginRequiredMixin, ListView):
     model = Etiqueta
     template_name = 'etiquetas/etiqueta_list.html'
     context_object_name = 'etiqueta_list'
 
-@login_required
-@superuser_required
+
 class CrearEtiquetaView(LoginRequiredMixin, CreateView):
     model = Etiqueta
     form_class = EtiquetaForm
@@ -371,8 +367,7 @@ class CrearEtiquetaView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Etiqueta creada con éxito.')
         return super().form_valid(form)
 
-@login_required
-@superuser_required
+
 class EditarEtiquetaView(LoginRequiredMixin, UpdateView):
     model = Etiqueta
     form_class = EtiquetaForm
@@ -386,8 +381,7 @@ class EditarEtiquetaView(LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Etiqueta editada con éxito.')
         return super().form_valid(form)
     
-@login_required
-@superuser_required
+
 class BorrarEtiquetaView(LoginRequiredMixin, DeleteView):
     model = Etiqueta
     template_name = 'etiquetas/borrar_etiqueta.html'
