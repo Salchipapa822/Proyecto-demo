@@ -283,7 +283,6 @@ def usuario_create(request):
 @superuser_required
 def usuario_edit(request, id):
     usuario = get_object_or_404(Usuario, pk=id)
-    usuario = get_object_or_404(Usuario, pk=id)
 
     if request.method == 'POST':
         if 'delete' in request.POST:
