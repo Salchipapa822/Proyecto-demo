@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout,authenticate, login
-from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm, DireccionForm, DireccionEditForm, EtiquetaForm, PersonalEditForm
+from .forms import TicketForm, TicketCloseForm, ComentarioForm, PersonalForm, UsuarioForm,UsuarioEditForm, DireccionForm, DireccionEditForm, EtiquetaForm, PersonalEditForm
 from .models import Ticket, Usuario, Personal, Direccion, Etiqueta
 from django.views import View
 from django.contrib import messages
@@ -11,7 +11,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from PIL import Image, ImageDraw, ImageFont
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.contrib.auth.decorators import user_passes_test
+
+from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.urls import reverse_lazy
+
+
+
+
+
+
+
 
 
 def superuser_required(view_func):
@@ -270,39 +280,30 @@ def usuario_create(request):
 @login_required
 @superuser_required
 def usuario_edit(request, id):
-    
-    usuario = get_object_or_404(Usuario, pk=id)  
+    usuario = get_object_or_404(Usuario, pk=id)
 
     if request.method == 'POST':
         if 'delete' in request.POST:
             usuario.delete()
             messages.success(request, 'Usuario eliminado con éxito.')
-            return redirect('usuario_list')  
+            return redirect('usuario_list')
         else:
-            form = UsuarioForm(request.POST, instance=usuario)
-            new_password = request.POST.get('new_password')
+            form = UsuarioEditForm(request.POST, instance=usuario)
             if form.is_valid():
-                if new_password:
+                new_password = form.cleaned_data.get('new_password')  # Obtener la nueva contraseña del formulario
+                if new_password:  # Solo cambiar la contraseña si se proporciona
                     usuario.set_password(new_password)
-                form.save()
+                form.save()  # Guardar los cambios en el usuario
                 messages.success(request, 'Usuario actualizado con éxito.')
-                return redirect('usuario_list')  
+                return redirect('usuario_list')
+            else:
+                messages.error(request, 'Por favor corrige los errores en el formulario.')  # Mensaje de error si el formulario no es válido
     else:
-        form = UsuarioForm(instance=usuario)
+        form = UsuarioEditForm(instance=usuario)
 
     return render(request, 'usuarios/usuario_edit.html', {'form': form, 'usuario': usuario})
 
-# @login_required
-# @superuser_required
-# def usuario_delete(request, id):
-#     usuario = get_object_or_404(usuario, pk=id)
 
-#     if request.method == 'POST':
-#         usuario.delete()
-#         messages.success(request, 'Usuario eliminado con exito')
-#         return redirect ('usuario_list')
-    
-#     return render(request, 'usuario_confirm_delete.html', {'usuario': usuario})
 
 # CRUD DIRECCIONES #
 
@@ -350,49 +351,48 @@ def direccion_list(request):
     return render(request, 'direcciones/direccion_list.html', {'direccion_list': direcciones})
 
 # CRUD ETIQUETAS #
+class EtiquetaListView(LoginRequiredMixin, ListView):
+    model = Etiqueta
+    template_name = 'etiquetas/etiqueta_list.html'
+    context_object_name = 'etiqueta_list'
 
-@login_required
-@superuser_required
-def crear_etiqueta(request):
-    if request.method == 'POST':
-        form = EtiquetaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Etiqueta creada con éxito.')
-            return redirect('etiqueta_list')
-    else:
-        form = EtiquetaForm()
-    return render(request, 'etiquetas/crear_etiqueta.html', {'form': form})
+class CrearEtiquetaView(LoginRequiredMixin, CreateView):
+    model = Etiqueta
+    form_class = EtiquetaForm
+    template_name = 'etiquetas/crear_etiqueta.html'
+    success_url = reverse_lazy('etiqueta_list')
 
-@login_required
-@superuser_required
-def editar_etiqueta(request, etiqueta_id):
-    etiqueta = get_object_or_404(Etiqueta, id=etiqueta_id)
-    if request.method == 'POST':
-        form = EtiquetaForm(request.POST, instance=etiqueta)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Etiqueta editada con éxito.')
-            return redirect('etiqueta_list')
-    else:
-        form = EtiquetaForm(instance=etiqueta)
-    return render(request, 'etiquetas/editar_etiqueta.html', {'form': form, 'etiqueta': etiqueta})
+    def form_valid(self, form):
+        messages.success(self.request, 'Etiqueta creada con éxito.')
+        return super().form_valid(form)
 
-@login_required
-@superuser_required
-def borrar_etiqueta(request, etiqueta_id):
-    etiqueta = get_object_or_404(Etiqueta, id=etiqueta_id)
-    if request.method == 'POST':
-        etiqueta.delete()
+class EditarEtiquetaView(LoginRequiredMixin, UpdateView):
+    model = Etiqueta
+    form_class = EtiquetaForm
+    template_name = 'etiquetas/editar_etiqueta.html'
+    success_url = reverse_lazy('etiqueta_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Etiqueta, id=self.kwargs['etiqueta_id'])
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Etiqueta editada con éxito.')
+        return super().form_valid(form)
+
+class BorrarEtiquetaView(LoginRequiredMixin, DeleteView):
+    model = Etiqueta
+    template_name = 'etiquetas/borrar_etiqueta.html'
+    success_url = reverse_lazy('etiqueta_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Etiqueta, id=self.kwargs['etiqueta_id'])
+
+    def delete(self, request, *args, **kwargs):
         messages.success(request, 'Etiqueta eliminada con éxito.')
-        return redirect('etiqueta_list')
-    return render(request, 'etiquetas/borrar_etiqueta.html', {'etiqueta': etiqueta})
+        return super().delete(request, *args, **kwargs)
+    
 
-@login_required
-@superuser_required
-def etiqueta_list(request):
-    etiqueta_list = Etiqueta.objects.all()
-    return render(request, 'etiquetas/etiqueta_list.html', {'etiqueta_list': etiqueta_list})
+
 
 @login_required
 @superuser_required

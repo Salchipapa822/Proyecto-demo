@@ -22,10 +22,10 @@ from Apps.Aplicacion.views import (
     administracion,
     ticket_reabrir,
     ticket_asignar_etiquetas,
-    crear_etiqueta,
-    etiqueta_list,
-    borrar_etiqueta,
-    editar_etiqueta
+    CrearEtiquetaView,  # Cambiado a la vista basada en clase
+    EtiquetaListView,   # Cambiado a la vista basada en clase
+    EditarEtiquetaView, # Cambiado a la vista basada en clase
+    BorrarEtiquetaView   # Cambiado a la vista basada en clase
 )
 from django.views.generic import TemplateView
 
@@ -46,16 +46,16 @@ urlpatterns = [
     path('personal/borrar/<int:personal_cedula>/', personal_delete, name='personal_delete'),
     path('usuarios/', usuario_list, name='usuario_list'),                
     path('usuarios/crear/', usuario_create, name='usuario_create'), 
-    path('usuarios/editar/<int:id>', usuario_edit, name ='usuario_edit'),    
+    path('usuarios/editar/<int:id>/', usuario_edit, name='usuario_edit'),    
     path('direccion/', direccion_list, name='direccion_list'),
     path('direccion/crear/', crear_direccion, name='crear_direccion'),  
     path('direccion/editar/<int:direccion_id>/', editar_direccion, name='editar_direccion'),  
     path('direccion/borrar/<int:direccion_id>/', borrar_direccion, name='borrar_direccion'),  
-    path('administracion/', administracion, name='Administracion'),
+    path('administracion/', administracion, name='administracion'),
     path('ticket/<int:ticket_id>/reabrir/', ticket_reabrir, name='ticket_reabrir'), 
     path('tickets/<int:ticket_id>/asignar-etiquetas/', ticket_asignar_etiquetas, name='ticket_asignar_etiquetas'),
-    path('etiquetas/', etiqueta_list, name='etiqueta_list'), 
-    path('crear_etiqueta/', crear_etiqueta, name='crear_etiqueta'),
-    path('etiqueta/editar/<int:etiqueta_id>/', editar_etiqueta, name='editar_etiqueta'),
-    path('etiqueta/borrar/<int:etiqueta_id>/', borrar_etiqueta, name='borrar_etiqueta'),
+    path('etiquetas/', EtiquetaListView.as_view(), name='etiqueta_list'), 
+    path('etiquetas/crear/', CrearEtiquetaView.as_view(), name='crear_etiqueta'),
+    path('etiquetas/editar/<int:etiqueta_id>/', EditarEtiquetaView.as_view(), name='editar_etiqueta'),
+    path('etiquetas/borrar/<int:etiqueta_id>/', BorrarEtiquetaView.as_view(), name='borrar_etiqueta'),
 ]

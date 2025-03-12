@@ -44,17 +44,7 @@ class PersonalForm(forms.ModelForm):
         model = Personal
         fields = ['cedula', 'nombre', 'apellido']
 
-    # def __init__(self, *args, **kwargs):
-    #     super(PersonalForm, self).__init__(*args, **kwargs)
-    #     self.fields['cedula'].widget.attrs['readonly'] = True
 
-    # def save(self, commit=True):
-    #     instance = super(PersonalForm, self).save(commit=False)
-    #     if 'cedula' in self.data:
-    #         instance.cedula = self.data['cedula']
-    #     if commit:
-    #         instance.save()
-    #     return instance
 
 class UsuarioForm(UserCreationForm): 
     class Meta:
@@ -76,18 +66,17 @@ class EtiquetaForm(forms.ModelForm):
         model = Etiqueta
         fields = ['nombre']
 
-class UsuarioForm(forms.ModelForm):
+class UsuarioEditForm(forms.ModelForm):
+    new_password = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput,
+        label="Nueva Contraseña",
+        help_text="Dejar en blanco si no deseas cambiar la contraseña"
+    )
+
     class Meta:
         model = Usuario
-        fields = ['first_name', 'last_name', 'email', 'is_staff', 'is_superuser'] 
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     password = cleaned_data.get("password")
-    #     password_confirm = self.data.get("password_confirm")
-
-    #     if password and password_confirm != password_confirm:
-    #         raise forms.ValidationError("Las contraseñas no coindicen.")
+        fields = ['first_name', 'last_name', 'email', 'is_staff', 'is_superuser', 'new_password'] 
 
 
 
