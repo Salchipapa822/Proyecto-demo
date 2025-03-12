@@ -24,9 +24,7 @@
 }
 
 
-    /* Boton del perfil */
-
-    .profile-li {
+.profile-li {
         display: flex; /* Utiliza flexbox para centrar el contenido */
         justify-content: center; /* Centra horizontalmente */
         align-items: center; /* Centra verticalmente */
@@ -34,7 +32,7 @@
         height: 100px; /* Ajusta la altura según sea necesario */
     }
     
-    .circle-button {
+.circle-button {
         display: inline-block; /* Permite aplicar dimensiones */
         width: 50px; /* Ancho del círculo */
         height: 50px; /* Alto del círculo */
@@ -52,11 +50,7 @@
     background-color: #0056b3; /* Color de fondo al pasar el ratón */
 }
 
-/* Barra de navegación */
-nav {
-    background-color: var(--nav-bg-color, #f0f0f0); 
-    padding: 10px; 
-}
+
 nav ul {
     list-style-type: none; 
     padding: 0; 
