@@ -18,7 +18,7 @@
 </form>
 
 {% if direccion_id %}
-<form method="post"  action="{% url 'borrar_direccion' direccion_id %}" style="display:inline;">
+<form method="post" action="{% url 'borrar_direccion' direccion_id %}" style="display:inline;">
     {% csrf_token %}
     <button type="submit" class="button-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta dirección?');">Borrar</button>
 </form>

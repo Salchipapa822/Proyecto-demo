@@ -13,7 +13,7 @@ import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, TemplateView
 from django.urls import reverse_lazy
 
 
@@ -308,48 +308,46 @@ def usuario_edit(request, id):
 
 # CRUD DIRECCIONES #
 
-@login_required
-@superuser_required
-def crear_direccion(request):
-    if request.method == 'POST':
-        form = DireccionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Dirección creada con éxito.')
-            return redirect('direccion_list')
-    else:
-        form = DireccionForm()
-    return render(request, 'direcciones/direccion_form.html', {'form': form, 'direccion_id': None})
+class DireccionListView(LoginRequiredMixin, ListView):
+    model = Direccion
+    template_name = 'direcciones/direccion_list.html'
+    context_object_name = 'direccion_list'
 
-@login_required
-@superuser_required
-def editar_direccion(request, direccion_id):
-    direccion = get_object_or_404(Direccion, id=direccion_id)
-    if request.method == 'POST':
-        form = DireccionEditForm(request.POST, instance=direccion)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Dirección editada con éxito.')
-            return redirect('direccion_list')
-    else:
-        form = DireccionEditForm(instance=direccion)
-    return render(request, 'direcciones/direccion_form.html', {'form': form, 'direccion_id': direccion_id})
+class CrearDireccionView(LoginRequiredMixin, CreateView):
+    model = Direccion
+    form_class = DireccionForm
+    template_name = 'direcciones/direccion_form.html'
+    success_url = reverse_lazy('direccion_list')
 
-@login_required
-@superuser_required
-def borrar_direccion(request, direccion_id):
-    direccion = get_object_or_404(Direccion, id=direccion_id)
-    if request.method == 'POST':
-        direccion.delete()
-        messages.success(request, 'Dirección eliminada con éxito.')
-        return redirect('direccion_list')
-    return render(request, 'direcciones/borrar_direccion.html', {'direccion': direccion})
+    def form_valid(self, form):
+        messages.success(self.request, 'Dirección creada con éxito.')
+        return super().form_valid(form)
 
-@login_required
-@superuser_required
-def direccion_list(request):
-    direcciones = Direccion.objects.all()
-    return render(request, 'direcciones/direccion_list.html', {'direccion_list': direcciones})
+class EditarDireccionView(LoginRequiredMixin, UpdateView):
+    model = Direccion
+    form_class = DireccionEditForm
+    template_name = 'direcciones/direccion_form.html'
+    success_url = reverse_lazy('direccion_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Dirección editada con éxito.')
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['direccion_id'] = self.object.pk  
+        return context
+
+class BorrarDireccionView(LoginRequiredMixin, DeleteView):
+    model = Direccion
+    template_name = 'direcciones/borrar_direccion.html'
+    success_url = reverse_lazy('direccion_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Dirección eliminada con éxito.')
+        return super().delete(request, *args, **kwargs)
+
+
 
 
 # CRUD ETIQUETAS #
@@ -399,14 +397,13 @@ class BorrarEtiquetaView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
     
 
+class AdministracionView(TemplateView, LoginRequiredMixin):
+    template_name = 'Administracion.html'
 
+class PerfilUsuarioView(LoginRequiredMixin, TemplateView):
+    template_name = 'perfil_usuario.html'
 
-@login_required
-@superuser_required
-def administracion(request):
-    return render(request, 'Administracion.html')
-
-@login_required
-def perfil_usuario(request):
-    return render(request, 'perfil_usuario.html', {'usuario': request.user})
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user  # Agrega el usuario al contexto
+        return context
