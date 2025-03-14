@@ -1,5 +1,5 @@
 from django.urls import path
-from Apps.Aplicacion.views import (
+from Apps.Aplicacion.views.tickets import (
     ticket_list,
     TicketCreateView,
     ticket_detalle,
@@ -8,30 +8,42 @@ from Apps.Aplicacion.views import (
     ticket_reabrir,
     ticket_asignar_etiquetas,
 
-    PersonalListView,
-    CrearPersonalView,
-    EditarPersonalView,
-    BorrarPersonalView,
+)
 
-    UsuarioListView,
-    CrearUsuarioView,
-    EditarUsuarioView,
-
-    DireccionListView,
-    CrearDireccionView,
-    EditarDireccionView,  
-    BorrarDireccionView,
-
+from Apps.Aplicacion.views.generic import(
     AdministracionView,
     perfil_usuario,
     login_view,
-    logout_view,
-
-    EtiquetaListView,  
-    CrearEtiquetaView,  
-    EditarEtiquetaView, 
-    BorrarEtiquetaView   
+    logout_view
 )
+
+from Apps.Aplicacion.views.usuarios import (
+    UsuarioListView,
+    CrearUsuarioView,
+    EditarUsuarioView,
+)
+
+from Apps.Aplicacion.views.direcciones import (
+    DireccionListView,
+    CrearDireccionView,
+    EditarDireccionView,  
+    BorrarDireccionView
+)
+
+from Apps.Aplicacion.views.personal import (
+    PersonalListView,
+    CrearPersonalView,
+    EditarPersonalView,
+    BorrarPersonalView
+)
+
+from Apps.Aplicacion.views.etiquetas import ( 
+    EtiquetaListView,  
+    CrearEtiquetaView, 
+    EditarEtiquetaView, 
+    BorrarEtiquetaView  
+)
+
 from django.views.generic import TemplateView
 
 urlpatterns = [
