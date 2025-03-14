@@ -2,11 +2,20 @@
 {% block title %}Editar Etiqueta{% endblock %}
 
 {% block body %}
-<h1>Editar Etiqueta</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar Cambios</button>
-</form>
-<a href="{% url 'etiqueta_list' %}">Volver a la lista de etiquetas</a>
+    <div class="centrar">
+        <h1>Editar Etiqueta</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Guardar Cambios</button>
+            <a
+            href="{% url 'borrar_etiqueta' etiqueta.id %}"
+            role="button"
+            class="secondary container-fluid"
+            >
+                Eliminar
+            </a>
+        </form>
+        <a href="{% url 'etiqueta_list' %}">Volver a la lista de etiquetas</a>
+    </div>    
 {% endblock %}

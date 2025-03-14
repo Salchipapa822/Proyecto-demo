@@ -8,27 +8,27 @@ from Apps.Aplicacion.views import (
     ticket_reabrir,
     ticket_asignar_etiquetas,
 
-    PesonalListView,
+    PersonalListView,
     CrearPersonalView,
     EditarPersonalView,
     BorrarPersonalView,
 
-    usuario_create,
-    usuario_list,
-    usuario_edit,
+    UsuarioListView,
+    CrearUsuarioView,
+    EditarUsuarioView,
 
+    DireccionListView,
     CrearDireccionView,
     EditarDireccionView,  
     BorrarDireccionView,
-    DireccionListView,
 
     AdministracionView,
     perfil_usuario,
     login_view,
     logout_view,
 
-    CrearEtiquetaView,  
     EtiquetaListView,  
+    CrearEtiquetaView,  
     EditarEtiquetaView, 
     BorrarEtiquetaView   
 )
@@ -43,14 +43,14 @@ urlpatterns = [
     path('tickets/<int:ticket_id>/cerrar/', TicketCerrar.as_view(), name='ticket_cerrar'),  
     path('tickets/<int:ticket_id>/comentar/', agregar_comentario, name='ticket_comentar'),  
     
-    path('personal/', PesonalListView.as_view(), name='personal_list'),            
+    path('personal/', PersonalListView.as_view(), name='personal_list'),            
     path('personal/crear/', CrearPersonalView.as_view(), name='personal_create'),
     path('personal/editar/<int:cedula>/', EditarPersonalView.as_view(), name='personal_edit'),
-    path('personal/borrar/<int:personal_cedula>/', BorrarDireccionView.as_view(), name='personal_delete'),
+    path('personal/borrar/<int:personal_cedula>/', BorrarPersonalView.as_view(), name='personal_delete'),
     
-    path('usuarios/', usuario_list, name='usuario_list'),                
-    path('usuarios/crear/', usuario_create, name='usuario_create'), 
-    path('usuarios/editar/<int:id>/', usuario_edit, name='usuario_edit'),    
+    path('usuarios/', UsuarioListView.as_view(), name='usuario_list'),                
+    path('usuarios/crear/', CrearUsuarioView.as_view(), name='usuario_create'), 
+    path('usuarios/editar/<int:id>/', EditarUsuarioView.as_view(), name='usuario_edit'),    
     
     path('direccion/', DireccionListView.as_view(), name='direccion_list'),
     path('direccion/crear/', CrearDireccionView.as_view(), name='crear_direccion'),  

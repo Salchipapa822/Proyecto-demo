@@ -7,18 +7,19 @@ from django.views import View
 from django.contrib import messages
 from django.utils import timezone
 from django.http import HttpResponseNotAllowed
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from PIL import Image, ImageDraw, ImageFont
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, TemplateView
 from django.urls import reverse_lazy
 
 
 
-
+class SuperuserRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 def superuser_required(view_func):
@@ -202,10 +203,11 @@ class TicketCreateView(View):
 
 # CRUD PERSONAL #
 
-class PesonalListView(LoginRequiredMixin, ListView):
+class PersonalListView(LoginRequiredMixin, ListView):
     model = Personal
     template_name = 'personal/personal_list.html'
     context_object_name = 'personal_list'
+
 
 class CrearPersonalView(LoginRequiredMixin, CreateView):
     model = Personal
@@ -214,8 +216,9 @@ class CrearPersonalView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('personal_list')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Personal creado con èxito.')
+        messages.success(self.request, 'Personal creado con éxito.')
         return super().form_valid(form)
+
 
 class EditarPersonalView(LoginRequiredMixin, UpdateView):
     model = Personal
@@ -226,31 +229,15 @@ class EditarPersonalView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         if 'delete' in self.request.POST:
-            self.object_delete()
+            self.object.delete()  
+            messages.success(self.request, 'Personal eliminado con éxito.')  
             return redirect(self.success_url)
         return super().form_valid(form)
 
-    def get_object(self, queryset = None):
-        cedula =self.kwargs.get('cedula')
+    def get_object(self, queryset=None):
+        cedula = self.kwargs.get('cedula')
         return get_object_or_404(Personal, cedula=cedula)
-       
 
-# def personal_edit(request, cedula):
-#     personal = get_object_or_404(Personal, cedula=cedula)
-
-#     if request.method == 'POST':
-#         if 'delete' in request.POST:  
-#             personal.delete()  
-#             return redirect('personal_list')  
-#         else:
-#             form = PersonalForm(request.POST, instance=personal)
-#             if form.is_valid():
-#                 form.save()  
-#                 return redirect('personal_list')  
-#     else:
-#         form = PersonalForm(instance=personal)  
-
-#     return render(request, 'personal/personal_form.html', {'form': form, 'personal': personal})
 
 class BorrarPersonalView(LoginRequiredMixin, DeleteView):
     model = Personal
@@ -258,71 +245,62 @@ class BorrarPersonalView(LoginRequiredMixin, DeleteView):
     context_object_name = 'personal'
     success_url = reverse_lazy('personal_list')
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         cedula = self.kwargs.get('personal_cedula')
-        return super().get_object(queryset)
+        return get_object_or_404(Personal, cedula=cedula)
 
     def delete(self, request, *args, **kwargs):
-        messages.success(request, 'Personal eliminado con exito.')
-        return super().delete(request, *args, **kwargs)
-# def perso nal_delete(request, personal_cedula):
-#     personal = get_object_or_404(Personal, cedula=personal_cedula)
+
+        self.object = self.get_object()
+        self.object.delete()
+        messages.success(request, 'Personal eliminado con éxito.')
+        return redirect(self.success_url) 
     
-#     if request.method == 'POST':
-#         personal.delete()
-#         messages.success(request, 'Personal eliminado con éxito.')
-#         return redirect('personal_list')
-    
-#     return render(request, 'personal/personal_confirm_delete.html', {'personal': personal})
-
-
-
 # CRUD Usuarios #
 
-@login_required
-@superuser_required
-def usuario_list(request):
-    usuario_list = Usuario.objects.all()
-    return render(request, 'usuarios/usuario_list.html', {'usuario_list': usuario_list})
+class UsuarioListView(LoginRequiredMixin, SuperuserRequiredMixin, ListView):
+    model = Usuario
+    template_name = 'usuarios/usuario_list.html'
+    context_object_name = 'usuario_list'
 
-@login_required
-@superuser_required
-def usuario_create(request):
-    if request.method == 'POST':
-        form = UsuarioForm(request.POST)
-        if form.is_valid():
-     
-            form.save()
-            return redirect('usuario_list') 
-    else:
-        form = UsuarioForm()  
+class CrearUsuarioView(LoginRequiredMixin, SuperuserRequiredMixin, CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/usuario_form.html'
+    success_url = reverse_lazy('usuario_list')
 
-    return render(request, 'usuarios/usuario_form.html', {'form': form})
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, 'Usuario creado con éxito.')
+        return super().form_valid(form)
 
+class EditarUsuarioView(LoginRequiredMixin, SuperuserRequiredMixin, UpdateView):
+    model = Usuario
+    form_class = UsuarioEditForm
+    template_name = 'usuarios/usuario_edit.html'
+    context_object_name = 'usuario'
+    success_url = reverse_lazy('usuario_list')
 
-@login_required
-@superuser_required
-def usuario_edit(request, id):
-    usuario = get_object_or_404(Usuario, pk=id)
+    def get_object(self, queryset=None):
+        id = self.kwargs.get('id')
+        return get_object_or_404(Usuario, pk=id)
 
-    if request.method == 'POST':
+    def form_valid(self, form):
+        usuario = self.get_object()
+        new_password = form.cleaned_data.get('new_password')  
+        if new_password: 
+            usuario.set_password(new_password)
+        form.save()  
+        messages.success(self.request, 'Usuario actualizado con éxito.')
+        return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        usuario = self.get_object()
         if 'delete' in request.POST:
             usuario.delete()
             messages.success(request, 'Usuario eliminado con éxito.')
-            return redirect('usuario_list')
-        else:
-            form = UsuarioEditForm(request.POST, instance=usuario)
-            if form.is_valid():
-                new_password = form.cleaned_data.get('new_password')  # Obtener la nueva contraseña del formulario
-                if new_password:  # Solo cambiar la contraseña si se proporciona
-                    usuario.set_password(new_password)
-                form.save()  # Guardar los cambios en el usuario
-                messages.success(request, 'Usuario actualizado con éxito.')
-                return redirect('usuario_list')  
-    else:
-        form = UsuarioEditForm(instance=usuario)
-
-    return render(request, 'usuarios/usuario_edit.html', {'form': form, 'usuario': usuario})
+            return redirect(self.success_url)
+        return super().post(request, *args, **kwargs)
 
 
 

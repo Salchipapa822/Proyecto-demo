@@ -19,17 +19,14 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Acciones</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     {% for etiqueta in etiqueta_list %}
                     <tr>
-                        <td>{{ etiqueta.nombre }}</td>
-                        <td>
-                            <a href="{% url 'editar_etiqueta' etiqueta.id %}" class="table-button">Editar</a>
-                            <a href="{% url 'borrar_etiqueta' etiqueta.id %}" class="table-button table-button-delete" onclick="return confirm('¿Estás seguro de que deseas borrar esta etiqueta?');">Borrar</a>
-                        </td>
+                        <td><a href="{% url 'editar_etiqueta' etiqueta.id %}">{{ etiqueta.nombre }}</a></td>
+
                     </tr>
                     {% empty %}
                     <tr>
