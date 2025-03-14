@@ -3,13 +3,13 @@
 {% block title %}Detalles del Ticket{% endblock %}
 
 {% block body %}
-    <h1>Detalles del Ticket</h1>
-    <div>
+<div class="centrar">
+    <div ><h1>Detalles del Ticket</h1>
         <h2>
             {{ ticket.titulo }} 
             {% if ticket.resuelto_por %}(resuelto){% else %}(no resuelto){% endif %}
         </h2>
-        
+    </div>    
         <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"D d M Y" }}</p>
         <p><strong>Presentado por:</strong> {{ ticket.presentado_por.nombre|default:"Desconocido" }} {{ ticket.presentado_por.apellido|default:"" }}</p>
         <p><strong>Presentado en:</strong> {{ ticket.presentado_en.nombre }}</p>
@@ -25,57 +25,58 @@
                     <option value="{{ etiqueta.id }}" {% if etiqueta in ticket.etiqueta.all %}selected{% endif %}>{{ etiqueta.nombre }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="button">Asignar Etiquetas</button>
+            <button class="secondary" type="submit">Asignar Etiquetas</button><br>
         </form>
-        <a class="button" href="{% url 'crear_etiqueta' %}">Crear Etiqueta</a>
 
+        
         {% if not ticket.resuelto_por %}
             <h3>Cerrar Ticket</h3>
             <form method="post" action="{% url 'ticket_cerrar' ticket.id %}">
                 {% csrf_token %}
-                <button type="submit" class="button">Cerrar Ticket</button>
+                <button type="submit">Cerrar Ticket</button>
             </form>
         {% else %}
-            <form method="post" action="{% url 'ticket_reabrir' ticket.id %}">
+        <form method="post" action="{% url 'ticket_reabrir' ticket.id %}">
                 {% csrf_token %}
-                <button type="submit" class="button">Reabrir Ticket</button>
+                <button class="button" type="submit">Reabrir Ticket</button>
             </form>
         {% endif %}
 
         <div class="comments-container">
-            <div class="block">
-                <h3>Agregar Comentario</h3>
-                <form method="post" action="{% url 'ticket_comentar' ticket.id %}">
-                    {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <button type="submit" class="button">Agregar Comentario</button>
-                </form>
-            </div>
-            <div class="comments-list">
-                <nav class="comments-nav">
-                    <h3>Comentarios</h3>
-                    <label for="order">Ordenar comentarios:</label>
-                    <select name="order" id="order" onchange="ordenarComentarios(this.value)">
-                        <option value="oldest">Más Viejos</option>
-                        <option value="newest">Más Nuevos</option>
-                    </select>
-                </nav>
-                <div class="comment-list-container" id="comment-list">
-                    <ul>
-                        {% for comentario in comentarios %}
-                            <li data-fecha="{{ comentario.fecha_creacion|date:'U' }}">
-                                <strong>{{ comentario.autor.first_name }}:</strong> {{ comentario.contenido }} <br>
-                                <small>Fecha: {{ comentario.fecha_creacion|date:"D d M Y" }}</small>
-                            </li>
-                        {% empty %}
-                            <li>No hay comentarios disponibles.</li>
-                        {% endfor %}
-                    </ul>
+            <div class="comments-wrapper">
+                <div class="comments-list">
+                    <nav class="comments-nav">
+                        <h3>Comentarios</h3>
+                        <label for="order">Ordenar comentarios:</label>
+                        <select name="order" id="order" onchange="ordenarComentarios(this.value)">
+                            <option value="oldest">Más Viejos</option>
+                            <option value="newest">Más Nuevos</option>
+                        </select>
+                    </nav>
+                    <div class="comment-list-container" id="comment-list">
+                        <ul>
+                            {% for comentario in comentarios %}
+                                <li data-fecha="{{ comentario.fecha_creacion|date:'U' }}">
+                                    <strong>{{ comentario.autor.first_name }}:</strong> {{ comentario.contenido }} <br>
+                                    <small>Fecha: {{ comentario.fecha_creacion|date:"D d M Y" }}</small>
+                                </li>
+                            {% empty %}
+                                <li>No hay comentarios disponibles.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="block">
+                    <form method="post" action="{% url 'ticket_comentar' ticket.id %}">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="button">Agregar Comentario</button>
+                    </form>
                 </div>
             </div>
-            <script src="{% static 'js/orden_comentarios.js' %}"></script>
-        </div>        
-        <a class="button" href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
-    </div>
+            <a role="button" class="secondary" href="{% url 'ticket_list' %}">Volver al listado de tickets</a>
+        </div>
+        <script src="{% static 'js/orden_comentarios.js' %}"></script>
+        
 {% endblock %}
 

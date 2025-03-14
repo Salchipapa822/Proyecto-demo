@@ -11,13 +11,15 @@
             {{ form.as_p }}
             <button class="button" type="submit">Enviar</button>
         </form>
+
         {% else %}
         <div>
             <p>Necesitas iniciar sesión para crear un ticket.</p>
             <a href="{% url 'login_view' %}">Iniciar Sesión</a>
         </div>
         {% endif %}
-        <a href="{% url 'ticket_list' %}" class="button">Volver a la Lista de Tickets</a>
+
+        <a role="button" href="{% url 'ticket_list' %}" class="secondary container-fluid">Volver a la Lista de Tickets</a>
 </div>
 
 

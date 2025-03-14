@@ -1,38 +1,64 @@
 .comments-container {
-    display: flex; /* Usar flexbox para alinear los elementos */
-    justify-content: space-between; /* Espacio entre los elementos */
-    max-width: 100%; /* Asegúrate de que no exceda el ancho del contenedor */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid var(--ticket-border-color, #ccc);
+    border-radius: 8px;
+    background-color: var(--ticket-bg-color, #ad0000);
 }
 
-
-.block {
-    max-width: 300px; /* Ajusta el ancho máximo del formulario */
-    margin-right: 20px; /* Espacio entre el formulario y la lista de comentarios */
-    padding: 10px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde opcional */
-    border-radius: 5px; /* Bordes redondeados opcionales */
-}
+/* .comments-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+} */
 
 .comments-list {
-    flex-grow: 1; /* Permite que la lista de comentarios ocupe el espacio restante */
-    max-height: 450px; /* Ajusta la altura máxima de la lista de comentarios */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido excede la altura */
-    padding: 10px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde opcional */
-    border-radius: 5px; /* Bordes redondeados opcionales */
+    background-color: var(--mensaje-color, #ff0000);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .comments-nav {
-    position: sticky; 
-    top: 0; 
-    z-index: 10; 
-    padding: 10px; 
-    border-bottom: 1px solid #ccc; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .comment-list-container {
-    max-height: 250px; /* Ajusta la altura máxima del contenedor de comentarios */
-    overflow-y: auto; /* Permite el desplazamiento vertical */
+    margin-top: 1rem;
+}
+
+.block {
+    background-color: var(--mensaje-color, #1b2647);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* 
+.button {
+    background-color: var(--button-bg-color, #007bff);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+} */
+
+.button:hover {
+    background-color: var(--button-hover-bg-color, #0056b3);
+}
+
+.secondary {
+    display: inline-block;
+    margin-top: 1rem;
+    text-decoration: none;
+    color: var(--button-bg-color, #007bff);
+}
+
+.secondary:hover {
+    text-decoration: underline;
 }
 
 /* Estilos para el modo oscuro */
@@ -40,7 +66,7 @@
     :root {
         --mensaje-color: #ffffff;
         --ticket-border-color: #5c6bc0;
-        --ticket-bg-color: #424242;
+        --ticket-bg-color: #13171f;
         --button-bg-color: #5c6bc0;
         --button-hover-bg-color: #3f51b5;
     }
@@ -49,7 +75,7 @@
 /* Estilos para el modo claro */
 @media (prefers-color-scheme: light) {
     :root {
-        --mensaje-color: #203bd8d3;
+        --mensaje-color: #ffffff;
         --ticket-border-color: #3105f5;
         --ticket-bg-color: #ffffff;
         --button-bg-color: #3105f5;

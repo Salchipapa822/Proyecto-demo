@@ -13,7 +13,8 @@
         </div>
     {% else %}
         <div class="centrar">
-            <h2>Lista de Personal</h2>
+            <h2 style="display: inline;">Lista de Personal</h2>
+            <a href="{% url 'personal_create' %}" class="button" style="margin-left: 10px;">Crear Nuevo Personal</a>
             <table>
                 <thead>
                     <tr>
@@ -25,10 +26,9 @@
                 <tbody>
                     {% for personal in personal_list %}
                     <tr>
-                        <td><a href="{% url 'personal_edit' personal.cedula %}" >{{ personal.cedula }}</a></td>
+                        <td><a href="{% url 'personal_edit' personal.cedula %}">{{ personal.cedula }}</a></td>
                         <td>{{ personal.nombre }}</td>
                         <td>{{ personal.apellido }}</td>
-    
                     </tr>
                     {% empty %}
                     <tr>
@@ -37,7 +37,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="{% url 'personal_create' %}" class="button">Crear Nuevo Personal</a>
         </div>
     {% endif %}
 
