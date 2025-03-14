@@ -23,7 +23,7 @@
                                         <span class="muted">(ID: {{ ticket.id }}){{ ticket.resuelto_por.username|default:"No resuelto" }}</span>
                                     </h3>
                                 </header>
-                                <div class="card-body">
+                                <div class="card-body" style="display: flex; justify-content: space-between; align-items: center;">
                                  <div>
                                      <em>
                                     Presentado por <strong>{{ ticket.presentado_por.nombre }} {{ ticket.presentado_por.apellido }}</strong> 
@@ -31,7 +31,6 @@
                                     en <strong>{{ ticket.presentado_en.nombre }}</strong> 
                                      </em>
                                  </div>
-
                                 
                                 <div><strong>Comentarios:</strong> {{ ticket.comentarios.count }}</div>
                             </div>

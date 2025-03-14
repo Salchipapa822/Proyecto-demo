@@ -202,57 +202,78 @@ class TicketCreateView(View):
 
 # CRUD PERSONAL #
 
-@login_required
-@superuser_required
-def personal_list(request):
-    personal_list = Personal.objects.all()
-    return render(request, 'personal/personal_list.html', {'personal_list': personal_list})
+class PesonalListView(LoginRequiredMixin, ListView):
+    model = Personal
+    template_name = 'personal/personal_list.html'
+    context_object_name = 'personal_list'
 
-@login_required
-@superuser_required
-def personal_create(request):
-    if request.method == 'POST':
-        form = PersonalForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Personal creado con éxito.')
-            return redirect('personal_list')  
-    else:
-        form = PersonalForm()
-    return render(request, 'personal/personal_form.html', {'form': form})
+class CrearPersonalView(LoginRequiredMixin, CreateView):
+    model = Personal
+    form_class = PersonalForm
+    template_name = 'personal/personal_form.html'
+    success_url = reverse_lazy('personal_list')
 
-@login_required
-@superuser_required
+    def form_valid(self, form):
+        messages.success(self.request, 'Personal creado con èxito.')
+        return super().form_valid(form)
 
-def personal_edit(request, cedula):
-    personal = get_object_or_404(Personal, cedula=cedula)
+class EditarPersonalView(LoginRequiredMixin, UpdateView):
+    model = Personal
+    form_class = PersonalForm
+    template_name = 'personal/personal_form.html'
+    context_object_name = 'personal'
+    success_url = reverse_lazy('personal_list')
 
-    if request.method == 'POST':
-        if 'delete' in request.POST:  
-            personal.delete()  
-            return redirect('personal_list')  
-        else:
-            form = PersonalForm(request.POST, instance=personal)
-            if form.is_valid():
-                form.save()  
-                return redirect('personal_list')  
-    else:
-        form = PersonalForm(instance=personal)  
+    def form_valid(self, form):
+        if 'delete' in self.request.POST:
+            self.object_delete()
+            return redirect(self.success_url)
+        return super().form_valid(form)
 
-    return render(request, 'personal/personal_form.html', {'form': form, 'personal': personal})
+    def get_object(self, queryset = None):
+        cedula =self.kwargs.get('cedula')
+        return get_object_or_404(Personal, cedula=cedula)
+       
 
+# def personal_edit(request, cedula):
+#     personal = get_object_or_404(Personal, cedula=cedula)
 
-@login_required
-@superuser_required
-def personal_delete(request, personal_cedula):
-    personal = get_object_or_404(Personal, cedula=personal_cedula)
+#     if request.method == 'POST':
+#         if 'delete' in request.POST:  
+#             personal.delete()  
+#             return redirect('personal_list')  
+#         else:
+#             form = PersonalForm(request.POST, instance=personal)
+#             if form.is_valid():
+#                 form.save()  
+#                 return redirect('personal_list')  
+#     else:
+#         form = PersonalForm(instance=personal)  
+
+#     return render(request, 'personal/personal_form.html', {'form': form, 'personal': personal})
+
+class BorrarPersonalView(LoginRequiredMixin, DeleteView):
+    model = Personal
+    template_name = 'personal/personal_confirm_delete.html'
+    context_object_name = 'personal'
+    success_url = reverse_lazy('personal_list')
+
+    def get_object(self, queryset = None):
+        cedula = self.kwargs.get('personal_cedula')
+        return super().get_object(queryset)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Personal eliminado con exito.')
+        return super().delete(request, *args, **kwargs)
+# def perso nal_delete(request, personal_cedula):
+#     personal = get_object_or_404(Personal, cedula=personal_cedula)
     
-    if request.method == 'POST':
-        personal.delete()
-        messages.success(request, 'Personal eliminado con éxito.')
-        return redirect('personal_list')
+#     if request.method == 'POST':
+#         personal.delete()
+#         messages.success(request, 'Personal eliminado con éxito.')
+#         return redirect('personal_list')
     
-    return render(request, 'personal/personal_confirm_delete.html', {'personal': personal})
+#     return render(request, 'personal/personal_confirm_delete.html', {'personal': personal})
 
 
 

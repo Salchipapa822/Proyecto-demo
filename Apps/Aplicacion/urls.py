@@ -8,10 +8,10 @@ from Apps.Aplicacion.views import (
     ticket_reabrir,
     ticket_asignar_etiquetas,
 
-    personal_list,
-    personal_create,
-    personal_edit,
-    personal_delete,
+    PesonalListView,
+    CrearPersonalView,
+    EditarPersonalView,
+    BorrarPersonalView,
 
     usuario_create,
     usuario_list,
@@ -43,10 +43,10 @@ urlpatterns = [
     path('tickets/<int:ticket_id>/cerrar/', TicketCerrar.as_view(), name='ticket_cerrar'),  
     path('tickets/<int:ticket_id>/comentar/', agregar_comentario, name='ticket_comentar'),  
     
-    path('personal/', personal_list, name='personal_list'),            
-    path('personal/crear/', personal_create, name='personal_create'),
-    path('personal/editar/<int:cedula>/', personal_edit, name='personal_edit'),
-    path('personal/borrar/<int:personal_cedula>/', personal_delete, name='personal_delete'),
+    path('personal/', PesonalListView.as_view(), name='personal_list'),            
+    path('personal/crear/', CrearPersonalView.as_view(), name='personal_create'),
+    path('personal/editar/<int:cedula>/', EditarPersonalView.as_view(), name='personal_edit'),
+    path('personal/borrar/<int:personal_cedula>/', BorrarDireccionView.as_view(), name='personal_delete'),
     
     path('usuarios/', usuario_list, name='usuario_list'),                
     path('usuarios/crear/', usuario_create, name='usuario_create'), 

@@ -28,10 +28,9 @@
 }
 
 .card {
-
     width: 100%; /* Asegúra que ocupe todo el ancho del contenedor */
-
 }
+
 
 /* botones del login y logout */
 .login-button, .logout-button {

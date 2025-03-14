@@ -76,11 +76,11 @@ class Personal(models.Model):
         validators=[
             MinValueValidator(
                 1000000,
-                message='La cédula debe tener al menos 8 dígitos.'
+                message='La cédula debe tener al menos 7 dígitos.'
             ),
             MaxValueValidator(
-                999999999,
-                message='La cédula debe tener como máximo 9 dígitos.'
+                99999999,
+                message='La cédula debe tener como máximo 8 dígitos.'
             )
         ]
     )
